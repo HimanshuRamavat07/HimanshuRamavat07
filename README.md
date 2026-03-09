@@ -17,7 +17,7 @@ I am a passionate and dedicated Full-Stack Developer with over **3 years of prof
 - 🔭 I’m currently working on enhancing enterprise TYPO3 solutions.
 - 🌱 I’m currently deepening my knowledge in Cloud Architecture and advanced React patterns.
 - 💬 Ask me about **TYPO3, PHP, Symfony, or Web Performance**.
-- 📫 How to reach me: [LinkedIn](https://www.linkedin.com/in/himanshuramavat/) (Update with your actual link)
+- 📫 How to reach me: [LinkedIn](https://www.linkedin.com/in/himanshuramavat/) or email me at [himanshu.nitsan@gmail.com](mailto:himanshu.nitsan@gmail.com)
 
 ---
 
