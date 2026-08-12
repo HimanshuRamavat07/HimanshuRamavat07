@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://himanshuramavat07.github.io/HimanshuRamavat07/sitemap.xml
