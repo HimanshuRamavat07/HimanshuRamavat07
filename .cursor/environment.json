@@ -1,0 +1,4 @@
+{
+  "name": "AI Daily Intelligence",
+  "install": "chmod +x scripts/*.py"
+}
