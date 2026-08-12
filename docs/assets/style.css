@@ -9,7 +9,8 @@
   --card: #ffffff;
   --border: #e5e7eb;
   --width-home: 760px;
-  --width-report: 980px;
+  --width-report: 1160px;
+  --sidebar-width: 220px;
 }
 
 * { box-sizing: border-box; }
@@ -95,9 +96,57 @@ li { margin: 6px 0; }
 /* Report pages */
 .report-page .container {
   background: var(--card);
-  padding: 32px;
+  padding: 32px 36px;
   border-radius: 8px;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+
+.report-header {
+  margin-bottom: 28px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid var(--border);
+}
+
+.report-header h1 {
+  margin-bottom: 0;
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.report-layout {
+  display: grid;
+  grid-template-columns: var(--sidebar-width) minmax(0, 1fr);
+  gap: 36px;
+  align-items: start;
+}
+
+.report-sidebar {
+  position: sticky;
+  top: 20px;
+}
+
+.report-sidebar .toc {
+  margin: 0;
+  padding: 14px 16px;
+}
+
+.report-sidebar .toc h2 {
+  font-size: 11px;
+  margin-bottom: 8px;
+}
+
+.report-sidebar .toc ul {
+  columns: 1;
+  padding-left: 14px;
+  font-size: 14px;
+}
+
+.report-sidebar .toc li {
+  margin: 3px 0;
+}
+
+.report-content {
+  min-width: 0;
 }
 
 .report-page h1 {
@@ -168,7 +217,7 @@ li { margin: 6px 0; }
   font-size: 14px;
 }
 
-/* Table of contents */
+/* Table of contents (inline fallback if not in sidebar) */
 .toc {
   background: #f9fafb;
   border: 1px solid var(--border);
@@ -188,21 +237,38 @@ li { margin: 6px 0; }
 .toc ul {
   margin: 0;
   padding-left: 18px;
-  columns: 2;
-  column-gap: 32px;
-}
-
-@media (min-width: 900px) {
-  .report-page .toc ul {
-    columns: 3;
-    column-gap: 28px;
-  }
 }
 
 .toc li { margin: 4px 0; break-inside: avoid; }
 
-@media (max-width: 600px) {
-  .report-page .container { padding: 20px; }
+@media (max-width: 860px) {
+  body.report-page {
+    max-width: 100%;
+  }
+
+  .report-page .container {
+    padding: 20px 18px;
+  }
+
+  .report-layout {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .report-sidebar {
+    position: static;
+  }
+
+  .report-sidebar .toc ul {
+    columns: 2;
+    column-gap: 24px;
+  }
+
   .report-page h1 { font-size: 20px; }
-  .toc ul { columns: 1; }
+}
+
+@media (max-width: 520px) {
+  .report-sidebar .toc ul {
+    columns: 1;
+  }
 }
