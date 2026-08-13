@@ -74,6 +74,17 @@ h1 { margin: 0 0 8px; font-size: 28px; }
 
 .meta { color: var(--muted); font-size: 14px; }
 
+.team-message {
+  border-left: 4px solid #6366f1;
+}
+
+.team-message p { margin: 0.65rem 0; }
+
+.team-message ul {
+  margin: 0.5rem 0 0.75rem;
+  padding-left: 1.25rem;
+}
+
 .button {
   display: inline-block;
   margin-top: 12px;

@@ -82,12 +82,22 @@ def og_tags(*, title: str, description: str, url: str) -> str:
   <meta name="twitter:description" content="{safe_desc}">"""
 
 
+TEAM_MESSAGE_PATH = DOCS_DIR / "team-message.html"
+
+
+def read_team_message() -> str:
+    if TEAM_MESSAGE_PATH.is_file():
+        return TEAM_MESSAGE_PATH.read_text(encoding="utf-8").strip()
+    return ""
+
+
 def build_index_html(reports: list[tuple[datetime, str, Path]]) -> str:
     canonical = f"{PAGES_BASE}/"
     description = (
         "Daily AI intelligence briefings for developers, AI engineers, and product builders. "
         "Models, agents, developer tools, infrastructure, research, and security."
     )
+    team_message = read_team_message()
 
     latest_block = ""
     if reports:
@@ -144,6 +154,7 @@ def build_index_html(reports: list[tuple[datetime, str, Path]]) -> str:
     <h1>{SITE_TITLE}</h1>
     <p class="subtitle">Signal over volume — curated daily briefings on AI models, agents, developer tools, infrastructure, research, and security.</p>
   </header>
+{team_message}
 {latest_block}
 {archive_section}
   <footer class="site-footer">
