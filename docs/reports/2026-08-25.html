@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Daily Intelligence — August 25, 2026</title>
+  <meta name="description" content="NVIDIA AVO hits 100% on ARC-AGI-3 via harness design; OpenAI GPT-5.6 lands in AWS Kiro with 82% cost cut; Anthropic deploys global SynthID watermarks.">
+  <link rel="canonical" href="https://himanshuramavat07.github.io/HimanshuRamavat07/reports/2026-08-25.html">
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="AI Daily Intelligence — August 25, 2026">
+  <meta property="og:description" content="NVIDIA AVO hits 100% on ARC-AGI-3 via harness design; OpenAI GPT-5.6 lands in AWS Kiro with 82% cost cut; Anthropic deploys global SynthID watermarks.">
+  <meta property="og:url" content="https://himanshuramavat07.github.io/HimanshuRamavat07/reports/2026-08-25.html">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="AI Daily Intelligence — August 25, 2026">
+  <meta name="twitter:description" content="NVIDIA AVO hits 100% on ARC-AGI-3 via harness design; OpenAI GPT-5.6 lands in AWS Kiro with 82% cost cut; Anthropic deploys global SynthID watermarks.">
+  <link rel="stylesheet" href="../assets/style.css">
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "NewsArticle",
+  "headline": "AI Daily Intelligence \u2014 August 25, 2026",
+  "datePublished": "2026-08-25",
+  "author": {
+    "@type": "Organization",
+    "name": "AI Intelligence Automation"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "AI Daily Intelligence"
+  },
+  "description": "NVIDIA AVO hits 100% on ARC-AGI-3 via harness design; OpenAI GPT-5.6 lands in AWS Kiro with 82% cost cut; Anthropic deploys global SynthID watermarks.",
+  "mainEntityOfPage": "https://himanshuramavat07.github.io/HimanshuRamavat07/reports/2026-08-25.html"
+}
+  </script>
+</head>
+<body class="report-page">
+<div class="container">
+  <header class="report-header">
+    <p class="intro">Daily intelligence briefing covering the most important developments across AI models, agents, developer tools, infrastructure, research, and security.</p>
+    <p class="meta"><a href="../index.html">← Back to archive</a></p>
+    <h1>🤖 AI Daily Intelligence — August 25, 2026</h1>
+  </header>
+  <div class="report-layout">
+    <aside class="report-sidebar" aria-label="Section navigation">
+
+    <nav class="toc" aria-label="Table of contents">
+      <h2>On this page</h2>
+      <ul>
+        <li><a href="#top-developments">Top Developments</a></li>
+        <li><a href="#emerging-trends">Emerging AI Trends</a></li>
+        <li><a href="#developer-coding">Developer & Coding AI</a></li>
+        <li><a href="#agentic-watch">Agentic AI Watch</a></li>
+        <li><a href="#security-watch">AI Security Watch</a></li>
+        <li><a href="#research">Research Worth Reading</a></li>
+        <li><a href="#watch-next">What I Would Watch Next</a></li>
+        <li><a href="#bottom-line">Bottom Line</a></li>
+      </ul>
+    </nav>
+    </aside>
+    <main class="report-content">
+<h2 id="top-developments">🔥 Top Developments</h2>
+
+  <div class="dev-card">
+    <h3>NVIDIA AVO lifts Claude Opus 5 from 30% to 100% on ARC-AGI-3 — without retraining the model</h3>
+    <p class="meta"><span class="stars">Impact: <span aria-hidden="true">⭐⭐⭐⭐⭐</span><span class="visually-hidden">Impact: 5 out of 5</span></span> &nbsp;|&nbsp; <strong>Category:</strong> Agents / Infrastructure</p>
+    <p><strong>What happened:</strong> In an August 21 NVIDIA Technical Blog post (widely covered August 22–24), NVIDIA's Agentic Variation Operators (AVO) architecture completed all 183 levels across the 25-environment ARC-AGI-3 public set with a 100.00 RHAE score using Claude Opus 5 as the backbone — up from roughly 30% when the model runs standalone. AVO adds persistent memory, a supervision loop that detects stagnation, and an iterative inspect-plan-implement-evaluate agent loop. The same system used approximately 12% fewer environment actions (6,624 vs 7,542) than prior leader VISTA on the identical public set.</p>
+    <p><strong>Why it matters:</strong> This is one of the clearest demonstrations yet that agent harness design — not just model weights — determines whether frontier capability converts into sustained autonomous progress. For developers, it reinforces that production agent architecture (memory, supervision, tool orchestration) is a first-class engineering investment, not an afterthought around a model API call.</p>
+    <p><span class="takeaway">Monitor it</span> — AVO is a research system with no commercialization timeline; treat the result as architectural evidence, not a drop-in product</p>
+    <p><strong>Source:</strong> <a href="https://developer.nvidia.com/blog/nvidia-avo-reaches-100-on-arc-agi-3-demonstrating-a-frontier-level-general-purpose-architecture-for-long-horizon-autonomous-agents/" target="_blank" rel="noopener noreferrer">NVIDIA Technical Blog (Aug 21, 2026)</a> · <a href="https://arxiv.org/html/2603.24517" target="_blank" rel="noopener noreferrer">AVO arXiv paper</a></p>
+  </div>
+
+  <div class="dev-card">
+    <h3>OpenAI brings GPT-5.6 Sol, Terra, and Luna to AWS Kiro with ~82% cost reduction on Terminal-Bench 2.1</h3>
+    <p class="meta"><span class="stars">Impact: <span aria-hidden="true">⭐⭐⭐⭐⭐</span><span class="visually-hidden">Impact: 5 out of 5</span></span> &nbsp;|&nbsp; <strong>Category:</strong> Developer Tools / Models</p>
+    <p><strong>What happened:</strong> On August 24, OpenAI and AWS announced that the full GPT-5.6 model family is now available in Kiro, AWS's spec-driven agentic development environment. Joint testing found GPT-5.6 Terra completing successful tasks on Terminal-Bench 2.1 at roughly 82% lower cost than prior baselines, attributed to Kiro's requirements/design/task scaffolding grounding the model from the start. All three tiers — Sol (2.4× credit multiplier), Terra (1.0×), and Luna (0.1×) — are available to Kiro Pro, Pro+, Pro Max, and Power subscribers in US and EU regions.</p>
+    <p><strong>Why it matters:</strong> Kiro now offers both Claude and OpenAI frontier models in one agentic IDE, with explicit tier routing for cost vs capability. The 82% cost figure is vendor-run and measures cost-per-successful-task (not accuracy), but it signals that harness + model co-optimization is becoming a competitive axis alongside raw benchmark scores — especially relevant three days after OpenAI's Sol API price cut.</p>
+    <p><span class="takeaway">Try it</span> — if you use Kiro, benchmark Terra for routine agentic work and Luna for high-frequency tasks; compare against Claude Opus 5 on the same spec-driven workflows</p>
+    <p><strong>Source:</strong> <a href="https://openai.com/index/gpt-5-6-in-kiro/" target="_blank" rel="noopener noreferrer">OpenAI (Aug 24, 2026)</a> · <a href="https://kiro.dev/docs/models/" target="_blank" rel="noopener noreferrer">Kiro model docs</a></p>
+  </div>
+
+  <div class="dev-card">
+    <h3>Anthropic deploys global SynthID-Text watermarks and C2PA file credentials across Claude</h3>
+    <p class="meta"><span class="stars">Impact: <span aria-hidden="true">⭐⭐⭐⭐</span><span class="visually-hidden">Impact: 4 out of 5</span></span> &nbsp;|&nbsp; <strong>Category:</strong> Security / Business</p>
+    <p><strong>What happened:</strong> Anthropic detailed (August 14) and began globally applying invisible statistical text watermarks based on Google DeepMind's SynthID-Text approach, plus C2PA content credentials on supported generated/edited files (.png, .jpg, .svg). The marking applies to all Claude models launched on or after August 2, 2026 across the API, Claude apps, Claude Code, Cowork, and third-party products built on Claude's API. Anthropic is applying it worldwide — not EU-only — because it lacks a durable region-scoping mechanism, and plans to release a detection API that scores the likelihood Claude was involved in submitted text.</p>
+    <p><strong>Why it matters:</strong> Article 50(2) of the EU AI Act became enforceable August 2, 2026, requiring machine-readable marking of AI-generated text. Anthropic's global rollout means every new Claude output now carries a detectable statistical signature — relevant for compliance pipelines, content moderation, and any workflow that must distinguish human vs AI authorship. Watermarks are signals, not proof: heavy editing, translation, or short passages can weaken them.</p>
+    <p><span class="takeaway">Adopt it</span> — audit AI-output disclosure flows in EU-facing products; plan for Claude detection API integration in content-review pipelines</p>
+    <p><strong>Source:</strong> <a href="https://www.anthropic.com/news/claude-text-watermark" target="_blank" rel="noopener noreferrer">Anthropic</a> · <a href="https://www.theverge.com/ai-artificial-intelligence/980869/anthropic-claude-watermarks-synthid-text-system" target="_blank" rel="noopener noreferrer">The Verge (Aug 17, 2026)</a></p>
+  </div>
+
+  <div class="dev-card">
+    <h3>Thomson Reuters launches Thomson — a $40M domain-specific LLM built on Qwen 3.5</h3>
+    <p class="meta"><span class="stars">Impact: <span aria-hidden="true">⭐⭐⭐⭐</span><span class="visually-hidden">Impact: 4 out of 5</span></span> &nbsp;|&nbsp; <strong>Category:</strong> Models / Business</p>
+    <p><strong>What happened:</strong> On August 24, Thomson Reuters announced Thomson 1.0, its first proprietary LLM trained on Westlaw, Practical Law, Checkpoint, and Reuters content atop an open-source Qwen 3.5 foundation — at roughly $40 million total training cost. The model first powers Tabular Analysis in CoCounsel Legal for high-volume structured document review, while CoCounsel remains multi-model elsewhere. A small open-weight version is being released on Hugging Face under a non-commercial academic license, with a technical report and developer portal planned.</p>
+    <p><strong>Why it matters:</strong> This is a concrete template for vertical AI: start from a strong open-weight base, invest in domain data and post-training, and deploy selectively where purpose-built models beat general frontier APIs on cost and accuracy. For SaaS builders, it validates the "own the model layer for your highest-volume workflow" strategy without frontier-scale compute budgets.</p>
+    <p><span class="takeaway">Monitor it</span> — watch Thomson's public benchmarks and Hugging Face release for patterns applicable to domain-specific fine-tuning on open-weight foundations</p>
+    <p><strong>Source:</strong> <a href="https://www.prnewswire.com/news-releases/thomson-reuters-leverages-its-world-class-data-assets-to-launch-its-own-frontier-model-302857499.html" target="_blank" rel="noopener noreferrer">Thomson Reuters (Aug 24, 2026)</a> · <a href="https://www.lawnext.com/2026/08/thomson-reuters-launches-thomson-its-own-proprietary-llm-trained-on-westlaw-and-practical-law-content.html" target="_blank" rel="noopener noreferrer">LawSites analysis</a></p>
+  </div>
+
+  <h2 id="emerging-trends">🧠 Emerging AI Trends</h2>
+
+  <h3>Agent harnesses are separating from model benchmarks</h3>
+  <p><strong>What's changing:</strong> NVIDIA AVO's 70-point lift on ARC-AGI-3 and OpenAI/AWS's 82% cost reduction in Kiro both demonstrate that the surrounding agent system — memory, supervision, spec scaffolding — determines real-world agent performance as much as the underlying model.</p>
+  <p><strong>Why it matters:</strong> Developers evaluating "which model is best" for agentic work should benchmark full systems (harness + model + tools), not model-only scores. Architecture engineering is becoming a competitive moat.</p>
+  <p><strong>Watch next:</strong> Whether NVIDIA, AWS, or other vendors productize these research harnesses, and whether independent benchmarks start reporting system-level scores alongside model baselines.</p>
+
+  <h3>AI content marking is becoming a global compliance layer</h3>
+  <p><strong>What's changing:</strong> With EU AI Act Article 50 enforceable since August 2, Anthropic joins Google (Gemini SynthID-Text since 2024) in marking all new model outputs globally. OpenAI has announced C2PA for images but not yet text watermarking.</p>
+  <p><strong>Why it matters:</strong> Any product generating or processing AI text for EU users needs disclosure and detection infrastructure — regardless of whether the underlying system is classified high-risk (whose deadlines were deferred to December 2027).</p>
+  <p><strong>Watch next:</strong> Anthropic's detection API release, OpenAI's text-marking announcement, and whether enterprise content pipelines integrate watermark scoring by default.</p>
+
+  <h3>Vertical domain models are scaling down from frontier budgets</h3>
+  <p><strong>What's changing:</strong> Thomson Reuters trained a competitive legal-domain model for ~$40M on Qwen 3.5 — a fraction of frontier lab spend — and deploys it selectively in a multi-model product. Similar patterns appear in legal, medical, and financial verticals.</p>
+  <p><strong>Why it matters:</strong> SaaS teams with proprietary data can own model performance on their highest-volume workflows without building from scratch or paying frontier inference rates everywhere.</p>
+  <p><strong>Watch next:</strong> Thomson's public technical report benchmarks and whether other vertical SaaS vendors follow with open-weight evaluation releases.</p>
+
+  <h2 id="developer-coding">💻 Developer & Coding AI</h2>
+  <ul>
+    <li><strong>GPT-5.6 in Kiro (Aug 24):</strong> Full Sol/Terra/Luna family now in AWS's spec-driven agentic IDE. Terra targets routine multi-step work at 1.0× credits; Sol handles hardest long-horizon tasks at 2.4×; Luna optimizes throughput at 0.1×. First time OpenAI and Claude models coexist in one agentic dev environment with explicit tier routing.</li>
+    <li><strong>OpenAI Sol API pricing (Aug 21, still active):</strong> Promotional $4/$20 per million input/output tokens through November 21 — stack with Kiro's 82% Terminal-Bench cost reduction for compounding savings on agentic coding workloads.</li>
+    <li><strong>Claude Code Auto Mode (Aug 14):</strong> Default-on for Pro/Max/Team accounts. Combined with new global watermarking, every Auto Mode output from post-Aug-2 models carries SynthID-Text marking — relevant for teams shipping EU-facing code or docs generated by Claude.</li>
+    <li><strong>Multi-model IDE convergence:</strong> Kiro (Claude + GPT-5.6), Cursor (multi-model + agents), and Claude Code-in-Cursor patterns mean the "one IDE, pick your model per task" workflow is now standard — terminal agents for delegation, IDE agents for interactive work.</li>
+  </ul>
+
+  <h2 id="agentic-watch">🧩 Agentic AI Watch</h2>
+  <ul>
+    <li><strong>NVIDIA AVO architecture:</strong> Persistent memory + supervision loop + swappable tools enabled 100% ARC-AGI-3 completion with Claude Opus 5. Originally demonstrated on GPU kernel optimization (7 days autonomous evolution beating cuDNN and FlashAttention-4). Research-only, but defines the harness primitives production agents need.</li>
+    <li><strong>Kiro spec-driven grounding:</strong> Requirements → design → task lists before model execution reduces wasted token iterations. The 82% cost-per-success metric is the first published co-optimization result between a major model provider and an agentic IDE vendor.</li>
+    <li><strong>Thomson Reuters agentic CoCounsel:</strong> New CoCounsel Legal generation (GA August 2026) adds agentic upgrades alongside Thomson model deployment — another data point that vertical SaaS is moving from chat wrappers to multi-step agent workflows with domain-specific model routing.</li>
+    <li><strong>EU AI Act agent scope:</strong> Article 50 transparency applies to all AI agents interacting with end users — chatbots, voice agents, generated content — regardless of high-risk classification. Agent builders need disclosure mechanisms now, not December 2027.</li>
+  </ul>
+
+  <h2 id="security-watch">🔐 AI Security Watch</h2>
+
+  <div class="security-item">
+    <p><strong>Issue:</strong> <em>Claude global watermarking and detection API</em> — all new Claude models embed SynthID-Text statistical watermarks globally; C2PA credentials on supported files; detection API planned.</p>
+    <p><strong>Impact:</strong> Content moderation pipelines, compliance systems, and any workflow verifying human vs AI authorship. Watermarks can be weakened by editing/translation and do not distinguish "Claude wrote" from "Claude heavily edited."</p>
+    <p><strong>Who should care:</strong> Developers building EU-facing AI products, content platforms, legal/compliance teams, AI engineers integrating output verification.</p>
+    <p><strong>Recommended action:</strong> Map Article 50 disclosure obligations for all user-facing AI interactions; plan detection API integration; do not treat watermark presence/absence as definitive authorship proof. <a href="https://www.anthropic.com/news/claude-text-watermark" target="_blank" rel="noopener noreferrer">Anthropic watermarking details</a></p>
+  </div>
+
+  <div class="security-item">
+    <p><strong>Issue:</strong> <em>EU AI Act Article 50 now enforceable (Aug 2)</em> — transparency and AI-content marking obligations live; high-risk Annex III deadlines deferred to December 2, 2027 via Digital Omnibus Regulation (EU) 2026/1744.</p>
+    <p><strong>Impact:</strong> All AI systems generating synthetic text, audio, image, or video for EU users — including non-high-risk chatbots and coding agents — must implement disclosure and marking where technically feasible.</p>
+    <p><strong>Who should care:</strong> SaaS developers, AI product builders with EU customers, enterprises deploying agentic AI internally or externally.</p>
+    <p><strong>Recommended action:</strong> Audit AI-facing features against Article 50 independently of high-risk classification; implement bot disclosure for conversational interfaces; track December 2, 2026 transitional deadline for pre-Aug-2 systems. <a href="https://compliancehub.wiki/eu-ai-act-august-2-2026-what-actually-applies-article-50-omnibus/" target="_blank" rel="noopener noreferrer">ComplianceHub analysis</a></p>
+  </div>
+
+  <div class="security-item">
+    <p><strong>Issue:</strong> <em>MCP enterprise attack surface persists</em> — industry guidance (Forcepoint, Microsoft, OWASP) continues emphasizing supply-chain poisoning via tool metadata, credential exfiltration through over-scoped MCP servers, and confused-deputy attacks.</p>
+    <p><strong>Impact:</strong> Any team running MCP-integrated coding agents (Claude Code, Cursor, Codex, Kiro) with filesystem, network, or database tool access.</p>
+    <p><strong>Who should care:</strong> DevSecOps, AI engineers, enterprise architects approving MCP server connections.</p>
+    <p><strong>Recommended action:</strong> Maintain tenant-level MCP allowlists; treat tool descriptions as production code; use OAuth 2.1 with short-lived scoped tokens; enable human-in-the-loop on irreversible actions. <a href="https://www.microsoft.com/en-us/security/blog/2026/06/30/securing-ai-agents-ai-tools-move-from-reading-acting/" target="_blank" rel="noopener noreferrer">Microsoft Security playbook</a></p>
+  </div>
+
+  <h2 id="research">📚 Research Worth Reading</h2>
+
+  <h3>AVO: Agentic Variation Operators for Autonomous Evolutionary Search</h3>
+  <p><strong>Problem:</strong> Classical evolutionary search uses fixed mutation/crossover heuristics that cannot adapt to domain-specific optimization landscapes.</p>
+  <p><strong>Key idea:</strong> Replace predefined variation steps with autonomous coding agents that inspect lineages, propose edits, run hardware-grounded tests, and iterate — discovering GPU attention kernels beating cuDNN by 3.5% and FlashAttention-4 by 10.5% over 7 days of continuous evolution on Blackwell B200 GPUs.</p>
+  <p><strong>Why developers should care:</strong> Shows agent loops can serve as variation operators in search systems — directly relevant to automated performance optimization, kernel tuning, and any domain where execution feedback drives iteration.</p>
+  <p><strong>Paper:</strong> <a href="https://arxiv.org/html/2603.24517" target="_blank" rel="noopener noreferrer">arXiv:2603.24517</a></p>
+
+  <h3>Generalist AI GEN-1.5: One-Shot Physical Task Learning</h3>
+  <p><strong>Problem:</strong> Robot learning typically requires task-specific fine-tuning, gradient updates, or extensive demonstration datasets.</p>
+  <p><strong>Key idea:</strong> A robot foundation model learns new manipulation tasks from a single 3–12 second demonstration in its 30-second context window — 59% success across 10 tasks zero-shot, 83% after 10 gradient steps on 5 minutes of data. One-shot, sim-to-real, and human-to-robot transfer emerged without explicit training for any of these capabilities.</p>
+  <p><strong>Why developers should care:</strong> Demonstrates in-context learning extending to physical action spaces — a signal that the "drop a demo, get a skill" pattern may generalize beyond text/code agents to embodied systems.</p>
+  <p><strong>Paper:</strong> <a href="https://www.marktechpost.com/2026/08/24/generalist-ai-releases-gen-1-5-a-robot-foundation-model-that-learns-new-tasks-from-one-3-12-second-demo/" target="_blank" rel="noopener noreferrer">Generalist AI release (Aug 24, 2026)</a></p>
+
+  <h3>Reason Wide, Not Deep: Amortizing the Reasoning Premium into Distilled Skills</h3>
+  <p><strong>Problem:</strong> Reasoning-mode agents pay 3–6× output-token premium re-deriving shared procedures on every episode.</p>
+  <p><strong>Key idea:</strong> Distill trajectory corpora into compact natural-language skills injected into non-reasoning prompts — recovering 55–100%+ of the reasoning gap on four agentic benchmarks while emitting 2.7–6× fewer tokens.</p>
+  <p><strong>Why developers should care:</strong> Practical path to cut agent inference costs: pay for deep reasoning once during skill distillation, then deploy cheaper non-reasoning models with compiled procedural knowledge.</p>
+  <p><strong>Paper:</strong> <a href="https://arxiv.org/html/2608.07885" target="_blank" rel="noopener noreferrer">arXiv:2608.07885</a></p>
+
+  <h2 id="watch-next">🚀 What I Would Watch Next</h2>
+  <ul>
+    <li><strong>GLM-5.3 open-weight release (~Aug 28)</strong> — Z.ai's staged safety review after emergent exploit-chain capability; first GLM open-weight drop (confirmed delay, exact date TBD).</li>
+    <li><strong>Anthropic watermark detection API</strong> — promised scoring API for submitted text; will define how compliance pipelines integrate Claude output verification (confirmed planned, release date unknown).</li>
+    <li><strong>Kiro GPT-5.6 production benchmarks</strong> — vendor 82% cost reduction is on Terminal-Bench 2.1 only; independent testing on real repos will show whether spec-driven scaffolding generalizes (confirmed announcement, independent validation pending).</li>
+    <li><strong>AVO commercialization signals</strong> — research demo today; watch whether NVIDIA packages persistent-memory agent harnesses for enterprise deployment (analysis based on research release, no product announced).</li>
+    <li><strong>Thomson technical report</strong> — TR promised comprehensive legal benchmarks and Hugging Face open-weight release this week; will test whether $40M domain training on Qwen 3.5 beats frontier APIs on legal tasks (confirmed planned, not yet published).</li>
+  </ul>
+
+  <div class="bottom-line" id="bottom-line">
+    <h3>🎯 Bottom Line</h3>
+    <p>August 24 brought two reinforcing signals that agent architecture — not model capability alone — is where competitive advantage lives. NVIDIA's AVO lifted Claude Opus 5 from 30% to 100% on ARC-AGI-3 through harness design alone, while OpenAI and AWS reported 82% lower cost-per-successful-task by co-optimizing GPT-5.6 Terra inside Kiro's spec-driven environment.</p>
+    <p>Anthropic's global SynthID-Text watermark rollout makes AI output marking a live compliance requirement for every developer shipping Claude-powered features to EU users — independent of the deferred high-risk deadlines. Thomson Reuters's $40M domain model on Qwen 3.5 adds another data point that vertical SaaS can own the model layer without frontier-scale budgets.</p>
+    <p><strong>Pay attention to:</strong> Full-system agent benchmarks (harness + model); Article 50 disclosure in EU-facing products; Kiro's multi-model tier routing; GLM-5.3 weight release timing.</p>
+    <p><strong>Consider trying:</strong> GPT-5.6 Terra/Luna in Kiro for cost-optimized agentic coding; re-benchmark Sol agents at promotional API pricing; audit Claude output flows for watermarking compliance.</p>
+  </div>
+      <p class="signature">Generated by <strong>AI Intelligence Automation</strong> · <a href="https://github.com/HimanshuRamavat07/HimanshuRamavat07" target="_blank" rel="noopener noreferrer">Source repository</a></p>
+    </main>
+  </div>
+</div>
+</body>
+</html>
