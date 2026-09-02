@@ -19,7 +19,7 @@ ARCHIVE_INDEX_PATH = ARCHIVE_DIR / "index.html"
 FEED_PATH = DOCS_DIR / "feed.xml"
 SITEMAP_PATH = DOCS_DIR / "sitemap.xml"
 
-PAGES_BASE = "https://himanshuramavat07.github.io/HimanshuRamavat07"
+PAGES_BASE = "https://aidaily.is-a.bot"
 SITE_TITLE = "AI Daily Intelligence"
 ARCHIVE_RECENT_LIMIT = 10
 DATE_PATTERN = re.compile(r"^(\d{4}-\d{2}-\d{2})\.html$")

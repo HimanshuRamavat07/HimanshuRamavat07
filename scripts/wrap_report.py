@@ -11,7 +11,7 @@ import sys
 from datetime import datetime
 from pathlib import Path
 
-PAGES_BASE = "https://himanshuramavat07.github.io/HimanshuRamavat07"
+PAGES_BASE = "https://aidaily.is-a.bot"
 
 STAR_PATTERN = re.compile(r'(<span class="stars">Impact:\s*)([⭐]+)(</span>)')
 EXTERNAL_LINK_PATTERN = re.compile(
