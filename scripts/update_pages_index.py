@@ -10,7 +10,7 @@ from email.utils import format_datetime
 from pathlib import Path
 from xml.etree.ElementTree import Element, SubElement, tostring
 
-from site_shell import asset_script, font_links, site_footer, site_nav
+from site_shell import asset_script, font_links, icon, site_footer, site_nav
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
 DOCS_DIR = REPO_ROOT / "docs"
@@ -23,6 +23,7 @@ SITEMAP_PATH = DOCS_DIR / "sitemap.xml"
 
 PAGES_BASE = "https://aidaily.is-a.bot"
 SITE_TITLE = "AI Daily Intelligence"
+HOME_RECENT_LIMIT = 5
 ARCHIVE_RECENT_LIMIT = 10
 DATE_PATTERN = re.compile(r"^(\d{4}-\d{2}-\d{2})\.html$")
 META_DESC_PATTERN = re.compile(
@@ -84,15 +85,21 @@ def og_tags(*, title: str, description: str, url: str) -> str:
   <meta name="twitter:description" content="{safe_desc}">"""
 
 
-def report_row(*, href: str, title: str, description: str = "") -> str:
+def report_row(*, href: str, title: str, description: str = "", compact: bool = False) -> str:
     desc_block = ""
     if description:
         desc_block = f'\n        <span class="report-row-desc">{html.escape(description)}</span>'
+    arrow = icon("arrow_forward", extra_class="report-row-icon")
+    if compact:
+        return f"""      <a class="report-row" href="{html.escape(href)}">
+        <span class="report-row-title">{html.escape(title)}</span>
+        {arrow}
+      </a>"""
     return f"""      <a class="report-row" href="{html.escape(href)}">
         <span class="report-row-body">
           <span class="report-row-title">{html.escape(title)}</span>{desc_block}
         </span>
-        <span class="report-row-arrow" aria-hidden="true">→</span>
+        {arrow}
       </a>"""
 
 
@@ -109,37 +116,39 @@ def build_index_html(reports: list[tuple[datetime, str, Path]]) -> str:
 
     latest_block = ""
     if reports:
-        latest_date, latest_file, _ = reports[0]
+        latest_date, latest_file, _latest_path = reports[0]
+        latest_title = f"{SITE_TITLE} — {format_display_date(latest_date)}"
         latest_block = f"""
-    <section class="latest" aria-labelledby="latest-heading">
+    <section class="latest group" aria-labelledby="latest-heading">
       <div class="latest-inner">
         <div class="latest-content">
           <div class="latest-heading-row">
-            <p class="label">Latest briefing</p>
+            <p class="label">Latest Briefing</p>
             <div class="signal-bars" aria-hidden="true">
               <span></span><span></span><span></span>
             </div>
           </div>
-          <h2 id="latest-heading">AI Daily Intelligence — {format_display_date(latest_date)}</h2>
-          <p class="meta">Published after merge to main · Updated by daily automation</p>
+          <h2 id="latest-heading"><a href="reports/{latest_file}">{html.escape(latest_title)}</a></h2>
+          <p class="meta">{icon("update", size="16px")} Published after merge to main · Updated by daily automation</p>
         </div>
-        <a class="button button-arrow" href="reports/{latest_file}">Read latest report</a>
+        <a class="button" href="reports/{latest_file}">Read latest report {icon("arrow_forward", size="18px")}</a>
       </div>
     </section>"""
 
-    recent = reports[:ARCHIVE_RECENT_LIMIT]
+    recent = reports[:HOME_RECENT_LIMIT]
     archive_rows = "\n".join(
         report_row(
             href=f"reports/{filename}",
             title=format_display_date(date),
+            compact=True,
         )
         for date, filename, _ in recent
     )
     archive_more = ""
-    if len(reports) > ARCHIVE_RECENT_LIMIT:
+    if len(reports) > HOME_RECENT_LIMIT:
         archive_more = (
             f'\n      <p class="archive-more"><a href="archive/index.html">'
-            f"View all {len(reports)} reports →</a></p>"
+            f"View all {len(reports)} reports {icon('arrow_right_alt', size='16px')}</a></p>"
         )
 
     archive_section = ""
@@ -180,7 +189,7 @@ def build_index_html(reports: list[tuple[datetime, str, Path]]) -> str:
 {latest_block}
 {archive_section}
   </main>
-{site_footer(github_href="https://github.com/HimanshuRamavat07/HimanshuRamavat07")}
+{site_footer(github_href="https://github.com/HimanshuRamavat07/HimanshuRamavat07", rss_href="feed.xml")}
 {asset_script("", "theme.js")}
 </body>
 </html>
@@ -226,7 +235,7 @@ def build_archive_html(reports: list[tuple[datetime, str, Path]]) -> str:
       </div>
     </section>
   </main>
-{site_footer(github_href="https://github.com/HimanshuRamavat07/HimanshuRamavat07")}
+{site_footer(github_href="https://github.com/HimanshuRamavat07/HimanshuRamavat07", rss_href="../feed.xml")}
 {asset_script("../", "theme.js")}
 </body>
 </html>
