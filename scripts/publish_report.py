@@ -11,7 +11,7 @@ from pathlib import Path
 REPO_ROOT = Path(__file__).resolve().parent.parent
 WRAP_REPORT = REPO_ROOT / "scripts" / "wrap_report.py"
 UPDATE_SITE = REPO_ROOT / "scripts" / "update_pages_index.py"
-PAGES_BASE = "https://himanshuramavat07.github.io/HimanshuRamavat07"
+PAGES_BASE = "https://aidaily.is-a.bot"
 
 
 def main() -> int:

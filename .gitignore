@@ -3,3 +3,4 @@
 .env.*
 *.secret
 /tmp/
+__pycache__/
