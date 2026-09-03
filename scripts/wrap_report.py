@@ -11,7 +11,13 @@ import sys
 from datetime import datetime
 from pathlib import Path
 
-PAGES_BASE = "https://himanshuramavat07.github.io/HimanshuRamavat07"
+from site_shell import asset_script, font_links, site_footer, site_nav
+
+PAGES_BASE = "https://aidaily.is-a.bot"
+META_DESC_PATTERN = re.compile(
+    r'<meta\s+name="description"\s+content="([^"]*)"\s*/?>',
+    re.IGNORECASE,
+)
 
 STAR_PATTERN = re.compile(r'(<span class="stars">Impact:\s*)([⭐]+)(</span>)')
 EXTERNAL_LINK_PATTERN = re.compile(
@@ -26,6 +32,10 @@ def format_display_date(date: datetime) -> str:
 
 def format_iso_date(date: datetime) -> str:
     return date.strftime("%Y-%m-%d")
+
+
+def format_short_date(date: datetime) -> str:
+    return date.strftime("%b %d, %Y")
 
 
 def fix_stars(content: str) -> str:
@@ -123,10 +133,10 @@ def add_section_ids(content: str) -> str:
     return content
 
 
-def strip_wrapped_chrome(body: str) -> str:
+def strip_wrapped_chrome(content: str) -> str:
     content_match = re.search(
         r'<main class="report-content">(.*)</main>',
-        body,
+        content,
         re.DOTALL | re.IGNORECASE,
     )
     if content_match:
@@ -134,6 +144,11 @@ def strip_wrapped_chrome(body: str) -> str:
         body = re.sub(r'<p class="signature">.*?</p>\s*', "", body, count=1, flags=re.DOTALL)
         return body.strip()
 
+    body = content
+    body = re.sub(r'<div class="read-progress">.*?</div>\s*', "", body, count=1, flags=re.DOTALL)
+    body = re.sub(r'<header class="site-nav">.*?</header>\s*', "", body, count=1, flags=re.DOTALL)
+    body = re.sub(r'<p class="report-back">.*?</p>\s*', "", body, count=1, flags=re.DOTALL)
+    body = re.sub(r'<header class="report-article-header">.*?</header>\s*', "", body, count=1, flags=re.DOTALL)
     body = re.sub(r"<header class=\"report-header\">.*?</header>\s*", "", body, count=1, flags=re.DOTALL)
     body = re.sub(r'<div class="report-layout">.*?</div>\s*', "", body, count=1, flags=re.DOTALL)
     body = re.sub(r"<p class=\"intro\">.*?</p>\s*", "", body, count=1, flags=re.DOTALL)
@@ -141,16 +156,22 @@ def strip_wrapped_chrome(body: str) -> str:
     body = re.sub(r"<h1>🤖 AI Daily Intelligence —.*?</h1>\s*", "", body, count=1, flags=re.DOTALL)
     body = re.sub(r'<nav class="toc".*?</nav>\s*', "", body, count=1, flags=re.DOTALL)
     body = re.sub(r'<p class="signature">.*?</p>\s*', "", body, count=1, flags=re.DOTALL)
+    body = re.sub(r'<footer class="site-footer">.*', "", body, count=1, flags=re.DOTALL)
     return body.strip()
 
 
 def build_report_page(date: datetime, description: str, body: str) -> str:
     display = format_display_date(date)
+    short_date = format_short_date(date)
     iso = format_iso_date(date)
     title = f"AI Daily Intelligence — {display}"
     canonical = f"{PAGES_BASE}/reports/{iso}.html"
     safe_title = html.escape(title)
     safe_desc = html.escape(description)
+    intro = (
+        "Daily intelligence briefing covering the most important developments across "
+        "AI models, agents, developer tools, infrastructure, research, and security."
+    )
 
     json_ld = json.dumps(
         {
@@ -181,17 +202,25 @@ def build_report_page(date: datetime, description: str, body: str) -> str:
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="{safe_title}">
   <meta name="twitter:description" content="{safe_desc}">
+{font_links()}
   <link rel="stylesheet" href="../assets/style.css">
   <script type="application/ld+json">
 {json_ld}
   </script>
 </head>
 <body class="report-page">
+<div class="read-progress" aria-hidden="true"><div class="read-progress-bar" id="read-progress"></div></div>
+{site_nav(home_href="../index.html", archive_href="../archive/index.html", rss_href="../feed.xml", active="archive")}
+<p class="report-back"><a href="../archive/index.html">← Back to archive</a></p>
 <div class="container">
-  <header class="report-header">
-    <p class="intro">Daily intelligence briefing covering the most important developments across AI models, agents, developer tools, infrastructure, research, and security.</p>
-    <p class="meta"><a href="../index.html">← Back to archive</a></p>
+  <header class="report-article-header">
     <h1>🤖 AI Daily Intelligence — {display}</h1>
+    <div class="report-meta-row">
+      <span class="report-meta-item">{short_date}</span>
+      <span class="report-meta-sep" aria-hidden="true">|</span>
+      <span class="report-meta-chip">Daily brief</span>
+    </div>
+    <p class="intro">{intro}</p>
   </header>
   <div class="report-layout">
     <aside class="report-sidebar" aria-label="Section navigation">
@@ -203,18 +232,66 @@ def build_report_page(date: datetime, description: str, body: str) -> str:
     </main>
   </div>
 </div>
+{site_footer()}
+{asset_script("../", "theme.js")}
+{asset_script("../", "report.js")}
 </body>
 </html>
 """
 
 
+def prepare_report_body(raw_html: str) -> str:
+    body = extract_body(raw_html)
+    body = strip_wrapped_chrome(raw_html if '<main class="report-content">' in raw_html else body)
+    body = add_section_ids(body)
+    body = fix_research_headings(body)
+    body = fix_stars(body)
+    body = fix_external_links(body)
+    return body
+
+
+def rewrap_all_reports(reports_dir: Path | None = None) -> int:
+    root = reports_dir or Path("docs/reports")
+    if not root.is_dir():
+        print(f"ERROR: reports directory not found: {root}", file=sys.stderr)
+        return 1
+
+    count = 0
+    for path in sorted(root.glob("*.html")):
+        match = re.match(r"^(\d{4}-\d{2}-\d{2})\.html$", path.name)
+        if not match:
+            continue
+        report_date = datetime.strptime(match.group(1), "%Y-%m-%d")
+        content = path.read_text(encoding="utf-8")
+        desc_match = META_DESC_PATTERN.search(content)
+        description = (
+            desc_match.group(1).strip()
+            if desc_match and desc_match.group(1).strip()
+            else f"Daily AI intelligence briefing for {format_display_date(report_date)}."
+        )
+        body = prepare_report_body(content)
+        path.write_text(build_report_page(report_date, description, body), encoding="utf-8")
+        print(f"Rewrapped {path}")
+        count += 1
+
+    print(f"Done — {count} report(s)")
+    return 0
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description="Wrap report body HTML for GitHub Pages")
-    parser.add_argument("--date", required=True, help="Report date YYYY-MM-DD")
-    parser.add_argument("--description", required=True, help="Unique meta description")
-    parser.add_argument("--input", required=True, help="Raw HTML file")
+    parser.add_argument("--rewrap-all", action="store_true", help="Rebuild all docs/reports/*.html")
+    parser.add_argument("--date", help="Report date YYYY-MM-DD")
+    parser.add_argument("--description", help="Unique meta description")
+    parser.add_argument("--input", help="Raw HTML file")
     parser.add_argument("--output", help="Output path (default: docs/reports/DATE.html)")
     args = parser.parse_args()
+
+    if args.rewrap_all:
+        return rewrap_all_reports()
+
+    if not args.date or not args.description or not args.input:
+        parser.error("--date, --description, and --input are required unless --rewrap-all is set")
 
     try:
         report_date = datetime.strptime(args.date, "%Y-%m-%d")
@@ -227,12 +304,7 @@ def main() -> int:
         print(f"ERROR: input not found: {source}", file=sys.stderr)
         return 1
 
-    body = extract_body(source.read_text(encoding="utf-8"))
-    body = strip_wrapped_chrome(body)
-    body = add_section_ids(body)
-    body = fix_research_headings(body)
-    body = fix_stars(body)
-    body = fix_external_links(body)
+    body = prepare_report_body(source.read_text(encoding="utf-8"))
 
     output = Path(args.output) if args.output else Path(f"docs/reports/{args.date}.html")
     output.parent.mkdir(parents=True, exist_ok=True)

@@ -11,7 +11,7 @@ from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from pathlib import Path
 
-PAGES_BASE = "https://himanshuramavat07.github.io/HimanshuRamavat07"
+PAGES_BASE = "https://aidaily.is-a.bot"
 
 
 def required_env(name: str) -> str:
