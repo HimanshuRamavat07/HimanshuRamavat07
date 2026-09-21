@@ -91,7 +91,7 @@ If research fails entirely or you cannot verify your sources, **stop. Do not pub
 
 ## Part 5: Report structure
 
-Write the report as an **HTML body fragment** (h2 for sections, h3 for items, p, ul, li, strong, em, a). Do not include `<html>`, `<head>` or `<body>` tags. `scripts/wrap_report.py` wraps it into the final page, so match the input format that its `prepare_report_body()` function expects.
+Write the report as an **HTML body fragment** (h2 for sections, h3 for items, p, ul, li, strong, em, a). Do not include `<html>`, `<head>` or `<body>` tags. `scripts/wrap_report.py` wraps it into the final page, so match the input format that its `prepare_report_body()` function expects. Copy the markup structure from `prompts/report-skeleton.html` exactly. Only replace the placeholder text.
 
 Use these section headings **exactly**, in this order, with the same emoji:
 
@@ -196,10 +196,10 @@ Use today's date in `YYYY-MM-DD` format. Save the HTML body to `/tmp/ai-daily-in
      --link-only --date YYYY-MM-DD --pr-url "<PR URL>"
    ```
 
-   The recipient is configured in the automation environment, not in this file. Send one notification per run. Do not send the report body by email.
+   The recipient is configured in the automation environment, not in this file. Send one notification per run. Do not send the report body by email. If this notification step fails, do not stop. The PR is already open. Continue and report the failure in the run summary.
 
 ### Do not hand-edit these generated files
 `docs/index.html`, `docs/archive/index.html`, `docs/feed.xml`, `docs/sitemap.xml`, `docs/assets/search-index.json`, `docs/assets/search-data.js`. The scripts regenerate them.
 
 ### Live site
-`https://himanshuramavat07.github.io/HimanshuRamavat07/` (after the PR is merged and synced to `main`).
+`https://aidaily.is-a.bot/` (after the PR is merged and synced to `main`).
