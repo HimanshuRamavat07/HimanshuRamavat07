@@ -105,6 +105,11 @@ class TestAddSectionIds:
         for sid in expected_ids:
             assert f'id="{sid}"' in result, f"Missing id: {sid}"
 
+    def test_adds_id_to_new_watch_next_heading(self):
+        html = "<h2>🚀 What to Watch Next</h2>"
+        result = add_section_ids(html)
+        assert '<h2 id="watch-next">🚀 What to Watch Next</h2>' in result
+
 
 # ---------- extract_body ----------
 
