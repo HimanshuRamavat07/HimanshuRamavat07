@@ -4,13 +4,14 @@
 from __future__ import annotations
 
 import html
+import json
 import re
 from datetime import datetime, timezone
 from email.utils import format_datetime
 from pathlib import Path
 from xml.etree.ElementTree import Element, SubElement, tostring
 
-from site_shell import asset_script, font_links, icon, site_footer, site_nav
+from site_shell import asset_script, automation_modal, font_links, icon, search_overlay, site_footer, site_nav
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
 DOCS_DIR = REPO_ROOT / "docs"
@@ -20,6 +21,8 @@ INDEX_PATH = DOCS_DIR / "index.html"
 ARCHIVE_INDEX_PATH = ARCHIVE_DIR / "index.html"
 FEED_PATH = DOCS_DIR / "feed.xml"
 SITEMAP_PATH = DOCS_DIR / "sitemap.xml"
+SEARCH_INDEX_PATH = DOCS_DIR / "assets" / "search-index.json"
+SEARCH_DATA_JS_PATH = DOCS_DIR / "assets" / "search-data.js"
 
 PAGES_BASE = "https://aidaily.is-a.bot"
 SITE_TITLE = "AI Daily Intelligence"
@@ -129,7 +132,7 @@ def build_index_html(reports: list[tuple[datetime, str, Path]]) -> str:
             </div>
           </div>
           <h2 id="latest-heading"><a href="reports/{latest_file}">{html.escape(latest_title)}</a></h2>
-          <p class="meta">{icon("update", size="16px")} Published after merge to main · Updated by daily automation</p>
+          <p class="meta">{icon("schedule", size="16px")} Curated daily · AI-powered intelligence briefing</p>
         </div>
         <a class="button" href="reports/{latest_file}">Read latest report {icon("arrow_forward", size="18px")}</a>
       </div>
@@ -190,7 +193,12 @@ def build_index_html(reports: list[tuple[datetime, str, Path]]) -> str:
 {archive_section}
   </main>
 {site_footer(github_href="https://github.com/HimanshuRamavat07/HimanshuRamavat07", rss_href="feed.xml")}
+{automation_modal()}
+{search_overlay()}
 {asset_script("", "theme.js")}
+{asset_script("", "modal.js")}
+{asset_script("", "search-data.js")}
+{asset_script("", "search.js")}
 </body>
 </html>
 """
@@ -236,7 +244,12 @@ def build_archive_html(reports: list[tuple[datetime, str, Path]]) -> str:
     </section>
   </main>
 {site_footer(github_href="https://github.com/HimanshuRamavat07/HimanshuRamavat07", rss_href="../feed.xml")}
+{automation_modal()}
+{search_overlay(prefix="../")}
 {asset_script("../", "theme.js")}
+{asset_script("../", "modal.js")}
+{asset_script("../", "search-data.js")}
+{asset_script("../", "search.js")}
 </body>
 </html>
 """
@@ -292,6 +305,48 @@ def build_sitemap_xml(reports: list[tuple[datetime, str, Path]]) -> str:
     return xml_bytes.decode("utf-8")
 
 
+SECTION_HEADING_PATTERN = re.compile(r"<h2[^>]*>([^<]*)</h2>", re.IGNORECASE)
+
+
+def extract_section_headings(path: Path) -> list[str]:
+    """Extract h2 section headings from a report for search indexing."""
+    if not path.is_file():
+        return []
+    content = path.read_text(encoding="utf-8")
+    headings: list[str] = []
+    for match in SECTION_HEADING_PATTERN.finditer(content):
+        text = match.group(1).strip()
+        # Strip emoji prefixes for cleaner search
+        clean = re.sub(r"^[\U0001f300-\U0001fAFF\U00002702-\U000027B0\U0001f900-\U0001f9FF]+\s*", "", text)
+        if clean and clean not in ("On this page",):
+            headings.append(clean)
+    return headings
+
+
+def build_search_index(reports: list[tuple[datetime, str, Path]]) -> str:
+    """Build a JSON search index for client-side search."""
+    index = []
+    for date, filename, path in reports:
+        title = f"AI Daily Intelligence — {format_display_date(date)}"
+        description = read_report_description(path, date)
+        sections = extract_section_headings(path)
+        url = f"reports/{filename}"
+        index.append({
+            "date": format_iso_date(date),
+            "title": title,
+            "description": description,
+            "sections": sections,
+            "url": url,
+        })
+    return json.dumps(index, ensure_ascii=False, indent=None)
+
+
+def build_search_data_js(reports: list[tuple[datetime, str, Path]]) -> str:
+    """Build an inline JS file that sets window.__SEARCH_INDEX__."""
+    index_json = build_search_index(reports)
+    return f"window.__SEARCH_INDEX__={index_json};\n"
+
+
 def main() -> int:
     reports = list_reports()
     DOCS_DIR.mkdir(parents=True, exist_ok=True)
@@ -301,9 +356,12 @@ def main() -> int:
     ARCHIVE_INDEX_PATH.write_text(build_archive_html(reports), encoding="utf-8")
     FEED_PATH.write_text(build_feed_xml(reports), encoding="utf-8")
     SITEMAP_PATH.write_text(build_sitemap_xml(reports), encoding="utf-8")
+    SEARCH_INDEX_PATH.write_text(build_search_index(reports), encoding="utf-8")
+    SEARCH_DATA_JS_PATH.write_text(build_search_data_js(reports), encoding="utf-8")
 
     print(f"Updated {INDEX_PATH} ({len(reports)} report(s))")
     print(f"Updated {ARCHIVE_INDEX_PATH}, {FEED_PATH}, {SITEMAP_PATH}")
+    print(f"Updated {SEARCH_INDEX_PATH}, {SEARCH_DATA_JS_PATH}")
     return 0
 
 

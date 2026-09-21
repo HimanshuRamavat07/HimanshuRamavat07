@@ -29,6 +29,12 @@ def theme_toggle_button() -> str:
       </button>"""
 
 
+def search_button() -> str:
+    return f"""      <button type="button" class="search-trigger" data-open-search aria-label="Search reports" title="Search (⌘K)">
+        {icon("search")}
+      </button>"""
+
+
 def site_nav(*, home_href: str, archive_href: str, rss_href: str, active: str) -> str:
     home_active = ' class="is-active"' if active == "home" else ""
     archive_active = ' class="is-active"' if active == "archive" else ""
@@ -41,10 +47,75 @@ def site_nav(*, home_href: str, archive_href: str, rss_href: str, active: str) -
           <a{archive_active} href="{html.escape(archive_href)}">Archive</a>
           <a href="{html.escape(rss_href)}">RSS</a>
         </nav>
+{search_button()}
 {theme_toggle_button()}
       </div>
     </div>
   </header>"""
+
+
+def automation_modal() -> str:
+    return f"""  <div class="automation-modal-overlay" id="automation-modal-overlay">
+    <div class="automation-modal" role="dialog" aria-labelledby="automation-modal-title" aria-modal="true">
+      <button type="button" class="automation-modal-close" aria-label="Close">
+        {icon("close", size="20px")}
+      </button>
+      <h3 id="automation-modal-title">⚙️ How This Works</h3>
+      <p class="modal-subtitle">Fully automated AI intelligence publishing pipeline</p>
+
+      <div class="automation-modal-section">
+        <h4>Pipeline</h4>
+        <ul class="pipeline-steps">
+          <li class="pipeline-step"><strong>1. Curate</strong>AI scans the latest AI news, research, and releases daily</li>
+          <li class="pipeline-step"><strong>2. Generate</strong>Raw briefing is structured into 8 standardized sections</li>
+          <li class="pipeline-step"><strong>3. Wrap &amp; Enrich</strong>SEO meta, JSON-LD schema, TOC sidebar, accessibility fixes</li>
+          <li class="pipeline-step"><strong>4. Publish</strong>Auto-deployed to GitHub Pages via CI merge workflow</li>
+        </ul>
+      </div>
+
+      <div class="automation-modal-section">
+        <h4>Tech Stack</h4>
+        <ul class="tech-badges">
+          <li class="tech-badge">Python</li>
+          <li class="tech-badge">GitHub Actions</li>
+          <li class="tech-badge">GitHub Pages</li>
+          <li class="tech-badge">Cursor AI</li>
+          <li class="tech-badge">Vanilla JS</li>
+          <li class="tech-badge">RSS 2.0</li>
+        </ul>
+      </div>
+
+      <div class="automation-modal-section">
+        <h4>Publishing Cadence</h4>
+        <p>New briefings are published daily, typically covering the prior 24 hours of AI developments across models, agents, developer tools, infrastructure, research, and security.</p>
+      </div>
+
+      <div class="automation-modal-section">
+        <a class="modal-footer-link" href="{html.escape(GITHUB_URL)}" target="_blank" rel="noopener noreferrer">
+          View source on GitHub {icon("open_in_new", size="16px")}
+        </a>
+      </div>
+    </div>
+  </div>"""
+
+
+def search_overlay(*, prefix: str = "") -> str:
+    return f"""  <div class="search-overlay" id="search-overlay" data-base-href="{html.escape(prefix)}">
+    <div class="search-panel">
+      <div class="search-header">
+        {icon("search", size="22px")}
+        <input type="text" class="search-input" placeholder="Search reports…" autocomplete="off" spellcheck="false">
+        <span class="search-kbd">⌘K</span>
+        <button type="button" class="search-close" aria-label="Close search">
+          {icon("close", size="20px")}
+        </button>
+      </div>
+      <div class="search-body">
+        <ul class="search-results"></ul>
+        <p class="search-empty" style="display:none"></p>
+      </div>
+    </div>
+  </div>"""
 
 
 def site_footer(*, github_href: str = GITHUB_URL, rss_href: str | None = None) -> str:
@@ -57,9 +128,9 @@ def site_footer(*, github_href: str = GITHUB_URL, rss_href: str | None = None) -
       <div class="site-footer-brand">Daily Intelligence</div>
       <div class="site-footer-links">{rss_link}
         <a href="{html.escape(github_href)}" target="_blank" rel="noopener noreferrer">GitHub</a>
-        <a href="{html.escape(github_href)}" target="_blank" rel="noopener noreferrer">Automation Info</a>
+        <button type="button" class="automation-info-trigger" data-open-automation-modal>Automation Info</button>
       </div>
-      <p class="site-footer-copy">© {year} Daily Intelligence · Automated by Cursor</p>
+      <p class="site-footer-copy">&copy; {year} Himanshu Ramavat &middot; Automated by Cursor</p>
     </div>
   </footer>"""
 

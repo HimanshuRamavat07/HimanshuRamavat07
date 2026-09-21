@@ -11,7 +11,7 @@ import sys
 from datetime import datetime
 from pathlib import Path
 
-from site_shell import asset_script, font_links, site_footer, site_nav
+from site_shell import asset_script, automation_modal, font_links, search_overlay, site_footer, site_nav
 
 PAGES_BASE = "https://aidaily.is-a.bot"
 META_DESC_PATTERN = re.compile(
@@ -233,7 +233,12 @@ def build_report_page(date: datetime, description: str, body: str) -> str:
   </div>
 </div>
 {site_footer()}
+{automation_modal()}
+{search_overlay(prefix="../")}
 {asset_script("../", "theme.js")}
+{asset_script("../", "modal.js")}
+{asset_script("../", "search-data.js")}
+{asset_script("../", "search.js")}
 {asset_script("../", "report.js")}
 </body>
 </html>
