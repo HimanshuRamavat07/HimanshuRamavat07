@@ -96,7 +96,8 @@ def extract_body(raw_html: str) -> str:
     return raw_html.strip()
 
 
-def build_toc() -> str:
+def build_toc(has_new_watch_heading: bool = True) -> str:
+    watch_label = "What to Watch Next" if has_new_watch_heading else "What I Would Watch Next"
     sections = [
         ("top-developments", "Top Developments"),
         ("emerging-trends", "Emerging AI Trends"),
@@ -104,7 +105,7 @@ def build_toc() -> str:
         ("agentic-watch", "Agentic AI Watch"),
         ("security-watch", "AI Security Watch"),
         ("research", "Research Worth Reading"),
-        ("watch-next", "What I Would Watch Next"),
+        ("watch-next", watch_label),
         ("bottom-line", "Bottom Line"),
     ]
     items = "\n".join(f'        <li><a href="#{sid}">{label}</a></li>' for sid, label in sections)
@@ -125,6 +126,7 @@ def add_section_ids(content: str) -> str:
         (r"<h2>🧩 Agentic AI Watch</h2>", '<h2 id="agentic-watch">🧩 Agentic AI Watch</h2>'),
         (r"<h2>🔐 AI Security Watch</h2>", '<h2 id="security-watch">🔐 AI Security Watch</h2>'),
         (r"<h2>📚 Research Worth Reading</h2>", '<h2 id="research">📚 Research Worth Reading</h2>'),
+        (r"<h2>🚀 What to Watch Next</h2>", '<h2 id="watch-next">🚀 What to Watch Next</h2>'),
         (r"<h2>🚀 What I Would Watch Next</h2>", '<h2 id="watch-next">🚀 What I Would Watch Next</h2>'),
         (r'<div class="bottom-line">', '<div class="bottom-line" id="bottom-line">'),
     ]
@@ -187,6 +189,7 @@ def build_report_page(date: datetime, description: str, body: str) -> str:
         indent=2,
     )
 
+    has_new_watch = "What to Watch Next" in body or "What I Would Watch Next" not in body
     return f"""<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -224,7 +227,7 @@ def build_report_page(date: datetime, description: str, body: str) -> str:
   </header>
   <div class="report-layout">
     <aside class="report-sidebar" aria-label="Section navigation">
-{build_toc()}
+{build_toc(has_new_watch_heading=has_new_watch)}
     </aside>
     <main class="report-content">
 {body}

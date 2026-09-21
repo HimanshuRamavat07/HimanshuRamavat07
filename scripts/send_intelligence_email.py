@@ -31,14 +31,9 @@ def send_message(subject: str, html_body: str, text_body: str) -> None:
     port = int(required_env("SMTP_PORT"))
     user = required_env("SMTP_USER")
     password = required_env("SMTP_PASS")
-    recipients = parse_recipients(
-        os.environ.get(
-            "SMTP_RECIPIENTS",
-            "himanshu.ramavat@mail.nitsan.ai,hr20072001@gmail.com",
-        )
-    )
+    recipients = parse_recipients(os.environ.get("SMTP_RECIPIENTS", ""))
     if not recipients:
-        print("ERROR: No recipients configured", file=sys.stderr)
+        print("ERROR: No recipients configured in SMTP_RECIPIENTS environment variable", file=sys.stderr)
         sys.exit(1)
 
     message = MIMEMultipart("alternative")
