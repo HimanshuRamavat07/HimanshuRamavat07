@@ -69,8 +69,8 @@ def read_report_description(path: Path, date: datetime) -> str:
         if match and match.group(1).strip():
             return match.group(1).strip()
     return (
-        f"Daily AI intelligence briefing for {format_display_date(date)} — "
-        "models, agents, developer tools, infrastructure, research, and security."
+        f"AI-generated briefing for {format_display_date(date)}: "
+        "models, agents, developer tools, research papers, and security disclosures."
     )
 
 
@@ -109,12 +109,12 @@ def report_row(*, href: str, title: str, description: str = "", compact: bool = 
 def build_index_html(reports: list[tuple[datetime, str, Path]]) -> str:
     canonical = f"{PAGES_BASE}/"
     description = (
-        "Daily AI intelligence briefings for developers, AI engineers, and product builders. "
-        "Models, agents, developer tools, infrastructure, research, and security."
+        "Daily AI-generated summaries covering models, agents, "
+        "developer tools, infrastructure, research papers, and security disclosures."
     )
     tagline = (
-        "Signal over volume — curated daily briefings on AI models, agents, "
-        "developer tools, infrastructure, research, and security."
+        "Daily AI-generated briefings on models, agents, "
+        "coding tools, infrastructure, research papers, and security disclosures."
     )
 
     latest_block = ""
@@ -132,7 +132,7 @@ def build_index_html(reports: list[tuple[datetime, str, Path]]) -> str:
             </div>
           </div>
           <h2 id="latest-heading"><a href="reports/{latest_file}">{html.escape(latest_title)}</a></h2>
-          <p class="meta">{icon("schedule", size="16px")} Curated daily · AI-powered intelligence briefing</p>
+          <p class="meta">{icon("schedule", size="16px")} Drafted by AI from linked sources · Verify before acting</p>
         </div>
         <a class="button" href="reports/{latest_file}">Read latest report {icon("arrow_forward", size="18px")}</a>
       </div>
@@ -167,7 +167,7 @@ def build_index_html(reports: list[tuple[datetime, str, Path]]) -> str:
         archive_section = """
     <section class="archive-section">
       <h2>Archive</h2>
-      <p class="empty">No reports published yet. Merge a daily intelligence PR to add the first briefing.</p>
+      <p class="empty">No reports published yet. New briefings appear here after each automated run.</p>
     </section>"""
 
     return f"""<!DOCTYPE html>
@@ -206,7 +206,10 @@ def build_index_html(reports: list[tuple[datetime, str, Path]]) -> str:
 
 def build_archive_html(reports: list[tuple[datetime, str, Path]]) -> str:
     canonical = f"{PAGES_BASE}/archive/"
-    description = "Full archive of AI Daily Intelligence daily briefings."
+    description = (
+        "Archive of daily AI-generated briefings on models, agents, "
+        "developer tools, research papers, and security."
+    )
     rows = "\n".join(
         report_row(
             href=f"../reports/{filename}",
@@ -261,7 +264,7 @@ def build_feed_xml(reports: list[tuple[datetime, str, Path]]) -> str:
     SubElement(channel_el, "title").text = SITE_TITLE
     SubElement(channel_el, "link").text = PAGES_BASE + "/"
     SubElement(channel_el, "description").text = (
-        "Daily AI intelligence briefings for developers and AI product builders."
+        "Daily AI-generated briefings on models, agents, developer tools, research papers, and security."
     )
     SubElement(channel_el, "language").text = "en-us"
     SubElement(channel_el, "lastBuildDate").text = format_datetime(

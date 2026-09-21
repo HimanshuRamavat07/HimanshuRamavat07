@@ -61,15 +61,15 @@ def automation_modal() -> str:
         {icon("close", size="20px")}
       </button>
       <h3 id="automation-modal-title">⚙️ How This Works</h3>
-      <p class="modal-subtitle">Fully automated AI intelligence publishing pipeline</p>
+      <p class="modal-subtitle">Daily AI-drafted briefings published after the site owner merges them</p>
 
       <div class="automation-modal-section">
         <h4>Pipeline</h4>
         <ul class="pipeline-steps">
-          <li class="pipeline-step"><strong>1. Curate</strong>AI scans the latest AI news, research, and releases daily</li>
-          <li class="pipeline-step"><strong>2. Generate</strong>Raw briefing is structured into 8 standardized sections</li>
-          <li class="pipeline-step"><strong>3. Wrap &amp; Enrich</strong>SEO meta, JSON-LD schema, TOC sidebar, accessibility fixes</li>
-          <li class="pipeline-step"><strong>4. Publish</strong>Auto-deployed to GitHub Pages via CI merge workflow</li>
+          <li class="pipeline-step"><strong>1. Topic Discovery</strong>An AI agent scans public releases, research papers, and developer announcements daily.</li>
+          <li class="pipeline-step"><strong>2. AI Drafting</strong>The AI agent drafts briefings across eight standardized topic sections.</li>
+          <li class="pipeline-step"><strong>3. Python Assembly</strong>Scripts inject metadata, table of contents, search index records, and styling.</li>
+          <li class="pipeline-step"><strong>4. Merge &amp; Deploy</strong>Reports publish to GitHub Pages after the site owner merges them.</li>
         </ul>
       </div>
 
@@ -87,7 +87,7 @@ def automation_modal() -> str:
 
       <div class="automation-modal-section">
         <h4>Publishing Cadence</h4>
-        <p>New briefings are published daily, typically covering the prior 24 hours of AI developments across models, agents, developer tools, infrastructure, research, and security.</p>
+        <p>Briefings publish daily, typically covering the prior 24 hours. AI drafts the text, and no automated fact-check runs.</p>
       </div>
 
       <div class="automation-modal-section">
