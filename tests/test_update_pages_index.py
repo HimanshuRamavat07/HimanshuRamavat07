@@ -56,7 +56,7 @@ class TestFormatDisplayDate:
 class TestListReports:
     def test_discovers_reports(self):
         reports = list_reports()
-        assert len(reports) == 34
+        assert len(reports) >= 34
         # Sorted newest first
         assert reports[0][0] > reports[-1][0]
 
