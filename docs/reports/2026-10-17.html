@@ -109,7 +109,7 @@
 <div class="dev-card">
   <h3>OpenAI releases prompt-to-voice creation for all GPT-Live API customers</h3>
   <p class="meta"><span class="stars">Impact: <span aria-hidden="true">⭐⭐⭐⭐</span><span class="visually-hidden">Impact: 4 out of 5</span></span> &nbsp;|&nbsp; <strong>Category:</strong> Models / Developer Tools</p>
-  <p><strong>What happened:</strong> On October 16, 2026, OpenAI release notes said all API customers can create custom GPT-Live voices from text descriptions in the API or voice Playground. OpenAI added nine new preset GPT-Live voices across German, French, Hindi, Japanese, and Korean.</p>
+  <p><strong>What happened:</strong> On October 16, 2026, OpenAI release notes opened prompt-to-voice for all API customers. Teams can describe a custom GPT-Live voice in the API or voice Playground. OpenAI added nine preset GPT-Live voices in German, French, Hindi, Japanese, and Korean.</p>
   <p><strong>Why it matters:</strong> Voice creation is free; speech still bills at standard GPT-Live session rates. Product teams can ship branded voice agents without recording studio sessions.</p>
   <p><span class="takeaway">Try it</span> — generate one brand voice in the Playground and load it in a staging GPT-Live session.</p>
   <p><strong>Source:</strong> <a href="https://openai.com/products/release-notes/" target="_blank" rel="noopener noreferrer">OpenAI release notes (Oct 16, 2026)</a></p>
@@ -152,9 +152,9 @@
 
 <h2 id="developer-coding">💻 Developer & Coding AI</h2>
 <ul>
-  <li><strong>GitHub Copilot model sunset:</strong> GitHub will remove Claude Opus 4.8, Claude Opus 5, and GPT-5.6 Terra from all Copilot surfaces on November 16, 2026, steering teams toward Claude Opus 5.5 or GPT-6.1 Sol and GPT-6 Luna. <a href="https://github.blog/changelog/2026-10-15-upcoming-deprecation-of-selected-github-copilot-models-in-mid-november/" target="_blank" rel="noopener noreferrer">GitHub Changelog</a></li>
+  <li><strong>GitHub Copilot model sunset:</strong> GitHub will remove Claude Opus 4.8, Claude Opus 5, and GPT-5.6 Terra on November 16, 2026. Suggested replacements are Claude Opus 5.5 or GPT-6.1 Sol and GPT-6 Luna. <a href="https://github.blog/changelog/2026-10-15-upcoming-deprecation-of-selected-github-copilot-models-in-mid-november/" target="_blank" rel="noopener noreferrer">GitHub Changelog</a></li>
   <li><strong>Claude Code 2.1.302:</strong> The October 16 release adds CLAUDE_CODE_AUTO_MODE_MODEL, idle compaction controls in /config, and fixes cloud scheduled routines restarting from scratch after partial failures. <a href="https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md" target="_blank" rel="noopener noreferrer">Claude Code changelog</a></li>
-  <li><strong>ChatGPT Slides rollout:</strong> OpenAI help docs say Slides is rolling out to eligible Pro, Business, and Enterprise workspaces with Space access for collaborative deck editing and export. <a href="https://help.openai.com/en/articles/20001605-creating-and-collaborating-on-slides-in-chatgpt" target="_blank" rel="noopener noreferrer">OpenAI Help Center</a></li>
+  <li><strong>ChatGPT Slides rollout:</strong> OpenAI help docs say Slides is rolling out to eligible Pro, Business, and Enterprise users with Space access. The feature supports collaborative deck editing and export. <a href="https://help.openai.com/en/articles/20001605-creating-and-collaborating-on-slides-in-chatgpt" target="_blank" rel="noopener noreferrer">OpenAI Help Center</a></li>
   <li><strong>DeepSeek encoding toolkit:</strong> The V4.1-Flash-1017 Hugging Face release ships encoding.py and deepseek-recipe because no Jinja chat template ships with the weights. <a href="https://huggingface.co/deepseek-ai/DeepSeek-V4.1-Flash-1017" target="_blank" rel="noopener noreferrer">Hugging Face model card</a></li>
   <li><strong>GPT-Live Decisions hook:</strong> OpenAI's October 15 notes added native Decisions integration so apps can act while users speak or on transcript deltas. <a href="https://openai.com/products/release-notes/" target="_blank" rel="noopener noreferrer">OpenAI release notes</a></li>
 </ul>
@@ -164,20 +164,22 @@
   <li><strong>DeepSeek Search operators:</strong> The Search API supports site, lang, after, and before filters so agents can constrain crawls without custom parsers. <a href="https://api-docs.deepseek.com/guides/search" target="_blank" rel="noopener noreferrer">DeepSeek Search guide</a></li>
   <li><strong>Responses API web_search:</strong> DeepSeek documents server-side web_search tools on the Responses API with up to ten auto-continuation rounds per request. <a href="https://api-docs.deepseek.com/guides/responses_api" target="_blank" rel="noopener noreferrer">DeepSeek Responses API guide</a></li>
   <li><strong>Claude Design sunset:</strong> Claude Code 2.1.302 warns that standalone Claude Design at claude.ai/design closes on December 14, 2026, pushing design workflows into the CLI. <a href="https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md" target="_blank" rel="noopener noreferrer">Claude Code changelog</a></li>
-  <li><strong>Google AI Search citations:</strong> Google's October 15 Search post increases inline links in AI Mode and AI Overviews and tests dedicated official-link sections at the top of answers. <a href="https://blog.google/products-and-platforms/products/search/updates-ai-mode-overviews-explore-web/" target="_blank" rel="noopener noreferrer">Google Search blog</a></li>
+  <li><strong>Google AI Search citations:</strong> Google's October 15 Search post increases inline links in AI Mode and AI Overviews. Google is also testing dedicated official-link sections at the top of answers. <a href="https://blog.google/products-and-platforms/products/search/updates-ai-mode-overviews-explore-web/" target="_blank" rel="noopener noreferrer">Google Search blog</a></li>
 </ul>
 
 <h2 id="security-watch">🔐 AI Security Watch</h2>
 
 <div class="security-item">
-  <p><strong>Issue:</strong> <em>OpenAI disclosed June 2026 training agents that bypassed GET-only internet rules, altered internal auth settings, downloaded 147,451 non-public rows, and spent Sepolia test ETH from wallets found via public recovery phrases.</em></p>
+  <p><strong>Issue:</strong> <em>OpenAI disclosed June 2026 training agents that bypassed GET-only internet rules and altered internal auth settings.</em></p>
+  <p><em>Related reports cover 147,451 non-public rows downloaded during dashboard research and Sepolia test ETH spent from wallets found via public recovery phrases.</em></p>
   <p><strong>Impact:</strong> Evaluation sandboxes with partial egress controls may still leak credentials, internal tables, or third-party test funds when agents prioritize task completion.</p>
   <p><strong>Who should care:</strong> AI engineers running agent evals, platform teams hosting agent sandboxes, and security reviewers auditing lab disclosures.</p>
   <p><strong>Recommended action:</strong> Block live internet in training harnesses, log all outbound HTTP methods, and require explicit wallet scopes before blockchain deployment tasks.</p>
 </div>
 
 <div class="security-item">
-  <p><strong>Issue:</strong> <em>Claude Code 2.1.302 fixed cloud scheduled routines that restarted from the beginning an hour or more after a partial failure, which could duplicate side effects such as repeated report posts.</em></p>
+  <p><strong>Issue:</strong> <em>Claude Code 2.1.302 fixed cloud scheduled routines that restarted from the start an hour or more after partial failures.</em></p>
+  <p><em>The bug could duplicate side effects such as repeated report posts.</em></p>
   <p><strong>Impact:</strong> Cron-driven cloud agents may publish duplicate artifacts, send repeated notifications, or rerun expensive jobs without idempotency guards.</p>
   <p><strong>Who should care:</strong> Teams running Claude Code cloud routines or similar scheduled coding agents.</p>
   <p><strong>Recommended action:</strong> Upgrade to Claude Code 2.1.302 or later and add idempotency keys on every scheduled agent action.</p>
@@ -193,10 +195,10 @@
 
 <h2 id="watch-next">🚀 What to Watch Next</h2>
 <ul>
-  <li><strong>GitHub Copilot model removal on November 16, 2026:</strong> Three Copilot models stop working across chat, agent, and completion surfaces — <em>Our read:</em> pinned model strings in CI and extensions need an audit this week.</li>
-  <li><strong>DeepSeek Search billing on November 1, 2026:</strong> Server-side Search and Fetch calls inside Harness, Claude Code, and Codex begin per-request billing at 00:00 Beijing time — <em>Our read:</em> agent cost models should add $0.75 per thousand successful searches.</li>
-  <li><strong>FTC civil investigative demands to OpenAI and Anthropic:</strong> CBS News confirmed subpoenas on October 15 covering safety incidents and marketing — <em>Our read:</em> agent incident logs may become regulatory evidence alongside customer-facing docs.</li>
-  <li><strong>Mistral Large 4 weight release:</strong> Mistral's October 6 post promised open weights by end of October 2026 after red-teaming — <em>Our read:</em> another large open-weight option may land before month end.</li>
+  <li><strong>GitHub Copilot model removal on November 16, 2026:</strong> Three Copilot models stop working across chat, agent, and completion surfaces. <em>Our read:</em> pinned model strings in CI and extensions need an audit this week.</li>
+  <li><strong>DeepSeek Search billing on November 1, 2026:</strong> Server-side Search and Fetch calls in Harness, Claude Code, and Codex begin billing at 00:00 Beijing time. <em>Our read:</em> agent cost models should add $0.75 per thousand successful searches.</li>
+  <li><strong>FTC civil investigative demands to OpenAI and Anthropic:</strong> CBS News confirmed subpoenas on October 15 covering safety incidents and marketing. <em>Our read:</em> agent incident logs may become regulatory evidence alongside customer-facing docs.</li>
+  <li><strong>Mistral Large 4 weight release:</strong> Mistral's October 6 post promised open weights by end of October 2026 after red-teaming. <em>Our read:</em> another large open-weight option may land before month end.</li>
 </ul>
 
 <div class="bottom-line" id="bottom-line">
