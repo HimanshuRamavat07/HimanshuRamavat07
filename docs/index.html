@@ -16,7 +16,7 @@
   <link rel="alternate" type="application/rss+xml" title="AI Daily Intelligence RSS" href="feed.xml">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=JetBrains+Mono:wght@500;700&family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,400,0,0&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;700&family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,400,0,0&family=Source+Sans+3:wght@400;600;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="assets/style.css">
 </head>
 <body class="page-home">
@@ -25,7 +25,7 @@
       <a class="site-logo" href="index.html">Daily Intelligence</a>
       <div class="site-nav-right">
         <nav class="site-nav-links" aria-label="Site">
-          <a class="is-active" href="index.html">Latest</a>
+          <a class="is-active" href="index.html">Home</a>
           <a href="archive/index.html">Archive</a>
           <a href="feed.xml">RSS</a>
         </nav>
@@ -40,53 +40,52 @@
     </div>
   </header>
   <main class="site-main">
-    <section class="hero">
+    <section class="hero hero-editorial">
       <h1>AI Daily Intelligence</h1>
-      <p class="subtitle">Daily AI-generated briefings on models, agents, coding tools, infrastructure, research papers, and security disclosures.</p>
+      <p class="subtitle">Editorial intelligence on models, agents, coding tools, infrastructure, research, and security — curated daily.</p>
     </section>
 
-    <section class="latest group" aria-labelledby="latest-heading">
-      <div class="latest-inner">
-        <div class="latest-content">
-          <div class="latest-heading-row">
-            <p class="label">Latest Briefing</p>
-            <div class="signal-bars" aria-hidden="true">
-              <span></span><span></span><span></span>
-            </div>
-          </div>
-          <h2 id="latest-heading"><a href="reports/2026-11-16.html">AI Daily Intelligence — November 16, 2026</a></h2>
-          <p class="meta"><span class="material-symbols-outlined" aria-hidden="true" style="font-size:16px">schedule</span> Drafted by AI from linked sources · Verify before acting</p>
-        </div>
-        <a class="button" href="reports/2026-11-16.html">Read latest report <span class="material-symbols-outlined" aria-hidden="true" style="font-size:18px">arrow_forward</span></a>
+    <section class="spectrum-split" aria-label="Today's briefing highlights">
+      <div class="spectrum-split-grid">
+
+    <div class="spectrum-lead">
+      <p class="label">Lead</p>
+      <h2 class="lead-headline">Open models close the gap on coding agents</h2>
+      <p class="lead-dek">What the latest evals show for coding agents.</p>
+    </div>
+
+    <aside class="spectrum-picks" aria-label="Editor's picks">
+      <p class="label">Editor's picks</p>
+      <div class="picks-list">
+      <article class="story-card story-card--pick" data-story-id="sandbox-hardening">
+        <h3 class="story-headline">Coding agents tighten sandbox defaults</h3>
+        <p class="story-dek">Sandbox defaults tightened after extension supply-chain noise.</p>
+      </article>
+      <article class="story-card story-card--pick" data-story-id="startup-round">
+        <h3 class="story-headline">Agent observability startup raises Series A</h3>
+        <p class="story-dek">A developer-tools startup raised a focused round.</p>
+      </article>
+      </div>
+    </aside>
+      </div>
+
+
+    <section class="topic-section" data-topic="technology" aria-labelledby="topic-technology">
+      <h2 id="topic-technology">Technology</h2>
+      <div class="topic-stories">
+      <article class="story-card story-card--topic" data-story-id="infra-note">
+        <h3 class="story-headline">New inference runtime cuts cold starts</h3>
+        <p class="story-dek">Inference optimization note for platform teams.</p>
+      </article>
       </div>
     </section>
 
-    <section class="archive-section" aria-labelledby="archive-heading">
-      <h2 id="archive-heading">Recent reports</h2>
-      <div class="report-list">
-      <a class="report-row" href="reports/2026-11-16.html">
-        <span class="report-row-title">November 16, 2026</span>
-        <span class="material-symbols-outlined report-row-icon" aria-hidden="true">arrow_forward</span>
-      </a>
-      <a class="report-row" href="reports/2026-11-15.html">
-        <span class="report-row-title">November 15, 2026</span>
-        <span class="material-symbols-outlined report-row-icon" aria-hidden="true">arrow_forward</span>
-      </a>
-      <a class="report-row" href="reports/2026-11-14.html">
-        <span class="report-row-title">November 14, 2026</span>
-        <span class="material-symbols-outlined report-row-icon" aria-hidden="true">arrow_forward</span>
-      </a>
-      <a class="report-row" href="reports/2026-11-13.html">
-        <span class="report-row-title">November 13, 2026</span>
-        <span class="material-symbols-outlined report-row-icon" aria-hidden="true">arrow_forward</span>
-      </a>
-      <a class="report-row" href="reports/2026-11-12.html">
-        <span class="report-row-title">November 12, 2026</span>
-        <span class="material-symbols-outlined report-row-icon" aria-hidden="true">arrow_forward</span>
-      </a>
+      <div class="spectrum-cta">
+        <p class="full-briefing-cta"><a class="button" href="reports/2026-11-16.html">Read the full briefing <span class="material-symbols-outlined" aria-hidden="true" style="font-size:18px">arrow_forward</span></a></p>
+        <p class="spectrum-date meta">November 16, 2026</p>
       </div>
-      <p class="archive-more"><a href="archive/index.html">View all 79 reports <span class="material-symbols-outlined" aria-hidden="true" style="font-size:16px">arrow_right_alt</span></a></p>
     </section>
+    <p class="archive-more home-archive-link"><a href="archive/index.html">Browse the archive <span class="material-symbols-outlined" aria-hidden="true" style="font-size:16px">arrow_right_alt</span></a></p>
   </main>
   <footer class="site-footer">
     <div class="site-footer-inner">
