@@ -43,7 +43,7 @@ def site_nav(*, home_href: str, archive_href: str, rss_href: str, active: str) -
       <a class="site-logo" href="{html.escape(home_href)}">Daily Intelligence</a>
       <div class="site-nav-right">
         <nav class="site-nav-links" aria-label="Site">
-          <a{home_active} href="{html.escape(home_href)}">Latest</a>
+          <a{home_active} href="{html.escape(home_href)}">Home</a>
           <a{archive_active} href="{html.escape(archive_href)}">Archive</a>
           <a href="{html.escape(rss_href)}">RSS</a>
         </nav>
