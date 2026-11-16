@@ -93,6 +93,27 @@ If research fails entirely or you cannot verify your sources, **stop. Do not pub
 
 Write the report as an **HTML body fragment** (h2 for sections, h3 for items, p, ul, li, strong, em, a). Do not include `<html>`, `<head>` or `<body>` tags. `scripts/wrap_report.py` wraps it into the final page, so match the input format that its `prepare_report_body()` function expects. Copy the markup structure from `prompts/report-skeleton.html` exactly. Only replace the placeholder text.
 
+### Extraction contract (required on every new report)
+
+Wrap the body in an `<article class="report">` with:
+
+- `data-report-date` — ISO `YYYY-MM-DD` for this briefing
+- `data-report-title` — non-empty page title text
+- `data-reading-minutes` — positive integer estimate
+
+Put main sections inside `<div class="report-body" data-report-body>`.
+
+Every homepage-eligible Top Development card must include:
+
+- `data-story` on the `.dev-card`
+- `data-story-id` — unique stable slug within the report
+- `data-story-role` — exactly one `lead`; `pick` for 0–3 editor's picks; `more` optional for remaining cards
+- `data-story-topics` — comma-separated approved slugs only: `ai`, `software-development`, `startups`, `technology` (unknown slugs are ignored)
+- `data-story-dek` — short homepage dek (optional; wrapper may fall back to "What happened")
+- `<h3 data-story-headline>` — non-empty headline
+
+Do **not** manufacture picks to fill three slots. Prefer the optional `data-summary-deck` blocks from the skeleton when content exists; never invent summary-deck copy.
+
 Use these section headings **exactly**, in this order, with the same emoji:
 
 1. `🔥 Top Developments`
@@ -107,9 +128,9 @@ Use these section headings **exactly**, in this order, with the same emoji:
 The page title, date and table of contents are added by the wrapper. Do not write them.
 
 ### 🔥 Top Developments
-Include the items that passed selection. For each one:
+Include the items that passed selection. Mark **exactly one** card as `data-story-role="lead"` and up to three others as `data-story-role="pick"`. For each one:
 
-- **Headline** (h3): a specific, factual headline.
+- **Headline** (`h3 data-story-headline`): a specific, factual headline.
 - **Impact:** 1 to 5 stars. Give 5 only for events that change how developers build or secure things this week.
 - **Category:** one or two of Models, Agents, Developer Tools, Infrastructure, Security, Research, Business.
 - **What happened:** 2 to 3 sentences. Facts only, each traceable to a linked source.
@@ -160,6 +181,9 @@ Do not publish until every line below is true.
 - [ ] No first person anywhere, and no sentence over 25 words.
 - [ ] Analysis is marked "Our read:" and not mixed into facts.
 - [ ] Headings match Part 5 exactly.
+- [ ] Article includes `data-report-date`, `data-report-title`, and `data-reading-minutes`.
+- [ ] Exactly one `data-story-role="lead"` and at most three `data-story-role="pick"`; no invented picks.
+- [ ] Story topics use only approved taxonomy slugs.
 - [ ] No secrets, email addresses, prompts or search queries appear in the output.
 
 ---

@@ -15,7 +15,7 @@
   <meta name="twitter:description" content="Google shipped Gemini 4 Hydrogen for agentic coding, Anthropic rolled out Claude Meetings, AWS made AgentCore V2 the default, and nonprofits sued frontier AI labs in California.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=JetBrains+Mono:wght@500;700&family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,400,0,0&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;700&family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,400,0,0&family=Source+Sans+3:wght@400;600;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../assets/style.css">
   <script type="application/ld+json">
 {
@@ -40,10 +40,10 @@
 <div class="read-progress" aria-hidden="true"><div class="read-progress-bar" id="read-progress"></div></div>
   <header class="site-nav">
     <div class="site-nav-inner">
-      <a class="site-logo" href="../index.html">Daily Intelligence</a>
+      <a class="site-logo" href="../index.html">AI Daily Intelligence</a>
       <div class="site-nav-right">
         <nav class="site-nav-links" aria-label="Site">
-          <a href="../index.html">Latest</a>
+          <a href="../index.html">Home</a>
           <a class="is-active" href="../archive/index.html">Archive</a>
           <a href="../feed.xml">RSS</a>
         </nav>
@@ -60,7 +60,7 @@
 <p class="report-back"><a href="../archive/index.html">← Back to archive</a></p>
 <div class="container">
   <header class="report-article-header">
-    <h1>🤖 AI Daily Intelligence — November 13, 2026</h1>
+    <h1>AI Daily Intelligence — November 13, 2026</h1>
     <div class="report-meta-row">
       <span class="report-meta-item">Nov 13, 2026</span>
       <span class="report-meta-sep" aria-hidden="true">|</span>
@@ -70,27 +70,68 @@
   </header>
   <div class="report-layout">
     <aside class="report-sidebar" aria-label="Section navigation">
+      <details class="toc-mobile">
+        <summary>On this page</summary>
 
     <nav class="toc" aria-label="Table of contents">
       <h2>On this page</h2>
       <ul>
         <li><a href="#top-developments">Top Developments</a></li>
+        <li><a href="#google-launches-gemini-4-hydrogen-across-api-search-and-antigravity">Google launches Gemini 4 Hydrogen across API, Search, and Antigravity</a></li>
+        <li><a href="#anthropic-opens-claude-meetings-beta-on-google-meet">Anthropic opens Claude Meetings beta on Google Meet</a></li>
+        <li><a href="#openai-announces-daybreak-red-team-and-daybreak-defense-factory">OpenAI announces Daybreak Red Team and Daybreak Defense Factory</a></li>
+        <li><a href="#aws-makes-agentcore-runtime-v2-the-default-for-new-agent-hosts">AWS makes AgentCore Runtime V2 the default for new agent hosts</a></li>
+        <li><a href="#nonprofits-sue-five-frontier-ai-labs-seeking-development-halt">Nonprofits sue five frontier AI labs seeking development halt</a></li>
         <li><a href="#emerging-trends">Emerging AI Trends</a></li>
-        <li><a href="#developer-coding">Developer & Coding AI</a></li>
+        <li><a href="#tiered-model-stacks-replace-single-model-agent-loops">Tiered model stacks replace single-model agent loops</a></li>
+        <li><a href="#meetings-become-live-agent-workspaces">Meetings become live agent workspaces</a></li>
+        <li><a href="#agent-hosting-defaults-favor-snapshot-cold-starts">Agent hosting defaults favor snapshot cold starts</a></li>
+        <li><a href="#developer-coding">Developer &amp; Coding AI</a></li>
         <li><a href="#agentic-watch">Agentic AI Watch</a></li>
         <li><a href="#security-watch">AI Security Watch</a></li>
         <li><a href="#research">Research Worth Reading</a></li>
+        <li><a href="#caplite-prompt-injection-defense-for-small-language-model-agents-without-model-written-security-artifacts">CapLite: Prompt-Injection Defense for Small Language Model Agents without Model-Written Security Artifacts</a></li>
+        <li><a href="#spillway-separating-target-admission-from-sanitization-to-defend-tool-using-agents-against-prompt-injection">SPILLWAY: Separating Target Admission from Sanitization to Defend Tool-Using Agents against Prompt Injection</a></li>
         <li><a href="#watch-next">What to Watch Next</a></li>
         <li><a href="#bottom-line">Bottom Line</a></li>
       </ul>
     </nav>
+      </details>
+      <div class="toc-desktop">
+
+    <nav class="toc" aria-label="Table of contents">
+      <h2>On this page</h2>
+      <ul>
+        <li><a href="#top-developments">Top Developments</a></li>
+        <li><a href="#google-launches-gemini-4-hydrogen-across-api-search-and-antigravity">Google launches Gemini 4 Hydrogen across API, Search, and Antigravity</a></li>
+        <li><a href="#anthropic-opens-claude-meetings-beta-on-google-meet">Anthropic opens Claude Meetings beta on Google Meet</a></li>
+        <li><a href="#openai-announces-daybreak-red-team-and-daybreak-defense-factory">OpenAI announces Daybreak Red Team and Daybreak Defense Factory</a></li>
+        <li><a href="#aws-makes-agentcore-runtime-v2-the-default-for-new-agent-hosts">AWS makes AgentCore Runtime V2 the default for new agent hosts</a></li>
+        <li><a href="#nonprofits-sue-five-frontier-ai-labs-seeking-development-halt">Nonprofits sue five frontier AI labs seeking development halt</a></li>
+        <li><a href="#emerging-trends">Emerging AI Trends</a></li>
+        <li><a href="#tiered-model-stacks-replace-single-model-agent-loops">Tiered model stacks replace single-model agent loops</a></li>
+        <li><a href="#meetings-become-live-agent-workspaces">Meetings become live agent workspaces</a></li>
+        <li><a href="#agent-hosting-defaults-favor-snapshot-cold-starts">Agent hosting defaults favor snapshot cold starts</a></li>
+        <li><a href="#developer-coding">Developer &amp; Coding AI</a></li>
+        <li><a href="#agentic-watch">Agentic AI Watch</a></li>
+        <li><a href="#security-watch">AI Security Watch</a></li>
+        <li><a href="#research">Research Worth Reading</a></li>
+        <li><a href="#caplite-prompt-injection-defense-for-small-language-model-agents-without-model-written-security-artifacts">CapLite: Prompt-Injection Defense for Small Language Model Agents without Model-Written Security Artifacts</a></li>
+        <li><a href="#spillway-separating-target-admission-from-sanitization-to-defend-tool-using-agents-against-prompt-injection">SPILLWAY: Separating Target Admission from Sanitization to Defend Tool-Using Agents against Prompt Injection</a></li>
+        <li><a href="#watch-next">What to Watch Next</a></li>
+        <li><a href="#bottom-line">Bottom Line</a></li>
+      </ul>
+    </nav>
+      </div>
     </aside>
     <main class="report-content">
-<h2 id="top-developments">🔥 Top Developments</h2>
+<article class="report" data-report-date="2026-11-13" data-report-title="AI Daily Intelligence — November 13, 2026" data-reading-minutes="10">
+<div class="report-body" data-report-body>
+<h2 id="top-developments">Top Developments</h2>
 
 <div class="dev-card">
-  <h3>Google launches Gemini 4 Hydrogen across API, Search, and Antigravity</h3>
-  <p class="meta"><span class="stars">Impact: <span aria-hidden="true">⭐⭐⭐⭐⭐</span><span class="visually-hidden">Impact: 5 out of 5</span></span> &nbsp;|&nbsp; <strong>Category:</strong> Models / Developer Tools</p>
+  <h3 id="google-launches-gemini-4-hydrogen-across-api-search-and-antigravity">Google launches Gemini 4 Hydrogen across API, Search, and Antigravity</h3>
+  <p class="meta"><span class="stars">Impact: 5/5</span><span class="visually-hidden">Impact: 5 out of 5</span> &nbsp;|&nbsp; <strong>Category:</strong> Models / Developer Tools</p>
   <p><strong>What happened:</strong> On November 12, 2026, Google released Gemini 4 Hydrogen globally. Hydrogen costs $1.50 per million input tokens and $7.50 per million output tokens across a 1M-token window.</p>
   <p><strong>Why it matters:</strong> Google targets everyday agentic coding and pairs Hydrogen with Carbon through a new Antigravity Orchestrator mode. Google cites 57% on Terminal-Bench 4.1 and stronger indirect prompt injection scores than Gemini 3.8 Flash.</p>
   <p><span class="takeaway">Try it</span> — Run one repo-debugging job on Hydrogen at high thinking, then compare latency and cost to your current default model.</p>
@@ -98,8 +139,8 @@
 </div>
 
 <div class="dev-card">
-  <h3>Anthropic opens Claude Meetings beta on Google Meet</h3>
-  <p class="meta"><span class="stars">Impact: <span aria-hidden="true">⭐⭐⭐⭐</span><span class="visually-hidden">Impact: 4 out of 5</span></span> &nbsp;|&nbsp; <strong>Category:</strong> Agents / Developer Tools</p>
+  <h3 id="anthropic-opens-claude-meetings-beta-on-google-meet">Anthropic opens Claude Meetings beta on Google Meet</h3>
+  <p class="meta"><span class="stars">Impact: 4/5</span><span class="visually-hidden">Impact: 4 out of 5</span> &nbsp;|&nbsp; <strong>Category:</strong> Agents / Developer Tools</p>
   <p><strong>What happened:</strong> Anthropic rolled out Claude Meetings in beta for Claude Team and Enterprise plans. Claude joins Google Meet as a visible participant, takes notes, answers chat questions, and builds docs or whiteboards during the call.</p>
   <p><strong>Why it matters:</strong> Meeting agents can call connected tools during calls, which turns live conversation into editable artifacts. Admins control guest access, transcription storage, and whether auto-join is allowed.</p>
   <p><span class="takeaway">Monitor it</span> — Review Meet transcription policies before enabling auto-join on calls with customer data.</p>
@@ -107,8 +148,8 @@
 </div>
 
 <div class="dev-card">
-  <h3>OpenAI announces Daybreak Red Team and Daybreak Defense Factory</h3>
-  <p class="meta"><span class="stars">Impact: <span aria-hidden="true">⭐⭐⭐⭐</span><span class="visually-hidden">Impact: 4 out of 5</span></span> &nbsp;|&nbsp; <strong>Category:</strong> Security / Developer Tools</p>
+  <h3 id="openai-announces-daybreak-red-team-and-daybreak-defense-factory">OpenAI announces Daybreak Red Team and Daybreak Defense Factory</h3>
+  <p class="meta"><span class="stars">Impact: 4/5</span><span class="visually-hidden">Impact: 4 out of 5</span> &nbsp;|&nbsp; <strong>Category:</strong> Security / Developer Tools</p>
   <p><strong>What happened:</strong> At the November 12, 2026 Cyber at the Frontier event, OpenAI unveiled Daybreak Red Team for continuous offensive testing and Daybreak Defense Factory for vulnerability triage and patch preparation. Both products sit on OpenAI's frontier cyber models.</p>
   <p><strong>Why it matters:</strong> OpenAI positions the Daybreak platform as scalable red teaming for teams without dedicated offensive staff. Access runs through early access requests rather than general API keys.</p>
   <p><span class="takeaway">Monitor it</span> — Request Daybreak access only after defining which repositories and environments may host autonomous scanning agents.</p>
@@ -116,8 +157,8 @@
 </div>
 
 <div class="dev-card">
-  <h3>AWS makes AgentCore Runtime V2 the default for new agent hosts</h3>
-  <p class="meta"><span class="stars">Impact: <span aria-hidden="true">⭐⭐⭐⭐</span><span class="visually-hidden">Impact: 4 out of 5</span></span> &nbsp;|&nbsp; <strong>Category:</strong> Infrastructure / Agents</p>
+  <h3 id="aws-makes-agentcore-runtime-v2-the-default-for-new-agent-hosts">AWS makes AgentCore Runtime V2 the default for new agent hosts</h3>
+  <p class="meta"><span class="stars">Impact: 4/5</span><span class="visually-hidden">Impact: 4 out of 5</span> &nbsp;|&nbsp; <strong>Category:</strong> Infrastructure / Agents</p>
   <p><strong>What happened:</strong> On November 12, 2026, AWS said new Amazon Bedrock AgentCore runtimes use the next-generation V2 platform by default in 19 Regions. V2 restores sessions from snapshots, scales idle agents to zero, and still isolates each session in a Firecracker microVM.</p>
   <p><strong>Why it matters:</strong> AWS reports P75 cold starts under two seconds on 2 GB images versus 29.7 seconds on the prior generation. Multi-turn workloads can bill up to 68% less memory per session when idle memory is reclaimed.</p>
   <p><span class="takeaway">Adopt it</span> — Set platformVersion to V2 when updating production runtimes, then benchmark cold-start SLOs before decommissioning V1 hosts.</p>
@@ -125,32 +166,32 @@
 </div>
 
 <div class="dev-card">
-  <h3>Nonprofits sue five frontier AI labs seeking development halt</h3>
-  <p class="meta"><span class="stars">Impact: <span aria-hidden="true">⭐⭐⭐⭐</span><span class="visually-hidden">Impact: 4 out of 5</span></span> &nbsp;|&nbsp; <strong>Category:</strong> Business / Security</p>
+  <h3 id="nonprofits-sue-five-frontier-ai-labs-seeking-development-halt">Nonprofits sue five frontier AI labs seeking development halt</h3>
+  <p class="meta"><span class="stars">Impact: 4/5</span><span class="visually-hidden">Impact: 4 out of 5</span> &nbsp;|&nbsp; <strong>Category:</strong> Business / Security</p>
   <p><strong>What happened:</strong> On November 12, 2026, groups including Public Citizen filed suit in San Francisco against OpenAI, Anthropic, Google, Meta, and SpaceXSI. The complaint seeks court orders blocking further development of the most advanced models under California unfair-competition law.</p>
   <p><strong>Why it matters:</strong> The filing cites executive warnings about catastrophic risk and recent autonomous cyber incidents. Outcomes could affect release cadence, safety disclosures, and enterprise procurement contracts tied to frontier models.</p>
   <p><span class="takeaway">Monitor it</span> — Track docket updates if vendor contracts require notice of litigation affecting model availability.</p>
   <p><strong>Source:</strong> <a href="https://www.investing.com/news/stock-market-news/openai-google-anthropic-hit-with-lawsuit-seeking-halt-to-frontier-ai-development-5022948" target="_blank" rel="noopener noreferrer">Reuters via Investing.com</a> · <a href="https://www.politico.com/news/2026/11/12/nonprofits-sue-ai-companies-over-existential-risk-01161965" target="_blank" rel="noopener noreferrer">POLITICO</a></p>
 </div>
 
-<h2 id="emerging-trends">🧠 Emerging AI Trends</h2>
+<h2 id="emerging-trends">Emerging AI Trends</h2>
 
-<h3>Tiered model stacks replace single-model agent loops</h3>
+<h3 id="tiered-model-stacks-replace-single-model-agent-loops">Tiered model stacks replace single-model agent loops</h3>
 <p><strong>What's changing:</strong> Google pairs Hydrogen execution with Carbon planning through Antigravity Orchestrator. Anthropic documents self-hosted Managed Agents with interchangeable inference backends.</p>
 <p><strong>Why it matters:</strong> Teams can route cheap models to tool loops while reserving frontier models for planning. Router logic becomes part of production cost and reliability design.</p>
 <p><strong>Watch next:</strong> Published token and latency benchmarks that compare Orchestrator against manual model switching in real repositories.</p>
 
-<h3>Meetings become live agent workspaces</h3>
+<h3 id="meetings-become-live-agent-workspaces">Meetings become live agent workspaces</h3>
 <p><strong>What's changing:</strong> Claude Meetings turns calls into shared artifacts instead of post-meeting summaries alone. Connected tools can fetch live business data mid-call with per-user approval.</p>
 <p><strong>Why it matters:</strong> Agents gain persistent context tied to calendars and transcripts. Data retention, guest access, and tool permissions need explicit admin policy.</p>
 <p><strong>Watch next:</strong> Support announcements for Zoom or Microsoft Teams and pricing after the February 10, 2027 artifact free period ends.</p>
 
-<h3>Agent hosting defaults favor snapshot cold starts</h3>
+<h3 id="agent-hosting-defaults-favor-snapshot-cold-starts">Agent hosting defaults favor snapshot cold starts</h3>
 <p><strong>What's changing:</strong> AWS now ships AgentCore V2 by default with scale-to-zero idle billing. Anthropic's self-hosted path expects teams to run PostgreSQL, workers, and sandboxes on their own clusters.</p>
 <p><strong>Why it matters:</strong> Cloud vendors optimize per-session economics while regulated buyers push agent state and tool execution inside their VPCs.</p>
 <p><strong>Watch next:</strong> Migration guides that quantify V1-to-V2 cost deltas on long-running coding agents.</p>
 
-<h2 id="developer-coding">💻 Developer & Coding AI</h2>
+<h2 id="developer-coding">Developer & Coding AI</h2>
 <ul>
   <li><strong>Antigravity Orchestrator:</strong> Google Antigravity can alternate Carbon and Hydrogen within one trajectory to cut quota use while staying near Carbon success on Terminal-Bench 4.0. <a href="https://antigravity.google/blog/gemini-4-hydrogen-in-google-antigravity/" target="_blank" rel="noopener noreferrer">Antigravity blog</a></li>
   <li><strong>Gemini developer post:</strong> Google documents Hydrogen for repository debugging, web prototyping, and four thinking levels including a new xhigh tier. <a href="https://blog.google/innovation-and-ai/technology/developers-tools/build-with-gemini-4-hydrogen/" target="_blank" rel="noopener noreferrer">Developer blog</a></li>
@@ -158,7 +199,7 @@
   <li><strong>LiteRT Tensor API:</strong> Google documents C++ graph authoring that exports to TFLite or runs on XNNPACK, with direct safetensors ingestion for on-device pipelines. <a href="https://developers.googleblog.com/en/native-model-authoring-for-edge-with-litert-tensor-api/" target="_blank" rel="noopener noreferrer">Google Developers Blog</a></li>
 </ul>
 
-<h2 id="agentic-watch">🧩 Agentic AI Watch</h2>
+<h2 id="agentic-watch">Agentic AI Watch</h2>
 <ul>
   <li><strong>Self-hosted Claude Managed Agents:</strong> Anthropic documents hosting the Managed Agents API, PostgreSQL 16+ storage, and sandbox workers while routing model calls to Bedrock, Google Cloud, Foundry, or a private gateway. <a href="https://platform.claude.com/docs/en/managed-agents/self-hosted" target="_blank" rel="noopener noreferrer">Anthropic docs</a></li>
   <li><strong>Kubernetes path:</strong> Anthropic publishes Helm charts for GKE with gVisor sandbox node pools and per-session worker pods polling the self-hosted server. <a href="https://platform.claude.com/docs/en/managed-agents/self-hosted/kubernetes" target="_blank" rel="noopener noreferrer">Kubernetes guide</a></li>
@@ -166,7 +207,7 @@
   <li><strong>Claude Meetings tool use:</strong> Claude can invoke connected integrations during Meet calls after per-speaker confirmation, which extends MCP-style tool graphs into live meetings. <a href="https://support.claude.com/en/articles/18325154-use-claude-meetings" target="_blank" rel="noopener noreferrer">Anthropic Help Center</a></li>
 </ul>
 
-<h2 id="security-watch">🔐 AI Security Watch</h2>
+<h2 id="security-watch">AI Security Watch</h2>
 
 <div class="security-item">
   <p><strong>Issue:</strong> <em>Claroc reported that 35,578 of 37,571 live Grok-built apps opened without sign-in, with an estimated 650–800 holding private business or personal data.</em></p>
@@ -182,21 +223,21 @@
   <p><strong>Recommended action:</strong> Re-run prompt-injection regressions when moving agent loops from Flash-class models to Hydrogen.</p>
 </div>
 
-<h2 id="research">📚 Research Worth Reading</h2>
+<h2 id="research">Research Worth Reading</h2>
 
-<h3>CapLite: Prompt-Injection Defense for Small Language Model Agents without Model-Written Security Artifacts</h3>
+<h3 id="caplite-prompt-injection-defense-for-small-language-model-agents-without-model-written-security-artifacts">CapLite: Prompt-Injection Defense for Small Language Model Agents without Model-Written Security Artifacts</h3>
 <p><strong>Problem:</strong> Many agent defenses ask the same model to author policies or programs that gates later tool writes, which small open-weight models often get wrong.</p>
 <p><strong>Key idea:</strong> CapLite derives write policies from tool schemas and allows writes only when every destination argument appeared in the user's request.</p>
 <p><strong>Why developers should care:</strong> The authors report zero successful attacks across 13,935 attacked AgentDojo episodes with lower token use than CaMeL-style enforcement.</p>
 <p><strong>Paper:</strong> <a href="https://arxiv.org/abs/2611.17115" target="_blank" rel="noopener noreferrer">arXiv:2611.17115</a></p>
 
-<h3>SPILLWAY: Separating Target Admission from Sanitization to Defend Tool-Using Agents against Prompt Injection</h3>
+<h3 id="spillway-separating-target-admission-from-sanitization-to-defend-tool-using-agents-against-prompt-injection">SPILLWAY: Separating Target Admission from Sanitization to Defend Tool-Using Agents against Prompt Injection</h3>
 <p><strong>Problem:</strong> Runtime defenses that re-call a language model on every step can still admit attacker-chosen payment or email targets hidden in untrusted tool output.</p>
 <p><strong>Key idea:</strong> SPILLWAY admits tool calls only when action targets come from typed read-only tool fields or fixed delegation rules, then sanitizes instruction-like spans deterministically.</p>
 <p><strong>Why developers should care:</strong> The paper reports no successful standard templated injections redirecting actions across three model backbones and seven task suites.</p>
 <p><strong>Paper:</strong> <a href="https://arxiv.org/abs/2611.07222" target="_blank" rel="noopener noreferrer">arXiv:2611.07222</a></p>
 
-<h2 id="watch-next">🚀 What to Watch Next</h2>
+<h2 id="watch-next">What to Watch Next</h2>
 <ul>
   <li><strong>Anthropic IPO timetable:</strong> Media reports describe heavy oversubscription ahead of a November 19, 2026 trading start — <em>Our read:</em> Enterprise buyers may see stricter usage caps if public-market pressure meets inference demand spikes.</li>
   <li><strong>AgentCore V2 default rollout:</strong> AWS announced V2 defaults on November 12, 2026, while some operators still observe V1 preselection in consoles — <em>Our read:</em> Specify platformVersion explicitly until regional defaults stabilize.</li>
@@ -206,19 +247,28 @@
 </ul>
 
 <div class="bottom-line" id="bottom-line">
-  <h3>🎯 Bottom Line</h3>
+  <h3>Bottom Line</h3>
   <p>Google's Hydrogen release pushes fast, cheaper models into API, Search, and Antigravity agent loops without dropping agentic benchmarks.</p>
   <p>Anthropic and AWS expanded where agents run, from Meet calls to self-hosted Managed Agents and snapshot-based AgentCore hosts.</p>
   <p>Security news mixed offensive automation products with Grok app exposure, reinforcing access control on vibe-coded deployments.</p>
   <p>Teams should benchmark Hydrogen and AgentCore V2 this week while auditing AI-built apps and meeting-agent data policies.</p>
 </div>
+</div>
+</article>
+
+    <section class="related-reports" data-related-reports>
+      <h2>Related reports</h2>
+      <p class="related-reports-note">Browse the <a href="../archive/index.html">archive</a> for earlier briefings.</p>
+
+    <nav class="report-pager" aria-label="Adjacent briefings"><a class="report-prev" href="2026-11-12.html">← Previous day · November 12, 2026</a> <a class="report-next" href="2026-11-14.html">Next day · November 14, 2026 →</a></nav>
+    </section>
       <p class="signature">Drafted by AI from the sources linked above. Verify details before acting on them. · <a href="https://github.com/HimanshuRamavat07/HimanshuRamavat07" target="_blank" rel="noopener noreferrer">Source repository</a></p>
     </main>
   </div>
 </div>
   <footer class="site-footer">
     <div class="site-footer-inner">
-      <div class="site-footer-brand">Daily Intelligence</div>
+      <div class="site-footer-brand">AI Daily Intelligence</div>
       <div class="site-footer-links">
         <a href="https://github.com/HimanshuRamavat07/HimanshuRamavat07" target="_blank" rel="noopener noreferrer">GitHub</a>
         <button type="button" class="automation-info-trigger" data-open-automation-modal>Automation Info</button>

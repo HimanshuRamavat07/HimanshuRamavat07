@@ -9,8 +9,10 @@ import json
 import re
 import sys
 from datetime import datetime
+from html.parser import HTMLParser
 from pathlib import Path
 
+from extract_stories import extract_report, validate_new_report
 from site_shell import asset_script, automation_modal, font_links, search_overlay, site_footer, site_nav
 
 PAGES_BASE = "https://aidaily.is-a.bot"
@@ -20,10 +22,24 @@ META_DESC_PATTERN = re.compile(
 )
 
 STAR_PATTERN = re.compile(r'(<span class="stars">Impact:\s*)([⭐]+)(</span>)')
+STAR_WRAPPED_PATTERN = re.compile(
+    r'<span class="stars">Impact:\s*'
+    r'(?:<span aria-hidden="true">([⭐]+)</span>\s*)?'
+    r'(?:<span class="visually-hidden">Impact:\s*\d+\s*out of 5</span>\s*)?'
+    r'(?:([⭐]+))?'
+    r'</span>',
+    re.IGNORECASE,
+)
 EXTERNAL_LINK_PATTERN = re.compile(
     r'<a\s+([^>]*?)href="(https?://[^"]+)"([^>]*)>',
     re.IGNORECASE,
 )
+HEADING_OPEN_RE = re.compile(
+    r"<(h[23])(\s[^>]*)?>",
+    re.IGNORECASE,
+)
+ID_ATTR_RE = re.compile(r'\bid=(["\'])(.*?)\1', re.IGNORECASE)
+TAG_NAME_RE = re.compile(r"^h[23]$", re.IGNORECASE)
 
 
 def format_display_date(date: datetime) -> str:
@@ -39,16 +55,79 @@ def format_short_date(date: datetime) -> str:
 
 
 def fix_stars(content: str) -> str:
-    def repl(match: re.Match[str]) -> str:
-        count = match.group(2).count("⭐")
+    """Replace emoji star ratings with neutral plain-text Impact labels."""
+
+    def plain(count: int) -> str:
         return (
-            f'{match.group(1)}'
-            f'<span aria-hidden="true">{match.group(2)}</span>'
+            f'<span class="stars">Impact: {count}/5</span>'
             f'<span class="visually-hidden">Impact: {count} out of 5</span>'
-            f"{match.group(3)}"
         )
 
-    return STAR_PATTERN.sub(repl, content)
+    def repl_simple(match: re.Match[str]) -> str:
+        return plain(match.group(2).count("⭐"))
+
+    content = STAR_PATTERN.sub(repl_simple, content)
+
+    def repl_wrapped(match: re.Match[str]) -> str:
+        stars = match.group(1) or match.group(2) or ""
+        count = stars.count("⭐")
+        if count <= 0:
+            return match.group(0)
+        return plain(count)
+
+    return STAR_WRAPPED_PATTERN.sub(repl_wrapped, content)
+
+
+LEADING_EMOJI_RE = re.compile(
+    r"^([\U0001f300-\U0001faff\U00002702-\U000027b0\U0001f900-\U0001f9ff\u2600-\u26ff\u2700-\u27bf]+)\s*"
+)
+
+
+def strip_heading_emoji(content: str) -> str:
+    """Remove leading emoji from h1–h3 text for editorial tone."""
+
+    def repl(match: re.Match[str]) -> str:
+        open_tag, inner, close = match.group(1), match.group(2), match.group(3)
+        cleaned = LEADING_EMOJI_RE.sub("", inner)
+        # Also strip emoji that sit before nested tags' text
+        cleaned = re.sub(
+            r"(>)(\s*)"
+            r"([\U0001f300-\U0001faff\U00002702-\U000027b0\U0001f900-\U0001f9ff\u2600-\u26ff\u2700-\u27bf]+)\s*",
+            r"\1\2",
+            cleaned,
+            count=1,
+        )
+        return f"{open_tag}{cleaned}{close}"
+
+    return re.sub(
+        r"(<h[1-3]\b[^>]*>)(.*?)(</h[1-3]>)",
+        repl,
+        content,
+        flags=re.IGNORECASE | re.DOTALL,
+    )
+
+
+def adjacent_report_links(date: datetime, reports_dir: Path | None = None) -> tuple[str | None, str | None]:
+    """Return (older_href, newer_href) relative to this report page."""
+    root = reports_dir or Path("docs/reports")
+    if not root.is_dir():
+        return None, None
+    dates: list[datetime] = []
+    for path in root.glob("*.html"):
+        try:
+            dates.append(datetime.strptime(path.stem, "%Y-%m-%d"))
+        except ValueError:
+            continue
+    dates.sort()
+    if date not in dates:
+        dates.append(date)
+        dates.sort()
+    idx = dates.index(date)
+    older = dates[idx - 1] if idx > 0 else None
+    newer = dates[idx + 1] if idx + 1 < len(dates) else None
+    older_href = f"{older.strftime('%Y-%m-%d')}.html" if older else None
+    newer_href = f"{newer.strftime('%Y-%m-%d')}.html" if newer else None
+    return older_href, newer_href
 
 
 def fix_external_links(content: str) -> str:
@@ -97,6 +176,7 @@ def extract_body(raw_html: str) -> str:
 
 
 def build_toc(has_new_watch_heading: bool = True) -> str:
+    """Legacy fixed TOC kept for callers; prefer build_toc_from_body."""
     watch_label = "What to Watch Next" if has_new_watch_heading else "What I Would Watch Next"
     sections = [
         ("top-developments", "Top Developments"),
@@ -144,6 +224,18 @@ def strip_wrapped_chrome(content: str) -> str:
     if content_match:
         body = content_match.group(1).strip()
         body = re.sub(r'<p class="signature">.*?</p>\s*', "", body, count=1, flags=re.DOTALL)
+        body = re.sub(
+            r'<section class="related-reports"[^>]*>.*?</section>\s*',
+            "",
+            body,
+            flags=re.DOTALL | re.IGNORECASE,
+        )
+        body = re.sub(
+            r'<nav class="report-pager"[^>]*>.*?</nav>\s*',
+            "",
+            body,
+            flags=re.DOTALL | re.IGNORECASE,
+        )
         return body.strip()
 
     body = content
@@ -162,7 +254,321 @@ def strip_wrapped_chrome(content: str) -> str:
     return body.strip()
 
 
-def build_report_page(date: datetime, description: str, body: str) -> str:
+def looks_like_new_report(content: str) -> bool:
+    return "data-story" in content or "data-report-date" in content
+
+
+def slugify_heading(text: str) -> str:
+    cleaned = re.sub(r"[\U0001f300-\U0001faff\U00002702-\U000027b0\U0001f900-\U0001f9ff]+", "", text)
+    cleaned = _norm_space(cleaned)
+    slug = re.sub(r"[^a-zA-Z0-9]+", "-", cleaned.lower()).strip("-")
+    return slug or "section"
+
+
+def _norm_space(text: str) -> str:
+    return re.sub(r"\s+", " ", text or "").strip()
+
+
+def _inside_bottom_line(content: str, index: int) -> bool:
+    last_open = content.rfind('<div class="bottom-line"', 0, index)
+    if last_open == -1:
+        return False
+    last_close = content.rfind("</div>", 0, index)
+    return last_close < last_open
+
+
+def ensure_unique_heading_ids(content: str) -> str:
+    """Ensure h2/h3 (and bottom-line) ids exist and are unique within the fragment."""
+    used: dict[str, int] = {}
+
+    def unique_id(base: str) -> str:
+        if base not in used:
+            used[base] = 1
+            return base
+        used[base] += 1
+        candidate = f"{base}-{used[base]}"
+        while candidate in used:
+            used[base] += 1
+            candidate = f"{base}-{used[base]}"
+        used[candidate] = 1
+        return candidate
+
+    # bottom-line div without id
+    if re.search(r'<div class="bottom-line"(?![^>]*\bid=)', content):
+        content = re.sub(
+            r'<div class="bottom-line"',
+            f'<div class="bottom-line" id="{unique_id("bottom-line")}"',
+            content,
+            count=1,
+        )
+    else:
+        match = re.search(r'<div class="bottom-line"[^>]*\bid=(["\'])(.*?)\1', content)
+        if match:
+            used[match.group(2)] = 1
+
+    parts: list[str] = []
+    pos = 0
+    for match in HEADING_OPEN_RE.finditer(content):
+        parts.append(content[pos : match.start()])
+        tag = match.group(1)
+        attrs = match.group(2) or ""
+        # Headings inside .bottom-line keep the div's #bottom-line anchor
+        if _inside_bottom_line(content, match.start()):
+            parts.append(match.group(0))
+            pos = match.end()
+            continue
+        end = content.find(f"</{tag}>", match.end())
+        if end == -1:
+            end = content.find(f"</{tag.lower()}>", match.end())
+        inner = content[match.end() : end] if end != -1 else ""
+        text = _norm_space(re.sub(r"<[^>]+>", "", inner))
+        id_match = ID_ATTR_RE.search(attrs)
+        if id_match:
+            base = id_match.group(2)
+            new_id = unique_id(base)
+            attrs = ID_ATTR_RE.sub(f'id="{html.escape(new_id, quote=True)}"', attrs, count=1)
+        else:
+            new_id = unique_id(slugify_heading(text))
+            attrs = f'{attrs} id="{html.escape(new_id, quote=True)}"'
+        parts.append(f"<{tag}{attrs}>")
+        pos = match.end()
+    parts.append(content[pos:])
+    return "".join(parts)
+
+
+class _TocParser(HTMLParser):
+    """Collect h2/h3 inside report body, excluding nav/footer/related/summary-deck."""
+
+    SKIP_ATTRS = {
+        "data-summary-deck",
+        "data-related-reports",
+    }
+    SKIP_CLASSES = {
+        "summary-deck",
+        "related-reports",
+        "site-nav",
+        "site-footer",
+        "toc",
+    }
+    SKIP_TAGS = {"nav", "footer", "header"}
+
+    def __init__(self) -> None:
+        super().__init__(convert_charrefs=True)
+        self.entries: list[tuple[str, str]] = []
+        self._skip_depth = 0
+        self._capture: str | None = None
+        self._chunks: list[str] = []
+        self._current_id = ""
+        self._stack: list[tuple[str, bool]] = []  # tag, is_skip_root
+        self._bottom_line_depth = 0
+        self._bottom_line_id = ""
+        self._bottom_line_label_chunks: list[str] = []
+        self._capture_bottom_label = False
+
+    def handle_starttag(self, tag: str, attrs: list[tuple[str, str | None]]) -> None:
+        ad = {k: (v or "") for k, v in attrs}
+        classes = set((ad.get("class") or "").split())
+        skip_here = False
+        if self._skip_depth == 0:
+            if tag in self.SKIP_TAGS:
+                skip_here = True
+            if any(a in ad for a in self.SKIP_ATTRS):
+                skip_here = True
+            if classes & self.SKIP_CLASSES:
+                skip_here = True
+            if tag == "aside" and "summary-deck" in classes:
+                skip_here = True
+            if tag == "section" and ad.get("data-related-reports") is not None:
+                skip_here = True
+        if self._skip_depth > 0 or skip_here:
+            self._skip_depth += 1
+            self._stack.append((tag, True))
+            return
+
+        if tag == "div" and "bottom-line" in classes:
+            self._bottom_line_depth = 1
+            self._bottom_line_id = ad.get("id") or "bottom-line"
+            self._bottom_line_label_chunks = []
+            self._stack.append((tag, False))
+            return
+
+        if self._bottom_line_depth > 0:
+            if tag == "div":
+                self._bottom_line_depth += 1
+            if tag in ("h2", "h3") and not self._bottom_line_label_chunks:
+                self._capture_bottom_label = True
+            self._stack.append((tag, False))
+            return
+
+        self._stack.append((tag, False))
+        if tag in ("h2", "h3") and self._skip_depth == 0:
+            self._capture = tag
+            self._chunks = []
+            self._current_id = ad.get("id") or ""
+
+    def handle_endtag(self, tag: str) -> None:
+        if self._capture_bottom_label and tag in ("h2", "h3"):
+            self._capture_bottom_label = False
+
+        if self._bottom_line_depth > 0 and tag == "div":
+            self._bottom_line_depth -= 1
+            if self._bottom_line_depth == 0:
+                label = _norm_space("".join(self._bottom_line_label_chunks)) or "Bottom Line"
+                label = re.sub(
+                    r"^[\U0001f300-\U0001faff\U00002702-\U000027b0\U0001f900-\U0001f9ff]+\s*",
+                    "",
+                    label,
+                )
+                self.entries.append((self._bottom_line_id or "bottom-line", label or "Bottom Line"))
+                self._bottom_line_id = ""
+                self._bottom_line_label_chunks = []
+
+        if self._capture and tag == self._capture and self._skip_depth == 0 and self._bottom_line_depth == 0:
+            label = _norm_space("".join(self._chunks))
+            label = re.sub(
+                r"^[\U0001f300-\U0001faff\U00002702-\U000027b0\U0001f900-\U0001f9ff]+\s*",
+                "",
+                label,
+            )
+            if label and label.lower() != "on this page":
+                hid = self._current_id or slugify_heading(label)
+                self.entries.append((hid, label))
+            self._capture = None
+            self._chunks = []
+
+        if self._stack:
+            _t, was_skip = self._stack.pop()
+            if was_skip and self._skip_depth > 0:
+                self._skip_depth -= 1
+        elif self._skip_depth > 0:
+            self._skip_depth -= 1
+
+    def handle_data(self, data: str) -> None:
+        if self._capture_bottom_label:
+            self._bottom_line_label_chunks.append(data)
+        elif self._capture and self._skip_depth == 0 and self._bottom_line_depth == 0:
+            self._chunks.append(data)
+
+
+def collect_toc_entries(body_html: str) -> list[tuple[str, str]]:
+    parser = _TocParser()
+    parser.feed(body_html or "")
+    parser.close()
+    return parser.entries
+
+
+def build_toc_from_body(body_html: str) -> str:
+    entries = collect_toc_entries(body_html)
+    if not entries:
+        return build_toc(has_new_watch_heading=True)
+    items = "\n".join(
+        f'        <li><a href="#{html.escape(sid)}">{html.escape(label)}</a></li>'
+        for sid, label in entries
+    )
+    return f"""
+    <nav class="toc" aria-label="Table of contents">
+      <h2>On this page</h2>
+      <ul>
+{items}
+      </ul>
+    </nav>"""
+
+
+def filter_summary_deck_slots(content: str) -> str:
+    """Remove empty data-summary sections; drop the deck entirely if none remain."""
+
+    def section_has_content(inner: str) -> bool:
+        text = _norm_space(re.sub(r"<[^>]+>", " ", inner))
+        # Strip the section's own heading text-ish: if only whitespace/empty tags, drop
+        return bool(text)
+
+    def repl_aside(match: re.Match[str]) -> str:
+        aside = match.group(0)
+        kept: list[str] = []
+        for sec in re.finditer(
+            r'(<section\b[^>]*data-summary=(["\'])(.*?)\2[^>]*>)(.*?)(</section>)',
+            aside,
+            flags=re.IGNORECASE | re.DOTALL,
+        ):
+            inner = sec.group(4)
+            # Content besides the heading
+            without_heading = re.sub(
+                r"<h[1-6][^>]*>.*?</h[1-6]>",
+                "",
+                inner,
+                flags=re.IGNORECASE | re.DOTALL,
+            )
+            if section_has_content(without_heading):
+                kept.append(sec.group(0))
+        if not kept:
+            return ""
+        open_tag = re.match(r"<aside\b[^>]*>", aside, flags=re.IGNORECASE)
+        open_s = open_tag.group(0) if open_tag else '<aside class="summary-deck" data-summary-deck>'
+        return f"{open_s}\n" + "\n".join(kept) + "\n</aside>"
+
+    return re.sub(
+        r"<aside\b[^>]*(?:summary-deck|data-summary-deck)[^>]*>.*?</aside>",
+        repl_aside,
+        content,
+        flags=re.IGNORECASE | re.DOTALL,
+    )
+
+
+def inject_report_article_meta(body: str, date: datetime, title: str, reading_minutes: int | None) -> str:
+    iso = format_iso_date(date)
+    minutes = reading_minutes if reading_minutes and reading_minutes > 0 else 10
+    safe_title = html.escape(title, quote=True)
+
+    if re.search(r"<article\b[^>]*class=\"[^\"]*\breport\b", body, re.IGNORECASE):
+        def enrich(match: re.Match[str]) -> str:
+            tag = match.group(0)
+            if "data-report-date=" not in tag:
+                tag = tag[:-1] + f' data-report-date="{iso}">'
+            if "data-report-title=" not in tag:
+                tag = tag[:-1] + f' data-report-title="{safe_title}">'
+            if "data-reading-minutes=" not in tag:
+                tag = tag[:-1] + f' data-reading-minutes="{minutes}">'
+            return tag
+
+        body = re.sub(r"<article\b[^>]*>", enrich, body, count=1, flags=re.IGNORECASE)
+        if "data-report-body" not in body and 'class="report-body"' not in body:
+            body = re.sub(
+                r"(<article\b[^>]*>)",
+                r'\1\n<div class="report-body" data-report-body>',
+                body,
+                count=1,
+                flags=re.IGNORECASE,
+            )
+            body = re.sub(r"</article>\s*$", "</div>\n</article>", body, count=1, flags=re.IGNORECASE)
+        return body
+
+    return (
+        f'<article class="report" data-report-date="{iso}" '
+        f'data-report-title="{safe_title}" data-reading-minutes="{minutes}">\n'
+        f'<div class="report-body" data-report-body>\n{body}\n</div>\n</article>'
+    )
+
+
+def prepare_report_body(raw_html: str) -> str:
+    body = extract_body(raw_html)
+    body = strip_wrapped_chrome(raw_html if '<main class="report-content">' in raw_html else body)
+    body = add_section_ids(body)
+    body = fix_research_headings(body)
+    body = fix_stars(body)
+    body = strip_heading_emoji(body)
+    body = fix_external_links(body)
+    body = filter_summary_deck_slots(body)
+    body = ensure_unique_heading_ids(body)
+    return body
+
+
+def build_report_page(
+    date: datetime,
+    description: str,
+    body: str,
+    *,
+    reports_dir: Path | None = None,
+) -> str:
     display = format_display_date(date)
     short_date = format_short_date(date)
     iso = format_iso_date(date)
@@ -174,6 +580,27 @@ def build_report_page(date: datetime, description: str, body: str) -> str:
         "Daily briefing drafted by AI across models, agents, "
         "developer tools, research papers, and security."
     )
+
+    extract = extract_report(body, strict=False)
+    minutes = extract.reading_minutes
+    body = inject_report_article_meta(body, date, title, minutes)
+    toc = build_toc_from_body(body)
+
+    older_href, newer_href = adjacent_report_links(date, reports_dir)
+    nav_bits: list[str] = []
+    if older_href:
+        older_label = format_display_date(datetime.strptime(older_href.replace(".html", ""), "%Y-%m-%d"))
+        nav_bits.append(
+            f'<a class="report-prev" href="{html.escape(older_href)}">← Previous day · {html.escape(older_label)}</a>'
+        )
+    if newer_href:
+        newer_label = format_display_date(datetime.strptime(newer_href.replace(".html", ""), "%Y-%m-%d"))
+        nav_bits.append(
+            f'<a class="report-next" href="{html.escape(newer_href)}">Next day · {html.escape(newer_label)} →</a>'
+        )
+    pager = ""
+    if nav_bits:
+        pager = f'\n    <nav class="report-pager" aria-label="Adjacent briefings">{" ".join(nav_bits)}</nav>'
 
     json_ld = json.dumps(
         {
@@ -189,7 +616,15 @@ def build_report_page(date: datetime, description: str, body: str) -> str:
         indent=2,
     )
 
-    has_new_watch = "What to Watch Next" in body or "What I Would Watch Next" not in body
+    related_block = f"""
+    <section class="related-reports" data-related-reports>
+      <h2>Related reports</h2>
+      <p class="related-reports-note">Browse the <a href="../archive/index.html">archive</a> for earlier briefings.</p>
+{pager}
+    </section>"""
+
+    minutes_label = f"{minutes} min read" if minutes else "Daily brief"
+
     return f"""<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -217,20 +652,27 @@ def build_report_page(date: datetime, description: str, body: str) -> str:
 <p class="report-back"><a href="../archive/index.html">← Back to archive</a></p>
 <div class="container">
   <header class="report-article-header">
-    <h1>🤖 AI Daily Intelligence — {display}</h1>
+    <h1>AI Daily Intelligence — {display}</h1>
     <div class="report-meta-row">
       <span class="report-meta-item">{short_date}</span>
       <span class="report-meta-sep" aria-hidden="true">|</span>
-      <span class="report-meta-chip">Daily brief</span>
+      <span class="report-meta-chip">{html.escape(minutes_label)}</span>
     </div>
     <p class="intro">{intro}</p>
   </header>
   <div class="report-layout">
     <aside class="report-sidebar" aria-label="Section navigation">
-{build_toc(has_new_watch_heading=has_new_watch)}
+      <details class="toc-mobile">
+        <summary>On this page</summary>
+{toc}
+      </details>
+      <div class="toc-desktop">
+{toc}
+      </div>
     </aside>
     <main class="report-content">
 {body}
+{related_block}
       <p class="signature">Drafted by AI from the sources linked above. Verify details before acting on them. · <a href="https://github.com/HimanshuRamavat07/HimanshuRamavat07" target="_blank" rel="noopener noreferrer">Source repository</a></p>
     </main>
   </div>
@@ -248,14 +690,37 @@ def build_report_page(date: datetime, description: str, body: str) -> str:
 """
 
 
-def prepare_report_body(raw_html: str) -> str:
-    body = extract_body(raw_html)
-    body = strip_wrapped_chrome(raw_html if '<main class="report-content">' in raw_html else body)
-    body = add_section_ids(body)
-    body = fix_research_headings(body)
-    body = fix_stars(body)
-    body = fix_external_links(body)
-    return body
+def validate_new_report_html(raw_html: str) -> list[str]:
+    body = prepare_report_body(raw_html)
+    extract = extract_report(body, strict=True)
+    return validate_new_report(extract)
+
+
+def wrap_report_to_path(
+    *,
+    report_date: datetime,
+    description: str,
+    source_html: str,
+    output: Path,
+    strict_new: bool | None = None,
+) -> None:
+    if strict_new is None:
+        strict_new = looks_like_new_report(source_html)
+    if strict_new:
+        errors = validate_new_report_html(source_html)
+        if errors:
+            raise ValueError("New report validation failed:\n- " + "\n- ".join(errors))
+    body = prepare_report_body(source_html)
+    output.parent.mkdir(parents=True, exist_ok=True)
+    output.write_text(
+        build_report_page(
+            report_date,
+            description,
+            body,
+            reports_dir=output.parent,
+        ),
+        encoding="utf-8",
+    )
 
 
 def rewrap_all_reports(reports_dir: Path | None = None) -> int:
@@ -277,8 +742,12 @@ def rewrap_all_reports(reports_dir: Path | None = None) -> int:
             if desc_match and desc_match.group(1).strip()
             else f"Daily AI intelligence briefing for {format_display_date(report_date)}."
         )
+        # Historical rewrap: never hard-fail on missing lead hooks
         body = prepare_report_body(content)
-        path.write_text(build_report_page(report_date, description, body), encoding="utf-8")
+        path.write_text(
+            build_report_page(report_date, description, body, reports_dir=root),
+            encoding="utf-8",
+        )
         print(f"Rewrapped {path}")
         count += 1
 
@@ -293,6 +762,11 @@ def main() -> int:
     parser.add_argument("--description", help="Unique meta description")
     parser.add_argument("--input", help="Raw HTML file")
     parser.add_argument("--output", help="Output path (default: docs/reports/DATE.html)")
+    parser.add_argument(
+        "--allow-historical",
+        action="store_true",
+        help="Skip new-report lead validation even if data-* hooks are present",
+    )
     args = parser.parse_args()
 
     if args.rewrap_all:
@@ -312,11 +786,20 @@ def main() -> int:
         print(f"ERROR: input not found: {source}", file=sys.stderr)
         return 1
 
-    body = prepare_report_body(source.read_text(encoding="utf-8"))
-
+    raw = source.read_text(encoding="utf-8")
     output = Path(args.output) if args.output else Path(f"docs/reports/{args.date}.html")
-    output.parent.mkdir(parents=True, exist_ok=True)
-    output.write_text(build_report_page(report_date, args.description, body), encoding="utf-8")
+    try:
+        wrap_report_to_path(
+            report_date=report_date,
+            description=args.description,
+            source_html=raw,
+            output=output,
+            strict_new=(False if args.allow_historical else None),
+        )
+    except ValueError as exc:
+        print(f"ERROR: {exc}", file=sys.stderr)
+        return 1
+
     print(f"Wrote {output}")
     return 0
 

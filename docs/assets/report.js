@@ -1,7 +1,7 @@
 (function () {
   function init() {
     var bar = document.getElementById("read-progress");
-    var tocLinks = document.querySelectorAll(".report-sidebar .toc a");
+    var tocLinks = document.querySelectorAll(".report-sidebar .toc-desktop .toc a, .report-sidebar .toc-mobile .toc a");
     var sections = [];
 
     tocLinks.forEach(function (link) {

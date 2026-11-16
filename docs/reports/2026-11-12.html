@@ -15,7 +15,7 @@
   <meta name="twitter:description" content="Google shipped Gemini 4 Carbon and the Decisions API, Anthropic launched Fable 5.2 and its IPO roadshow, and MCP reference servers patched critical git MCP flaws.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=JetBrains+Mono:wght@500;700&family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,400,0,0&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;700&family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,400,0,0&family=Source+Sans+3:wght@400;600;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../assets/style.css">
   <script type="application/ld+json">
 {
@@ -40,10 +40,10 @@
 <div class="read-progress" aria-hidden="true"><div class="read-progress-bar" id="read-progress"></div></div>
   <header class="site-nav">
     <div class="site-nav-inner">
-      <a class="site-logo" href="../index.html">Daily Intelligence</a>
+      <a class="site-logo" href="../index.html">AI Daily Intelligence</a>
       <div class="site-nav-right">
         <nav class="site-nav-links" aria-label="Site">
-          <a href="../index.html">Latest</a>
+          <a href="../index.html">Home</a>
           <a class="is-active" href="../archive/index.html">Archive</a>
           <a href="../feed.xml">RSS</a>
         </nav>
@@ -60,7 +60,7 @@
 <p class="report-back"><a href="../archive/index.html">← Back to archive</a></p>
 <div class="container">
   <header class="report-article-header">
-    <h1>🤖 AI Daily Intelligence — November 12, 2026</h1>
+    <h1>AI Daily Intelligence — November 12, 2026</h1>
     <div class="report-meta-row">
       <span class="report-meta-item">Nov 12, 2026</span>
       <span class="report-meta-sep" aria-hidden="true">|</span>
@@ -70,27 +70,68 @@
   </header>
   <div class="report-layout">
     <aside class="report-sidebar" aria-label="Section navigation">
+      <details class="toc-mobile">
+        <summary>On this page</summary>
 
     <nav class="toc" aria-label="Table of contents">
       <h2>On this page</h2>
       <ul>
         <li><a href="#top-developments">Top Developments</a></li>
+        <li><a href="#google-opens-gemini-4-carbon-to-paying-developers-and-github-copilot">Google opens Gemini 4 Carbon to paying developers and GitHub Copilot</a></li>
+        <li><a href="#anthropic-ships-claude-fable-5-2-and-mythos-5-2-for-frontier-technical-work">Anthropic ships Claude Fable 5.2 and Mythos 5.2 for frontier technical work</a></li>
+        <li><a href="#google-launches-gemini-decisions-api-with-gemini-decision-1">Google launches Gemini Decisions API with Gemini Decision 1</a></li>
+        <li><a href="#anthropic-sets-ipo-share-price-range-at-70-78-on-nasdaq-ticker-ant">Anthropic sets IPO share price range at $70–$78 on Nasdaq ticker ANT</a></li>
+        <li><a href="#reference-mcp-servers-v2-4-0-patch-git-fetch-and-filesystem-flaws">Reference MCP servers v2.4.0 patch git, fetch, and filesystem flaws</a></li>
         <li><a href="#emerging-trends">Emerging AI Trends</a></li>
-        <li><a href="#developer-coding">Developer & Coding AI</a></li>
+        <li><a href="#decision-models-beside-chat-models">Decision models beside chat models</a></li>
+        <li><a href="#frontier-models-split-by-task-tier">Frontier models split by task tier</a></li>
+        <li><a href="#agent-dev-loops-move-local">Agent dev loops move local</a></li>
+        <li><a href="#developer-coding">Developer &amp; Coding AI</a></li>
         <li><a href="#agentic-watch">Agentic AI Watch</a></li>
         <li><a href="#security-watch">AI Security Watch</a></li>
         <li><a href="#research">Research Worth Reading</a></li>
+        <li><a href="#cpu-arc-agentic-reasoning-caching-for-on-cpu-reasoning-reuse">CPU-ARC: Agentic Reasoning Caching for on-CPU Reasoning Reuse</a></li>
+        <li><a href="#when-should-agents-remember-falsification-gated-self-evolution-for-llm-agents">When Should Agents Remember? Falsification-Gated Self-Evolution for LLM Agents</a></li>
         <li><a href="#watch-next">What to Watch Next</a></li>
         <li><a href="#bottom-line">Bottom Line</a></li>
       </ul>
     </nav>
+      </details>
+      <div class="toc-desktop">
+
+    <nav class="toc" aria-label="Table of contents">
+      <h2>On this page</h2>
+      <ul>
+        <li><a href="#top-developments">Top Developments</a></li>
+        <li><a href="#google-opens-gemini-4-carbon-to-paying-developers-and-github-copilot">Google opens Gemini 4 Carbon to paying developers and GitHub Copilot</a></li>
+        <li><a href="#anthropic-ships-claude-fable-5-2-and-mythos-5-2-for-frontier-technical-work">Anthropic ships Claude Fable 5.2 and Mythos 5.2 for frontier technical work</a></li>
+        <li><a href="#google-launches-gemini-decisions-api-with-gemini-decision-1">Google launches Gemini Decisions API with Gemini Decision 1</a></li>
+        <li><a href="#anthropic-sets-ipo-share-price-range-at-70-78-on-nasdaq-ticker-ant">Anthropic sets IPO share price range at $70–$78 on Nasdaq ticker ANT</a></li>
+        <li><a href="#reference-mcp-servers-v2-4-0-patch-git-fetch-and-filesystem-flaws">Reference MCP servers v2.4.0 patch git, fetch, and filesystem flaws</a></li>
+        <li><a href="#emerging-trends">Emerging AI Trends</a></li>
+        <li><a href="#decision-models-beside-chat-models">Decision models beside chat models</a></li>
+        <li><a href="#frontier-models-split-by-task-tier">Frontier models split by task tier</a></li>
+        <li><a href="#agent-dev-loops-move-local">Agent dev loops move local</a></li>
+        <li><a href="#developer-coding">Developer &amp; Coding AI</a></li>
+        <li><a href="#agentic-watch">Agentic AI Watch</a></li>
+        <li><a href="#security-watch">AI Security Watch</a></li>
+        <li><a href="#research">Research Worth Reading</a></li>
+        <li><a href="#cpu-arc-agentic-reasoning-caching-for-on-cpu-reasoning-reuse">CPU-ARC: Agentic Reasoning Caching for on-CPU Reasoning Reuse</a></li>
+        <li><a href="#when-should-agents-remember-falsification-gated-self-evolution-for-llm-agents">When Should Agents Remember? Falsification-Gated Self-Evolution for LLM Agents</a></li>
+        <li><a href="#watch-next">What to Watch Next</a></li>
+        <li><a href="#bottom-line">Bottom Line</a></li>
+      </ul>
+    </nav>
+      </div>
     </aside>
     <main class="report-content">
-<h2 id="top-developments">🔥 Top Developments</h2>
+<article class="report" data-report-date="2026-11-12" data-report-title="AI Daily Intelligence — November 12, 2026" data-reading-minutes="10">
+<div class="report-body" data-report-body>
+<h2 id="top-developments">Top Developments</h2>
 
 <div class="dev-card">
-  <h3>Google opens Gemini 4 Carbon to paying developers and GitHub Copilot</h3>
-  <p class="meta"><span class="stars">Impact: <span aria-hidden="true">⭐⭐⭐⭐⭐</span><span class="visually-hidden">Impact: 5 out of 5</span></span> &nbsp;|&nbsp; <strong>Category:</strong> Models / Developer Tools</p>
+  <h3 id="google-opens-gemini-4-carbon-to-paying-developers-and-github-copilot">Google opens Gemini 4 Carbon to paying developers and GitHub Copilot</h3>
+  <p class="meta"><span class="stars">Impact: 5/5</span><span class="visually-hidden">Impact: 5 out of 5</span> &nbsp;|&nbsp; <strong>Category:</strong> Models / Developer Tools</p>
   <p><strong>What happened:</strong> On November 10, 2026, Google made Gemini 4 Carbon available on the paid Gemini API in Google AI Studio. The same day, GitHub Copilot added Carbon to its model picker for Pro+, Business, and Enterprise tiers.</p>
   <p><strong>Why it matters:</strong> Google prices Carbon at $2 per million input tokens and $10 per output through November 30, 2026. Google cites #1 ranks on CursorBench 4.0 and lower cost per task than rival external models.</p>
   <p><span class="takeaway">Try it</span> — Benchmark one multi-file migration on Carbon before routing production agent jobs to it.</p>
@@ -98,8 +139,8 @@
 </div>
 
 <div class="dev-card">
-  <h3>Anthropic ships Claude Fable 5.2 and Mythos 5.2 for frontier technical work</h3>
-  <p class="meta"><span class="stars">Impact: <span aria-hidden="true">⭐⭐⭐⭐⭐</span><span class="visually-hidden">Impact: 5 out of 5</span></span> &nbsp;|&nbsp; <strong>Category:</strong> Models / Security</p>
+  <h3 id="anthropic-ships-claude-fable-5-2-and-mythos-5-2-for-frontier-technical-work">Anthropic ships Claude Fable 5.2 and Mythos 5.2 for frontier technical work</h3>
+  <p class="meta"><span class="stars">Impact: 5/5</span><span class="visually-hidden">Impact: 5 out of 5</span> &nbsp;|&nbsp; <strong>Category:</strong> Models / Security</p>
   <p><strong>What happened:</strong> On November 9, 2026, Anthropic released Claude Fable 5.2 broadly and Claude Mythos 5.2 through verification programs. Both share one model with different safeguards, priced at $8 and $40 per million input and output tokens.</p>
   <p><strong>Why it matters:</strong> Anthropic reports up to 30% faster output than Fable 5.1 and recommends Opus 5.5 for routine coding. Mythos stays limited to vetted cyber and life-sciences organizations.</p>
   <p><span class="takeaway">Monitor it</span> — Route only long-horizon coding or security reviews to Fable 5.2 after cost tests.</p>
@@ -107,8 +148,8 @@
 </div>
 
 <div class="dev-card">
-  <h3>Google launches Gemini Decisions API with Gemini Decision 1</h3>
-  <p class="meta"><span class="stars">Impact: <span aria-hidden="true">⭐⭐⭐⭐</span><span class="visually-hidden">Impact: 4 out of 5</span></span> &nbsp;|&nbsp; <strong>Category:</strong> Models / Agents</p>
+  <h3 id="google-launches-gemini-decisions-api-with-gemini-decision-1">Google launches Gemini Decisions API with Gemini Decision 1</h3>
+  <p class="meta"><span class="stars">Impact: 4/5</span><span class="visually-hidden">Impact: 4 out of 5</span> &nbsp;|&nbsp; <strong>Category:</strong> Models / Agents</p>
   <p><strong>What happened:</strong> On November 11, 2026, Google introduced the Gemini Decisions API using gemini-decision-1. One multimodal input can answer up to 1,000 yes/no, choice, or rubric questions in a single forward pass.</p>
   <p><strong>Why it matters:</strong> Google bills $0.10 per million input tokens with zero output tokens. Google reports 150–250 ms end-to-end latency for batched policy, routing, and tool-selection checks.</p>
   <p><span class="takeaway">Adopt it</span> — Replace bespoke classifiers on agent tool gates with Decisions API confidence thresholds.</p>
@@ -116,8 +157,8 @@
 </div>
 
 <div class="dev-card">
-  <h3>Anthropic sets IPO share price range at $70–$78 on Nasdaq ticker ANT</h3>
-  <p class="meta"><span class="stars">Impact: <span aria-hidden="true">⭐⭐⭐⭐</span><span class="visually-hidden">Impact: 4 out of 5</span></span> &nbsp;|&nbsp; <strong>Category:</strong> Business</p>
+  <h3 id="anthropic-sets-ipo-share-price-range-at-70-78-on-nasdaq-ticker-ant">Anthropic sets IPO share price range at $70–$78 on Nasdaq ticker ANT</h3>
+  <p class="meta"><span class="stars">Impact: 4/5</span><span class="visually-hidden">Impact: 4 out of 5</span> &nbsp;|&nbsp; <strong>Category:</strong> Business</p>
   <p><strong>What happened:</strong> On November 10, 2026, Anthropic launched its IPO roadshow for 825 million Class A shares. An SEC amendment filed the same day lists an expected $70.00–$78.00 price range under symbol ANT.</p>
   <p><strong>Why it matters:</strong> The registration statement remains preliminary and not yet effective. Anthropic incorporated as a Delaware public benefit corporation tied to its AI safety commitments.</p>
   <p><span class="takeaway">Monitor it</span> — Track ANT pricing November 18 if vendor risk reviews cite Anthropic financial stability.</p>
@@ -125,32 +166,32 @@
 </div>
 
 <div class="dev-card">
-  <h3>Reference MCP servers v2.4.0 patch git, fetch, and filesystem flaws</h3>
-  <p class="meta"><span class="stars">Impact: <span aria-hidden="true">⭐⭐⭐⭐⭐</span><span class="visually-hidden">Impact: 5 out of 5</span></span> &nbsp;|&nbsp; <strong>Category:</strong> Security / Agents</p>
+  <h3 id="reference-mcp-servers-v2-4-0-patch-git-fetch-and-filesystem-flaws">Reference MCP servers v2.4.0 patch git, fetch, and filesystem flaws</h3>
+  <p class="meta"><span class="stars">Impact: 5/5</span><span class="visually-hidden">Impact: 5 out of 5</span> &nbsp;|&nbsp; <strong>Category:</strong> Security / Agents</p>
   <p><strong>What happened:</strong> On November 11, 2026, modelcontextprotocol/servers released v2.4.0 with six security fixes. mcp-server-git 2026.11.11 stops repository .git/config from running programs during read-only tools.</p>
   <p><strong>Why it matters:</strong> Prior versions could execute core.fsmonitor or hook commands during git_status on untrusted repos. Filesystem and fetch servers also gained symlink and SSRF hardening.</p>
   <p><span class="takeaway">Adopt it</span> — Pin mcp-server-git to 2026.11.11 and filesystem to 2.3.0 today.</p>
   <p><strong>Source:</strong> <a href="https://github.com/modelcontextprotocol/servers/releases/tag/v2.4.0" target="_blank" rel="noopener noreferrer">GitHub release</a> · <a href="https://github.com/modelcontextprotocol/servers/security/advisories/GHSA-6hqx-gqrx-c5r2" target="_blank" rel="noopener noreferrer">GHSA-6hqx-gqrx-c5r2</a></p>
 </div>
 
-<h2 id="emerging-trends">🧠 Emerging AI Trends</h2>
+<h2 id="emerging-trends">Emerging AI Trends</h2>
 
-<h3>Decision models beside chat models</h3>
+<h3 id="decision-models-beside-chat-models">Decision models beside chat models</h3>
 <p><strong>What's changing:</strong> Google shipped Gemini Decision 1 for closed-set scoring while Anthropic and OpenAI still push larger chat models for agents.</p>
 <p><strong>Why it matters:</strong> Routing, policy, and safety checks can run at millisecond latency without paying for generated answer tokens.</p>
 <p><strong>Watch next:</strong> Whether other API vendors add zero-output-token decision endpoints for agent control planes.</p>
 
-<h3>Frontier models split by task tier</h3>
+<h3 id="frontier-models-split-by-task-tier">Frontier models split by task tier</h3>
 <p><strong>What's changing:</strong> Google positions Argon for most engineering work and Carbon for long-horizon jobs. Anthropic steers daily coding to Opus 5.5 and reserves Fable 5.2 for harder problems.</p>
 <p><strong>Why it matters:</strong> Agent routers need explicit model ladders to avoid burning frontier quotas on simple diffs.</p>
 <p><strong>Watch next:</strong> Copilot and Claude Code defaults after Carbon and Fable rollouts finish.</p>
 
-<h3>Agent dev loops move local</h3>
+<h3 id="agent-dev-loops-move-local">Agent dev loops move local</h3>
 <p><strong>What's changing:</strong> AWS Emulator and tighter MCP server sandboxes target fast feedback without cloud spend or repository code execution.</p>
 <p><strong>Why it matters:</strong> Coding agents that call cloud APIs or git tools need local emulators and pinned server versions to iterate safely.</p>
 <p><strong>Watch next:</strong> Fidelity scores per service in the AWS Emulator evaluation suite.</p>
 
-<h2 id="developer-coding">💻 Developer & Coding AI</h2>
+<h2 id="developer-coding">Developer & Coding AI</h2>
 <ul>
   <li><strong>GitHub Copilot (Nov 6):</strong> JetBrains Air and Xcode 27.3 beta previews bring multi-session agents into native IDE workflows. <a href="https://github.blog/changelog/2026-11-06-github-copilot-weekly-releases-november-2/" target="_blank" rel="noopener noreferrer">GitHub Changelog</a></li>
   <li><strong>AWS Emulator (Nov 11):</strong> Local HTTPS endpoint at 127.0.0.1:9297 runs SigV4-signed SDK and CLI calls with in-memory state for agent test loops. <a href="https://aws.amazon.com/blogs/aws/test-your-applications-against-aws-locally-with-aws-emulator/" target="_blank" rel="noopener noreferrer">AWS News Blog</a></li>
@@ -158,7 +199,7 @@
   <li><strong>VS Code 1.145.3:</strong> Microsoft patched MCP elicitation notification handling so server text no longer renders as executable command links. <a href="https://github.com/microsoft/vscode/security/advisories/GHSA-66hq-jw93-462h" target="_blank" rel="noopener noreferrer">GitHub advisory</a></li>
 </ul>
 
-<h2 id="agentic-watch">🧩 Agentic AI Watch</h2>
+<h2 id="agentic-watch">Agentic AI Watch</h2>
 <ul>
   <li><strong>MCP file extension draft:</strong> The io.modelcontextprotocol/files extension defines out-of-band uploads and download targets for agent tools on protocol revision 2026-07-28. <a href="https://blog.modelcontextprotocol.io/posts/exploring-file-uploads-and-downloads-in-mcp/" target="_blank" rel="noopener noreferrer">MCP Blog</a></li>
   <li><strong>MCP release calendar:</strong> Maintainers announced six-month spec cadence targeting March 30, 2027 for version 2027-03-30. <a href="https://blog.modelcontextprotocol.io/posts/mcp-release-cycle/" target="_blank" rel="noopener noreferrer">MCP Blog</a></li>
@@ -166,7 +207,7 @@
   <li><strong>Decisions API in Search:</strong> Google cites MCP tool safety layers using Decision API scoring within strict latency budgets. <a href="https://blog.google/innovation-and-ai/technology/developers-tools/gemini-decisions-api/" target="_blank" rel="noopener noreferrer">Google</a></li>
 </ul>
 
-<h2 id="security-watch">🔐 AI Security Watch</h2>
+<h2 id="security-watch">AI Security Watch</h2>
 
 <div class="security-item">
   <p><strong>Issue:</strong> <em>VS Code MCP elicitation fallback notifications treated server messages as clickable command links (GHSA-66hq-jw93-462h).</em></p>
@@ -182,21 +223,21 @@
   <p><strong>Recommended action:</strong> Upgrade to mcp-server-git 2026.11.11 and require Git 2.31 or later on the host.</p>
 </div>
 
-<h2 id="research">📚 Research Worth Reading</h2>
+<h2 id="research">Research Worth Reading</h2>
 
-<h3>CPU-ARC: Agentic Reasoning Caching for on-CPU Reasoning Reuse</h3>
+<h3 id="cpu-arc-agentic-reasoning-caching-for-on-cpu-reasoning-reuse">CPU-ARC: Agentic Reasoning Caching for on-CPU Reasoning Reuse</h3>
 <p><strong>Problem:</strong> Large models repeat full reasoning chains for every new instance of a solved task pattern.</p>
 <p><strong>Key idea:</strong> The authors compile LLM reasoning traces into CPU-executable agentic reasoning caches that rerun solution steps with minimal model involvement.</p>
 <p><strong>Why developers should care:</strong> Reported 16–291× lower invocation cost versus the source model on math and science workloads.</p>
 <p><strong>Paper:</strong> <a href="https://arxiv.org/abs/2611.09891" target="_blank" rel="noopener noreferrer">arXiv:2611.09891</a></p>
 
-<h3>When Should Agents Remember? Falsification-Gated Self-Evolution for LLM Agents</h3>
+<h3 id="when-should-agents-remember-falsification-gated-self-evolution-for-llm-agents">When Should Agents Remember? Falsification-Gated Self-Evolution for LLM Agents</h3>
 <p><strong>Problem:</strong> Agents often persist episode lessons without tests that those lessons generalize or stay safe.</p>
 <p><strong>Key idea:</strong> FGSE treats each memory update as a falsifiable hypothesis vetted by verifier probes before commit.</p>
 <p><strong>Why developers should care:</strong> Reported harmful committed updates drop to 3.6% on long-horizon agent benchmarks.</p>
 <p><strong>Paper:</strong> <a href="https://arxiv.org/abs/2611.14326" target="_blank" rel="noopener noreferrer">arXiv:2611.14326</a></p>
 
-<h2 id="watch-next">🚀 What to Watch Next</h2>
+<h2 id="watch-next">What to Watch Next</h2>
 <ul>
   <li><strong>Anthropic IPO pricing:</strong> The SEC lists a preliminary $70–$78 range for 825 million ANT shares. <em>Our read:</em> Vendor reviews may tighten once public financials land after mid-November pricing.</li>
   <li><strong>Carbon list pricing:</strong> Google states introductory Carbon API rates end November 30, 2026. <em>Our read:</em> Agent cost models should budget the $4/$20 per-million fallback after that date.</li>
@@ -205,18 +246,27 @@
 </ul>
 
 <div class="bottom-line" id="bottom-line">
-  <h3>🎯 Bottom Line</h3>
+  <h3>Bottom Line</h3>
   <p>Google and Anthropic both pushed new frontier tiers this week, while Google added a cheap Decisions control plane for agents.</p>
   <p>MCP reference servers and VS Code patched serious agent-tool trust bugs that affect everyday coding-agent setups.</p>
   <p>Teams should upgrade MCP git and IDE builds, trial Carbon or Fable on isolated benchmarks, and prototype Decisions API gates before December usage merges hit.</p>
 </div>
+</div>
+</article>
+
+    <section class="related-reports" data-related-reports>
+      <h2>Related reports</h2>
+      <p class="related-reports-note">Browse the <a href="../archive/index.html">archive</a> for earlier briefings.</p>
+
+    <nav class="report-pager" aria-label="Adjacent briefings"><a class="report-prev" href="2026-11-01.html">← Previous day · November 01, 2026</a> <a class="report-next" href="2026-11-13.html">Next day · November 13, 2026 →</a></nav>
+    </section>
       <p class="signature">Drafted by AI from the sources linked above. Verify details before acting on them. · <a href="https://github.com/HimanshuRamavat07/HimanshuRamavat07" target="_blank" rel="noopener noreferrer">Source repository</a></p>
     </main>
   </div>
 </div>
   <footer class="site-footer">
     <div class="site-footer-inner">
-      <div class="site-footer-brand">Daily Intelligence</div>
+      <div class="site-footer-brand">AI Daily Intelligence</div>
       <div class="site-footer-links">
         <a href="https://github.com/HimanshuRamavat07/HimanshuRamavat07" target="_blank" rel="noopener noreferrer">GitHub</a>
         <button type="button" class="automation-info-trigger" data-open-automation-modal>Automation Info</button>
