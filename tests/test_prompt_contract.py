@@ -90,6 +90,33 @@ def test_no_hardcoded_emails_in_scripts_and_workflows():
     assert not violations, f"Found unauthorized email addresses: {violations}"
 
 
+def test_report_skeleton_includes_data_story_contract():
+    """Skeleton must document homepage extraction hooks for new reports."""
+    skeleton_path = REPO_ROOT / "prompts" / "report-skeleton.html"
+    raw = skeleton_path.read_text(encoding="utf-8")
+    assert 'data-report-date="' in raw
+    assert 'data-reading-minutes="' in raw
+    assert "data-story" in raw
+    assert 'data-story-role="lead"' in raw
+    assert 'data-story-role="pick"' in raw
+    assert "data-story-topics=" in raw
+    for slug in ("ai", "software-development", "startups", "technology"):
+        assert slug in raw
+    assert raw.count('data-story-role="lead"') == 1
+    assert raw.count('data-story-role="pick"') <= 3
+
+
+def test_prompt_requires_data_story_hooks():
+    """Prompt must require data-story / report meta attributes for new briefings."""
+    prompt = get_prompt_text()
+    assert "data-story" in prompt
+    assert 'data-story-role="lead"' in prompt or "data-story-role" in prompt
+    assert "data-report-date" in prompt
+    assert "data-reading-minutes" in prompt
+    assert "software-development" in prompt
+    assert "Never invent picks" in prompt or "manufacture picks" in prompt.lower() or "invent picks" in prompt.lower()
+
+
 def test_report_skeleton_contract():
     """Report skeleton must process cleanly through wrapper and satisfy contract."""
     from datetime import datetime

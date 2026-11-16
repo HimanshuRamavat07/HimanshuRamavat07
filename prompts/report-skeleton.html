@@ -1,29 +1,91 @@
 <!-- Sample HTML body fragment demonstrating the required tags, classes, and structure for each section -->
 <!-- Note: Do NOT include <html>, <head>, or <body> tags. The wrapper scripts inject page chrome. -->
+<!-- Homepage/archive extraction uses data-* hooks below. New reports MUST include them. -->
+
+<article
+  class="report"
+  data-report-date="2026-11-16"
+  data-report-title="AI Daily Intelligence — November 16, 2026"
+  data-reading-minutes="12"
+>
+<div class="report-body" data-report-body>
+
+<!-- Optional summary deck (preferred). Omit empty slots rather than inventing copy. -->
+<aside class="summary-deck" data-summary-deck>
+  <section data-summary="developments">
+    <h2>Today's biggest developments</h2>
+    <ul>
+      <li>Example factual development readers should not miss.</li>
+    </ul>
+  </section>
+  <section data-summary="takeaways">
+    <h2>Key takeaways</h2>
+    <ul>
+      <li>Example concrete takeaway for builders.</li>
+    </ul>
+  </section>
+  <section data-summary="why-it-matters">
+    <h2>Why these stories matter</h2>
+    <p>Example concise synthesis of developer impact.</p>
+  </section>
+</aside>
 
 <!-- Section 1: Top Developments -->
 <h2>🔥 Top Developments</h2>
 
-<!-- Each development item must be wrapped in a <div class="dev-card"> -->
-<div class="dev-card">
-  <!-- Headline as h3 -->
-  <h3>Example Factual Headline Describing Development</h3>
-  <!-- Impact stars and category metadata -->
+<!-- Exactly one lead. Editor's picks: 0–3 with data-story-role="pick". Never invent picks to fill three. -->
+<!-- Approved topic slugs only: ai, software-development, startups, technology (unknown slugs ignored). -->
+<div
+  class="dev-card"
+  data-story
+  data-story-id="example-lead-development"
+  data-story-role="lead"
+  data-story-topics="ai,software-development"
+  data-story-dek="What the latest evals show, and why infra teams should care this week."
+>
+  <h3 data-story-headline>Example Factual Headline Describing Development</h3>
   <p class="meta"><span class="stars">Impact: ⭐⭐⭐⭐⭐</span> &nbsp;|&nbsp; <strong>Category:</strong> Models / Security</p>
-  <!-- What happened description -->
   <p><strong>What happened:</strong> Concise factual summary of the event traceable to the linked source.</p>
-  <!-- Why it matters description -->
   <p><strong>Why it matters:</strong> Context detailing developer impact, technical risk, or system costs.</p>
-  <!-- Developer takeaway label (Adopt it, Monitor it, Try it, Ignore for now) in <span class="takeaway"> -->
   <p><span class="takeaway">Adopt it</span> — Concrete technical action step under twenty-five words.</p>
-  <!-- Source links -->
   <p><strong>Source:</strong> <a href="https://example.com/source">Primary Source</a></p>
+</div>
+
+<div
+  class="dev-card"
+  data-story
+  data-story-id="example-pick-one"
+  data-story-role="pick"
+  data-story-topics="startups"
+  data-story-dek="Short dek for an editor's pick."
+>
+  <h3 data-story-headline>Example Editor Pick Headline</h3>
+  <p class="meta"><span class="stars">Impact: ⭐⭐⭐⭐</span> &nbsp;|&nbsp; <strong>Category:</strong> Business</p>
+  <p><strong>What happened:</strong> Concise factual summary of the pick.</p>
+  <p><strong>Why it matters:</strong> Why builders should notice this week.</p>
+  <p><span class="takeaway">Monitor it</span> — Concrete technical action step under twenty-five words.</p>
+  <p><strong>Source:</strong> <a href="https://example.com/pick">Primary Source</a></p>
+</div>
+
+<div
+  class="dev-card"
+  data-story
+  data-story-id="example-more-item"
+  data-story-role="more"
+  data-story-topics="technology"
+  data-story-dek="Remaining noteworthy item dek."
+>
+  <h3 data-story-headline>Example More-From-Today Headline</h3>
+  <p class="meta"><span class="stars">Impact: ⭐⭐⭐</span> &nbsp;|&nbsp; <strong>Category:</strong> Infrastructure</p>
+  <p><strong>What happened:</strong> Concise factual summary.</p>
+  <p><strong>Why it matters:</strong> Practical consequence for teams.</p>
+  <p><span class="takeaway">Try it</span> — Concrete technical action step under twenty-five words.</p>
+  <p><strong>Source:</strong> <a href="https://example.com/more">Primary Source</a></p>
 </div>
 
 <!-- Section 2: Emerging AI Trends -->
 <h2>🧠 Emerging AI Trends</h2>
 
-<!-- Trend title as h3 followed by What's changing, Why it matters, and Watch next -->
 <h3>Example Emerging Trend Title</h3>
 <p><strong>What's changing:</strong> Observable shift across recent developer tooling or models.</p>
 <p><strong>Why it matters:</strong> Practical consequences for software architectures and engineering teams.</p>
@@ -31,7 +93,6 @@
 
 <!-- Section 3: Developer & Coding AI -->
 <h2>💻 Developer & Coding AI</h2>
-<!-- Bulleted list of developer tools, CLI updates, or framework releases -->
 <ul>
   <li><strong>Tool Name 1.0:</strong> Practical update description explaining developer capabilities. <a href="https://example.com/release">Release notes</a></li>
   <li><strong>Feature Update:</strong> Guidance on configuring or testing the developer tool in production. <a href="https://example.com/docs">Documentation</a></li>
@@ -39,7 +100,6 @@
 
 <!-- Section 4: Agentic AI Watch -->
 <h2>🧩 Agentic AI Watch</h2>
-<!-- Bulleted list of agent frameworks, MCP tools, and orchestration protocols -->
 <ul>
   <li><strong>Protocol Update:</strong> Explanation of agent tooling, MCP servers, or execution sandboxes. <a href="https://example.com/protocol">Announcement</a></li>
   <li><strong>Orchestration Pattern:</strong> Concrete capability unlocked for multi-agent workflows. <a href="https://example.com/spec">Specification</a></li>
@@ -48,7 +108,6 @@
 <!-- Section 5: AI Security Watch -->
 <h2>🔐 AI Security Watch</h2>
 
-<!-- Each security item must be wrapped in a <div class="security-item"> -->
 <div class="security-item">
   <p><strong>Issue:</strong> <em>Specific vulnerability, exploit, or misconfiguration.</em></p>
   <p><strong>Impact:</strong> Affected systems, data exposure, or runtime risk.</p>
@@ -59,7 +118,6 @@
 <!-- Section 6: Research Worth Reading -->
 <h2>📚 Research Worth Reading</h2>
 
-<!-- Paper title as h3 followed by Problem, Key idea, Why developers should care, and Paper link -->
 <h3>Paper Title: Subtitle Describing Findings</h3>
 <p><strong>Problem:</strong> The concrete research limitation or evaluation failure addressed.</p>
 <p><strong>Key idea:</strong> Plain explanation of the proposed technique or architecture.</p>
@@ -68,17 +126,18 @@
 
 <!-- Section 7: What to Watch Next -->
 <h2>🚀 What to Watch Next</h2>
-<!-- Bulleted list of upcoming events or metrics with confirmed facts and analytical insights -->
 <ul>
   <li><strong>Event or Release:</strong> Confirmed upcoming milestone — <em>Our read:</em> Analytical implication for developer workflows.</li>
   <li><strong>Specification Adoption:</strong> Tracked industry standard — <em>Our read:</em> Expected roadmap impact over coming weeks.</li>
 </ul>
 
 <!-- Section 8: Bottom Line -->
-<!-- The summary block must be wrapped in a <div class="bottom-line"> -->
 <div class="bottom-line">
   <h3>🎯 Bottom Line</h3>
   <p>High-level synthesis covering the key shifts across today's developments.</p>
   <p>Actionable guidance for teams building or deploying artificial intelligence software.</p>
   <p>Priorities for auditing configurations, trialing tools, or upgrading infrastructure.</p>
 </div>
+
+</div>
+</article>
