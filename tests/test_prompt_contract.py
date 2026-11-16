@@ -151,9 +151,11 @@ def test_report_skeleton_contract():
     for href in toc_hrefs:
         assert f'id="{href}"' in full_page, f"TOC target id '{href}' does not exist in the page"
 
-    # Assert stars become accessible "out of 5" markup
+    # Assert stars become neutral plain-text Impact labels
     assert '<span class="visually-hidden">Impact: 5 out of 5</span>' in full_page
-    assert '<span aria-hidden="true">⭐⭐⭐⭐⭐</span>' in full_page
+    assert "Impact: 5/5" in full_page
+    assert "⭐" not in full_page
+    assert "🤖" not in full_page
 
     # Assert takeaway and dev-card classes survive
     assert 'class="takeaway"' in full_page

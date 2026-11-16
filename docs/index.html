@@ -22,7 +22,7 @@
 <body class="page-home">
   <header class="site-nav">
     <div class="site-nav-inner">
-      <a class="site-logo" href="index.html">Daily Intelligence</a>
+      <a class="site-logo" href="index.html">AI Daily Intelligence</a>
       <div class="site-nav-right">
         <nav class="site-nav-links" aria-label="Site">
           <a class="is-active" href="index.html">Home</a>
@@ -40,9 +40,12 @@
     </div>
   </header>
   <main class="site-main">
-    <section class="hero hero-editorial">
-      <h1>AI Daily Intelligence</h1>
-      <p class="subtitle">Editorial intelligence on models, agents, coding tools, infrastructure, research, and security — curated daily.</p>
+    <section class="hero hero-compact">
+      <div class="hero-line">
+        <h1>AI Daily Intelligence</h1>
+        <time class="hero-date" datetime="2026-11-15">November 15, 2026</time>
+      </div>
+      <p class="prev-day-link"><a href="reports/2026-11-14.html">← Previous day · November 14, 2026</a></p>
     </section>
 
     <section class="spectrum-split" aria-label="Today's briefing highlights">
@@ -50,46 +53,38 @@
 
     <div class="spectrum-lead">
       <p class="label">Lead</p>
-      <h2 class="lead-headline">Open models close the gap on coding agents</h2>
-      <p class="lead-dek">What the latest evals show for coding agents.</p>
+      <h2 class="lead-headline">Cursor traces Fireworks key leak to trojanized Claude Code marketplace cache</h2>
+      <p class="lead-dek">On November 13, 2026, Cursor published a full incident report on its blog. A stolen Fireworks training-bucket key exposed historical agent traces and internal credentials. Attackers then served fake Anthropic.claude-code builds 2.1.312 and 2.1.313 for about eleven hours on October 29.</p>
+      <p class="full-briefing-cta"><a class="button" href="reports/2026-11-15.html">Read the full briefing <span class="material-symbols-outlined" aria-hidden="true" style="font-size:18px">arrow_forward</span></a></p>
     </div>
 
-    <aside class="spectrum-picks" aria-label="Editor's picks">
-      <p class="label">Editor's picks</p>
-      <div class="picks-list">
-      <article class="story-card story-card--pick" data-story-id="sandbox-hardening">
-        <h3 class="story-headline">Coding agents tighten sandbox defaults</h3>
-        <p class="story-dek">Sandbox defaults tightened after extension supply-chain noise.</p>
-      </article>
-      <article class="story-card story-card--pick" data-story-id="startup-round">
-        <h3 class="story-headline">Agent observability startup raises Series A</h3>
-        <p class="story-dek">A developer-tools startup raised a focused round.</p>
-      </article>
-      </div>
-    </aside>
       </div>
 
 
-    <section class="topic-section" data-topic="technology" aria-labelledby="topic-technology">
-      <h2 id="topic-technology">Technology</h2>
-      <div class="topic-stories">
-      <article class="story-card story-card--topic" data-story-id="infra-note">
-        <h3 class="story-headline">New inference runtime cuts cold starts</h3>
-        <p class="story-dek">Inference optimization note for platform teams.</p>
+
+    <section class="more-today" aria-labelledby="more-today-heading">
+      <h2 id="more-today-heading">More from today</h2>
+      <div class="more-stories">
+      <article class="story-card story-card--more" data-story-id="claude-code-2-1-325-patches-zstd-decoding-and-changes-sandbox-permission-defaults">
+        <h3 class="story-headline">Claude Code 2.1.325 patches zstd decoding and changes sandbox permission defaults</h3>
+        <p class="story-dek">Anthropic shipped Claude Code version 2.1.325 on November 13, 2026. The release fixes a security flaw in zstd-compressed response decoding and makes sandboxed Bash follow normal permission prompts unless `sandbox.autoAllowBashIfSandboxed` is set.</p>
+      </article>
+      <article class="story-card story-card--more" data-story-id="google-cloud-packages-agentic-hpc-skills-and-alphaevolve-on-batch-for-sc26">
+        <h3 class="story-headline">Google Cloud packages agentic HPC skills and AlphaEvolve on Batch for SC26</h3>
+        <p class="story-dek">On November 13, 2026, Google Cloud described an agentic HPC stack ahead of SC26. It pairs Cluster Toolkit blueprints with Google Skills and DeepMind Science Skills repositories. AlphaEvolve candidate evaluation runs on Cloud Batch across MPI groups or single-VM sandboxes.</p>
+      </article>
+      <article class="story-card story-card--more" data-story-id="github-sets-december-14-sunset-for-six-copilot-chat-and-agent-models">
+        <h3 class="story-headline">GitHub sets December 14 sunset for six Copilot chat and agent models</h3>
+        <p class="story-dek">On November 13, 2026, GitHub scheduled six model sunsets across every Copilot surface on December 14, 2026. Retiring models include Claude Fable 5, Claude Haiku 4.5, Gemini 3.8 Flash, Gemini 4 Argon, Grok 4.6, and Kimi K3. Suggested replacements include Fable 5.2, Haiku 5.5, Hydrogen, Carbon, and Grok 4.7.</p>
       </article>
       </div>
     </section>
-
-      <div class="spectrum-cta">
-        <p class="full-briefing-cta"><a class="button" href="reports/2026-11-16.html">Read the full briefing <span class="material-symbols-outlined" aria-hidden="true" style="font-size:18px">arrow_forward</span></a></p>
-        <p class="spectrum-date meta">November 16, 2026</p>
-      </div>
     </section>
     <p class="archive-more home-archive-link"><a href="archive/index.html">Browse the archive <span class="material-symbols-outlined" aria-hidden="true" style="font-size:16px">arrow_right_alt</span></a></p>
   </main>
   <footer class="site-footer">
     <div class="site-footer-inner">
-      <div class="site-footer-brand">Daily Intelligence</div>
+      <div class="site-footer-brand">AI Daily Intelligence</div>
       <div class="site-footer-links">
         <a href="feed.xml">RSS Feed</a>
         <a href="https://github.com/HimanshuRamavat07/HimanshuRamavat07" target="_blank" rel="noopener noreferrer">GitHub</a>

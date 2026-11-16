@@ -15,6 +15,7 @@ from extract_stories import (
     APPROVED_TOPICS,
     TOPIC_LABELS,
     assign_homepage,
+    estimate_reading_minutes,
     extract_report,
 )
 from site_shell import asset_script, automation_modal, font_links, icon, search_overlay, site_footer, site_nav
@@ -119,6 +120,7 @@ def report_row(
     reading_minutes: int | None = None,
     topics: list[str] | None = None,
     iso_date: str = "",
+    element_id: str = "",
 ) -> str:
     desc_block = ""
     if description:
@@ -143,7 +145,8 @@ def report_row(
     topic_attr = html.escape(",".join(topics or ""), quote=True)
     year = iso_date[:4] if iso_date else ""
     month = iso_date[5:7] if len(iso_date) >= 7 else ""
-    return f"""      <a class="report-row archive-row" href="{html.escape(href)}"
+    id_attr = f' id="{html.escape(element_id)}"' if element_id else ""
+    return f"""      <a class="report-row archive-row"{id_attr} href="{html.escape(href)}"
          data-date="{html.escape(iso_date)}" data-year="{html.escape(year)}"
          data-month="{html.escape(month)}" data-topics="{topic_attr}">
         <span class="report-row-body">
@@ -193,6 +196,7 @@ def build_spectrum_split(reports: list[tuple[datetime, str, Path]]) -> str:
       <p class="label">Lead</p>
       <h2 class="lead-headline">{html.escape(blocks.lead.headline)}</h2>
       {f'<p class="lead-dek">{html.escape(blocks.lead.dek)}</p>' if blocks.lead.dek else ''}
+      {cta}
     </div>"""
 
     picks_html = ""
@@ -254,10 +258,6 @@ def build_spectrum_split(reports: list[tuple[datetime, str, Path]]) -> str:
 {rail_html}
 {"".join(topic_sections)}
 {more_html}
-      <div class="spectrum-cta">
-        {cta}
-        <p class="spectrum-date meta">{html.escape(format_display_date(latest_date))}</p>
-      </div>
     </section>"""
 
 
@@ -267,11 +267,23 @@ def build_index_html(reports: list[tuple[datetime, str, Path]]) -> str:
         "Daily AI-generated summaries covering models, agents, "
         "developer tools, infrastructure, research papers, and security disclosures."
     )
-    tagline = (
-        "Editorial intelligence on models, agents, coding tools, "
-        "infrastructure, research, and security — curated daily."
-    )
     spectrum = build_spectrum_split(reports)
+
+    hero_date = ""
+    prev_day = ""
+    if reports:
+        latest_date, latest_file, _ = reports[0]
+        iso = format_iso_date(latest_date)
+        hero_date = (
+            f'<time class="hero-date" datetime="{html.escape(iso)}">'
+            f"{html.escape(format_display_date(latest_date))}</time>"
+        )
+        if len(reports) > 1:
+            prev_date, prev_file, _ = reports[1]
+            prev_day = (
+                f'<p class="prev-day-link"><a href="reports/{html.escape(prev_file)}">'
+                f"← Previous day · {html.escape(format_display_date(prev_date))}</a></p>"
+            )
 
     return f"""<!DOCTYPE html>
 <html lang="en">
@@ -288,9 +300,12 @@ def build_index_html(reports: list[tuple[datetime, str, Path]]) -> str:
 <body class="page-home">
 {site_nav(home_href="index.html", archive_href="archive/index.html", rss_href="feed.xml", active="home")}
   <main class="site-main">
-    <section class="hero hero-editorial">
-      <h1>{SITE_TITLE}</h1>
-      <p class="subtitle">{tagline}</p>
+    <section class="hero hero-compact">
+      <div class="hero-line">
+        <h1>{SITE_TITLE}</h1>
+        {hero_date}
+      </div>
+      {prev_day}
     </section>
 {spectrum}
     <p class="archive-more home-archive-link"><a href="archive/index.html">Browse the archive {icon('arrow_right_alt', size='16px')}</a></p>
@@ -310,23 +325,29 @@ def build_index_html(reports: list[tuple[datetime, str, Path]]) -> str:
 def report_archive_meta(path: Path, date: datetime) -> dict:
     """Metadata-only fields for archive rows / search index."""
     desc = read_report_description(path, date)
-    extract = extract_report(path.read_text(encoding="utf-8"), strict=False) if path.is_file() else None
+    raw = path.read_text(encoding="utf-8") if path.is_file() else ""
+    extract = extract_report(raw, strict=False) if raw else None
     topics: list[str] = []
     minutes = None
     dek = desc
     title = f"{SITE_TITLE} — {format_display_date(date)}"
     if extract:
         minutes = extract.reading_minutes
-        if extract.title:
-            title = extract.title
         seen: set[str] = set()
         for story in extract.stories:
             for slug in story.topics:
                 if slug not in seen:
                     seen.add(slug)
                     topics.append(slug)
-        if extract.stories and extract.stories[0].dek:
-            dek = extract.stories[0].dek
+        lead = next((s for s in extract.stories if s.role == "lead"), None)
+        if lead is None and extract.stories:
+            lead = extract.stories[0]
+        if lead:
+            title = lead.headline
+            if lead.dek:
+                dek = lead.dek
+    if minutes is None and raw:
+        minutes = estimate_reading_minutes(raw)
     iso = format_iso_date(date)
     return {
         "date": iso,
@@ -373,13 +394,14 @@ def build_archive_html(reports: list[tuple[datetime, str, Path]]) -> str:
     month_rail = "\n".join(rail_items)
 
     row_parts: list[str] = []
-    last_month = ""
+    seen_month_ids: set[str] = set()
     for date, filename, path in reports:
         meta = report_archive_meta(path, date)
         month_key = meta["date"][:7]
-        if month_key != last_month:
-            row_parts.append(f'      <div class="archive-month-marker" id="m-{month_key}">{month_key}</div>')
-            last_month = month_key
+        anchor = ""
+        if month_key not in seen_month_ids:
+            seen_month_ids.add(month_key)
+            anchor = f"m-{month_key}"
         row_parts.append(
             report_row(
                 href=f"../reports/{filename}",
@@ -389,6 +411,7 @@ def build_archive_html(reports: list[tuple[datetime, str, Path]]) -> str:
                 reading_minutes=meta["reading_minutes"],
                 topics=meta["topics"],
                 iso_date=meta["date"],
+                element_id=anchor,
             )
         )
     body = "\n".join(row_parts) if reports else '      <p class="empty">No reports yet.</p>'

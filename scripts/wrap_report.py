@@ -22,6 +22,14 @@ META_DESC_PATTERN = re.compile(
 )
 
 STAR_PATTERN = re.compile(r'(<span class="stars">Impact:\s*)([⭐]+)(</span>)')
+STAR_WRAPPED_PATTERN = re.compile(
+    r'<span class="stars">Impact:\s*'
+    r'(?:<span aria-hidden="true">([⭐]+)</span>\s*)?'
+    r'(?:<span class="visually-hidden">Impact:\s*\d+\s*out of 5</span>\s*)?'
+    r'(?:([⭐]+))?'
+    r'</span>',
+    re.IGNORECASE,
+)
 EXTERNAL_LINK_PATTERN = re.compile(
     r'<a\s+([^>]*?)href="(https?://[^"]+)"([^>]*)>',
     re.IGNORECASE,
@@ -47,16 +55,79 @@ def format_short_date(date: datetime) -> str:
 
 
 def fix_stars(content: str) -> str:
-    def repl(match: re.Match[str]) -> str:
-        count = match.group(2).count("⭐")
+    """Replace emoji star ratings with neutral plain-text Impact labels."""
+
+    def plain(count: int) -> str:
         return (
-            f"{match.group(1)}"
-            f'<span aria-hidden="true">{match.group(2)}</span>'
+            f'<span class="stars">Impact: {count}/5</span>'
             f'<span class="visually-hidden">Impact: {count} out of 5</span>'
-            f"{match.group(3)}"
         )
 
-    return STAR_PATTERN.sub(repl, content)
+    def repl_simple(match: re.Match[str]) -> str:
+        return plain(match.group(2).count("⭐"))
+
+    content = STAR_PATTERN.sub(repl_simple, content)
+
+    def repl_wrapped(match: re.Match[str]) -> str:
+        stars = match.group(1) or match.group(2) or ""
+        count = stars.count("⭐")
+        if count <= 0:
+            return match.group(0)
+        return plain(count)
+
+    return STAR_WRAPPED_PATTERN.sub(repl_wrapped, content)
+
+
+LEADING_EMOJI_RE = re.compile(
+    r"^([\U0001f300-\U0001faff\U00002702-\U000027b0\U0001f900-\U0001f9ff\u2600-\u26ff\u2700-\u27bf]+)\s*"
+)
+
+
+def strip_heading_emoji(content: str) -> str:
+    """Remove leading emoji from h1–h3 text for editorial tone."""
+
+    def repl(match: re.Match[str]) -> str:
+        open_tag, inner, close = match.group(1), match.group(2), match.group(3)
+        cleaned = LEADING_EMOJI_RE.sub("", inner)
+        # Also strip emoji that sit before nested tags' text
+        cleaned = re.sub(
+            r"(>)(\s*)"
+            r"([\U0001f300-\U0001faff\U00002702-\U000027b0\U0001f900-\U0001f9ff\u2600-\u26ff\u2700-\u27bf]+)\s*",
+            r"\1\2",
+            cleaned,
+            count=1,
+        )
+        return f"{open_tag}{cleaned}{close}"
+
+    return re.sub(
+        r"(<h[1-3]\b[^>]*>)(.*?)(</h[1-3]>)",
+        repl,
+        content,
+        flags=re.IGNORECASE | re.DOTALL,
+    )
+
+
+def adjacent_report_links(date: datetime, reports_dir: Path | None = None) -> tuple[str | None, str | None]:
+    """Return (older_href, newer_href) relative to this report page."""
+    root = reports_dir or Path("docs/reports")
+    if not root.is_dir():
+        return None, None
+    dates: list[datetime] = []
+    for path in root.glob("*.html"):
+        try:
+            dates.append(datetime.strptime(path.stem, "%Y-%m-%d"))
+        except ValueError:
+            continue
+    dates.sort()
+    if date not in dates:
+        dates.append(date)
+        dates.sort()
+    idx = dates.index(date)
+    older = dates[idx - 1] if idx > 0 else None
+    newer = dates[idx + 1] if idx + 1 < len(dates) else None
+    older_href = f"{older.strftime('%Y-%m-%d')}.html" if older else None
+    newer_href = f"{newer.strftime('%Y-%m-%d')}.html" if newer else None
+    return older_href, newer_href
 
 
 def fix_external_links(content: str) -> str:
@@ -153,6 +224,18 @@ def strip_wrapped_chrome(content: str) -> str:
     if content_match:
         body = content_match.group(1).strip()
         body = re.sub(r'<p class="signature">.*?</p>\s*', "", body, count=1, flags=re.DOTALL)
+        body = re.sub(
+            r'<section class="related-reports"[^>]*>.*?</section>\s*',
+            "",
+            body,
+            flags=re.DOTALL | re.IGNORECASE,
+        )
+        body = re.sub(
+            r'<nav class="report-pager"[^>]*>.*?</nav>\s*',
+            "",
+            body,
+            flags=re.DOTALL | re.IGNORECASE,
+        )
         return body.strip()
 
     body = content
@@ -472,13 +555,20 @@ def prepare_report_body(raw_html: str) -> str:
     body = add_section_ids(body)
     body = fix_research_headings(body)
     body = fix_stars(body)
+    body = strip_heading_emoji(body)
     body = fix_external_links(body)
     body = filter_summary_deck_slots(body)
     body = ensure_unique_heading_ids(body)
     return body
 
 
-def build_report_page(date: datetime, description: str, body: str) -> str:
+def build_report_page(
+    date: datetime,
+    description: str,
+    body: str,
+    *,
+    reports_dir: Path | None = None,
+) -> str:
     display = format_display_date(date)
     short_date = format_short_date(date)
     iso = format_iso_date(date)
@@ -496,6 +586,22 @@ def build_report_page(date: datetime, description: str, body: str) -> str:
     body = inject_report_article_meta(body, date, title, minutes)
     toc = build_toc_from_body(body)
 
+    older_href, newer_href = adjacent_report_links(date, reports_dir)
+    nav_bits: list[str] = []
+    if older_href:
+        older_label = format_display_date(datetime.strptime(older_href.replace(".html", ""), "%Y-%m-%d"))
+        nav_bits.append(
+            f'<a class="report-prev" href="{html.escape(older_href)}">← Previous day · {html.escape(older_label)}</a>'
+        )
+    if newer_href:
+        newer_label = format_display_date(datetime.strptime(newer_href.replace(".html", ""), "%Y-%m-%d"))
+        nav_bits.append(
+            f'<a class="report-next" href="{html.escape(newer_href)}">Next day · {html.escape(newer_label)} →</a>'
+        )
+    pager = ""
+    if nav_bits:
+        pager = f'\n    <nav class="report-pager" aria-label="Adjacent briefings">{" ".join(nav_bits)}</nav>'
+
     json_ld = json.dumps(
         {
             "@context": "https://schema.org",
@@ -510,10 +616,11 @@ def build_report_page(date: datetime, description: str, body: str) -> str:
         indent=2,
     )
 
-    related_block = """
+    related_block = f"""
     <section class="related-reports" data-related-reports>
       <h2>Related reports</h2>
       <p class="related-reports-note">Browse the <a href="../archive/index.html">archive</a> for earlier briefings.</p>
+{pager}
     </section>"""
 
     minutes_label = f"{minutes} min read" if minutes else "Daily brief"
@@ -545,7 +652,7 @@ def build_report_page(date: datetime, description: str, body: str) -> str:
 <p class="report-back"><a href="../archive/index.html">← Back to archive</a></p>
 <div class="container">
   <header class="report-article-header">
-    <h1>🤖 AI Daily Intelligence — {display}</h1>
+    <h1>AI Daily Intelligence — {display}</h1>
     <div class="report-meta-row">
       <span class="report-meta-item">{short_date}</span>
       <span class="report-meta-sep" aria-hidden="true">|</span>
@@ -605,7 +712,15 @@ def wrap_report_to_path(
             raise ValueError("New report validation failed:\n- " + "\n- ".join(errors))
     body = prepare_report_body(source_html)
     output.parent.mkdir(parents=True, exist_ok=True)
-    output.write_text(build_report_page(report_date, description, body), encoding="utf-8")
+    output.write_text(
+        build_report_page(
+            report_date,
+            description,
+            body,
+            reports_dir=output.parent,
+        ),
+        encoding="utf-8",
+    )
 
 
 def rewrap_all_reports(reports_dir: Path | None = None) -> int:
@@ -629,7 +744,10 @@ def rewrap_all_reports(reports_dir: Path | None = None) -> int:
         )
         # Historical rewrap: never hard-fail on missing lead hooks
         body = prepare_report_body(content)
-        path.write_text(build_report_page(report_date, description, body), encoding="utf-8")
+        path.write_text(
+            build_report_page(report_date, description, body, reports_dir=root),
+            encoding="utf-8",
+        )
         print(f"Rewrapped {path}")
         count += 1
 

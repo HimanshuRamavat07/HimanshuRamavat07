@@ -7,6 +7,7 @@ import argparse
 import shutil
 import sys
 import tempfile
+from datetime import datetime
 from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
@@ -14,7 +15,6 @@ sys.path.insert(0, str(REPO_ROOT / "scripts"))
 
 from update_pages_index import rebuild_site_artifacts  # noqa: E402
 from wrap_report import wrap_report_to_path  # noqa: E402
-from datetime import datetime  # noqa: E402
 
 PAGES_BASE = "https://aidaily.is-a.bot"
 
@@ -35,14 +35,49 @@ def _replace_file(src: Path, dest: Path) -> None:
     tmp.replace(dest)
 
 
+def swap_live_artifacts(
+    replacements: list[tuple[Path, Path]],
+    *,
+    replace_fn=_replace_file,
+) -> None:
+    """Replace live files with rollback if any replacement fails mid-sequence."""
+    backup_root = Path(tempfile.mkdtemp(prefix="aidaily-live-backup-"))
+    backups: list[tuple[Path, Path | None]] = []
+    try:
+        for _src, dest in replacements:
+            if dest.is_file():
+                bak = backup_root / dest.relative_to(dest.anchor).as_posix().replace("/", "__")
+                # Keep unique flat names under backup_root
+                bak = backup_root / f"{len(backups):04d}-{dest.name}"
+                shutil.copy2(dest, bak)
+                backups.append((dest, bak))
+            else:
+                backups.append((dest, None))
+
+        for src, dest in replacements:
+            replace_fn(src, dest)
+    except Exception:
+        # Restore prior live artifacts (or remove newly created ones)
+        for dest, bak in backups:
+            if bak is not None:
+                dest.parent.mkdir(parents=True, exist_ok=True)
+                shutil.copy2(bak, dest)
+            elif dest.exists():
+                dest.unlink()
+        raise
+    finally:
+        shutil.rmtree(backup_root, ignore_errors=True)
+
+
 def publish_atomic(
     *,
     report_date: str,
     source_html: Path,
     description: str,
     repo_root: Path = REPO_ROOT,
+    replace_fn=_replace_file,
 ) -> None:
-    """Stage wrap + site rebuild, then replace live artifacts only on full success."""
+    """Stage wrap + site rebuild, then replace live artifacts with rollback on failure."""
     date = datetime.strptime(report_date, "%Y-%m-%d")
     live_docs = repo_root / "docs"
     report_name = f"{report_date}.html"
@@ -67,12 +102,13 @@ def publish_atomic(
         required = [staging_report] + [staging_docs / rel for rel in LIVE_ARTIFACTS]
         missing = [str(p) for p in required if not p.is_file()]
         if missing:
-            raise RuntimeError("Staging build incomplete; live site untouched. Missing: " + ", ".join(missing))
+            raise RuntimeError(
+                "Staging build incomplete; live site untouched. Missing: " + ", ".join(missing)
+            )
 
-        # Atomic-ish live swap: report + generated site artifacts
-        _replace_file(staging_report, live_docs / "reports" / report_name)
-        for rel in LIVE_ARTIFACTS:
-            _replace_file(staging_docs / rel, live_docs / rel)
+        replacements = [(staging_report, live_docs / "reports" / report_name)]
+        replacements.extend((staging_docs / rel, live_docs / rel) for rel in LIVE_ARTIFACTS)
+        swap_live_artifacts(replacements, replace_fn=replace_fn)
 
 
 def main() -> int:
@@ -114,7 +150,7 @@ def main() -> int:
         return 1
     except Exception as exc:  # noqa: BLE001 — surface staging failures cleanly
         print(f"ERROR: {exc}", file=sys.stderr)
-        print("Publish aborted — no live site artifacts were written.", file=sys.stderr)
+        print("Publish aborted — live artifacts restored if a mid-swap failure occurred.", file=sys.stderr)
         return 1
 
     print(f"Report path: docs/reports/{args.date}.html")

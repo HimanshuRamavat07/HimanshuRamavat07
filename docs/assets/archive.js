@@ -9,8 +9,6 @@
     var topic = document.getElementById("archive-topic");
     var empty = document.getElementById("archive-empty");
     var rows = Array.prototype.slice.call(list.querySelectorAll(".archive-row"));
-    var markers = Array.prototype.slice.call(list.querySelectorAll(".archive-month-marker"));
-
     function apply() {
       var q = (search && search.value ? search.value : "").trim().toLowerCase();
       var y = year ? year.value : "";
@@ -34,19 +32,6 @@
         }
         row.hidden = !ok;
         if (ok) visible += 1;
-      });
-
-      markers.forEach(function (marker) {
-        var next = marker.nextElementSibling;
-        var any = false;
-        while (next && !next.classList.contains("archive-month-marker")) {
-          if (next.classList.contains("archive-row") && !next.hidden) {
-            any = true;
-            break;
-          }
-          next = next.nextElementSibling;
-        }
-        marker.hidden = !any;
       });
 
       if (empty) empty.hidden = visible > 0;

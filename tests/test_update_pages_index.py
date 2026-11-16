@@ -143,6 +143,11 @@ class TestBuildIndexHtml:
         assert "spectrum-lead" in html
         assert "spectrum-picks" in html
         assert 'data-topic="ai"' in html
+        # CTA sits under the lead, not a distant footer-only block
+        lead_idx = html.index("spectrum-lead")
+        cta_idx = html.index("full-briefing-cta")
+        picks_idx = html.index("spectrum-picks")
+        assert lead_idx < cta_idx < picks_idx
 
     def test_no_lead_falls_back_to_cta_only(self, tmp_path: Path):
         report = tmp_path / "2026-11-16.html"

@@ -220,6 +220,27 @@ class TestAssignHomepage:
         assert "topic-only" not in soft_ids
 
 
+class TestHeadlineCapture:
+    def test_span_data_story_headline_does_not_swallow_body(self):
+        html = """
+        <article class="report" data-report-date="2026-11-16"
+          data-report-title="T" data-reading-minutes="5">
+          <div data-report-body>
+            <div data-story data-story-id="span-lead" data-story-role="lead"
+                 data-story-topics="ai" data-story-dek="Dek only">
+              <span data-story-headline>Span headline only</span>
+              <p><strong>What happened:</strong> Body must not join the headline.</p>
+            </div>
+          </div>
+        </article>
+        """
+        extract = extract_report(html, strict=True)
+        story = extract.stories[0]
+        assert story.headline == "Span headline only"
+        assert "Body must not join" not in story.headline
+        assert "Body must not join" in story.dek or story.dek == "Dek only"
+
+
 class TestHistoricalBestEffort:
     def test_strict_false_without_lead_does_not_raise(self):
         historical = """

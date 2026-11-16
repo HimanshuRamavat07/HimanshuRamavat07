@@ -40,7 +40,7 @@ def site_nav(*, home_href: str, archive_href: str, rss_href: str, active: str) -
     archive_active = ' class="is-active"' if active == "archive" else ""
     return f"""  <header class="site-nav">
     <div class="site-nav-inner">
-      <a class="site-logo" href="{html.escape(home_href)}">Daily Intelligence</a>
+      <a class="site-logo" href="{html.escape(home_href)}">AI Daily Intelligence</a>
       <div class="site-nav-right">
         <nav class="site-nav-links" aria-label="Site">
           <a{home_active} href="{html.escape(home_href)}">Home</a>
@@ -125,7 +125,7 @@ def site_footer(*, github_href: str = GITHUB_URL, rss_href: str | None = None) -
         rss_link = f'\n        <a href="{html.escape(rss_href)}">RSS Feed</a>'
     return f"""  <footer class="site-footer">
     <div class="site-footer-inner">
-      <div class="site-footer-brand">Daily Intelligence</div>
+      <div class="site-footer-brand">AI Daily Intelligence</div>
       <div class="site-footer-links">{rss_link}
         <a href="{html.escape(github_href)}" target="_blank" rel="noopener noreferrer">GitHub</a>
         <button type="button" class="automation-info-trigger" data-open-automation-modal>Automation Info</button>

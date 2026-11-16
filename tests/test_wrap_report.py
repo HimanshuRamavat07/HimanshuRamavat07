@@ -33,18 +33,21 @@ class TestFixStars:
     def test_single_star(self):
         html = '<span class="stars">Impact: ⭐</span>'
         result = fix_stars(html)
-        assert 'aria-hidden="true"' in result
+        assert "Impact: 1/5" in result
         assert "Impact: 1 out of 5" in result
+        assert "⭐" not in result
 
     def test_five_stars(self):
         html = '<span class="stars">Impact: ⭐⭐⭐⭐⭐</span>'
         result = fix_stars(html)
+        assert "Impact: 5/5" in result
         assert "Impact: 5 out of 5" in result
+        assert "⭐" not in result
 
     def test_three_stars(self):
         html = '<span class="stars">Impact: ⭐⭐⭐</span>'
         result = fix_stars(html)
-        assert "Impact: 3 out of 5" in result
+        assert "Impact: 3/5" in result
 
     def test_no_stars_passthrough(self):
         html = "<p>No stars here</p>"
@@ -323,27 +326,29 @@ class TestHeadingIdsAndSummaryDeck:
         assert 'data-summary="developments"' in body
 
 
+def _seed_publish_repo(tmp_path: Path) -> Path:
+    repo = tmp_path / "repo"
+    docs = repo / "docs"
+    (docs / "reports").mkdir(parents=True)
+    (docs / "archive").mkdir(parents=True)
+    (docs / "assets").mkdir(parents=True)
+    (docs / "index.html").write_text("LIVE_INDEX", encoding="utf-8")
+    (docs / "archive" / "index.html").write_text("LIVE_ARCHIVE", encoding="utf-8")
+    (docs / "feed.xml").write_text("<rss/>", encoding="utf-8")
+    (docs / "sitemap.xml").write_text("<urlset/>", encoding="utf-8")
+    (docs / "assets" / "search-index.json").write_text("[]", encoding="utf-8")
+    (docs / "assets" / "search-data.js").write_text("window.__SEARCH_INDEX__=[];\n", encoding="utf-8")
+    (docs / "assets" / "style.css").write_text("body{}", encoding="utf-8")
+    (docs / "reports" / "2026-01-01.html").write_text("<html>old</html>", encoding="utf-8")
+    return repo
+
+
 class TestAtomicPublishFailure:
     def test_missing_lead_leaves_live_docs_untouched(self, tmp_path: Path):
-        import shutil
         from publish_report import publish_atomic
 
-        repo = tmp_path / "repo"
+        repo = _seed_publish_repo(tmp_path)
         docs = repo / "docs"
-        (docs / "reports").mkdir(parents=True)
-        (docs / "archive").mkdir(parents=True)
-        (docs / "assets").mkdir(parents=True)
-        # Minimal live artifacts
-        (docs / "index.html").write_text("LIVE_INDEX", encoding="utf-8")
-        (docs / "archive" / "index.html").write_text("LIVE_ARCHIVE", encoding="utf-8")
-        (docs / "feed.xml").write_text("<rss/>", encoding="utf-8")
-        (docs / "sitemap.xml").write_text("<urlset/>", encoding="utf-8")
-        (docs / "assets" / "search-index.json").write_text("[]", encoding="utf-8")
-        (docs / "assets" / "search-data.js").write_text("window.__SEARCH_INDEX__=[];\n", encoding="utf-8")
-        (docs / "assets" / "style.css").write_text("body{}", encoding="utf-8")
-        # Seed one historical report so rebuild has something if it ran
-        (docs / "reports" / "2026-01-01.html").write_text("<html>old</html>", encoding="utf-8")
-
         bad = tmp_path / "bad.html"
         bad.write_text(NEW_REPORT_NO_LEAD, encoding="utf-8")
 
@@ -358,3 +363,33 @@ class TestAtomicPublishFailure:
         assert not (docs / "reports" / "2026-11-16.html").exists()
         assert (docs / "index.html").read_text(encoding="utf-8") == "LIVE_INDEX"
         assert (docs / "archive" / "index.html").read_text(encoding="utf-8") == "LIVE_ARCHIVE"
+
+    def test_mid_swap_failure_restores_all_live_artifacts(self, tmp_path: Path):
+        from publish_report import _replace_file, publish_atomic
+
+        repo = _seed_publish_repo(tmp_path)
+        docs = repo / "docs"
+        good = tmp_path / "good.html"
+        good.write_text(NEW_REPORT_WITH_LEAD, encoding="utf-8")
+
+        calls = {"n": 0}
+
+        def flaky_replace(src: Path, dest: Path) -> None:
+            calls["n"] += 1
+            if calls["n"] >= 2:
+                raise RuntimeError("simulated mid-swap failure")
+            _replace_file(src, dest)
+
+        with pytest.raises(RuntimeError, match="mid-swap"):
+            publish_atomic(
+                report_date="2026-11-16",
+                source_html=good,
+                description="should rollback",
+                repo_root=repo,
+                replace_fn=flaky_replace,
+            )
+
+        assert (docs / "index.html").read_text(encoding="utf-8") == "LIVE_INDEX"
+        assert (docs / "archive" / "index.html").read_text(encoding="utf-8") == "LIVE_ARCHIVE"
+        assert (docs / "feed.xml").read_text(encoding="utf-8") == "<rss/>"
+        assert not (docs / "reports" / "2026-11-16.html").exists()

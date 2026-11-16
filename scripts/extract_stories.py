@@ -94,6 +94,8 @@ class _StoryAwareParser(HTMLParser):
         self._story: dict | None = None
         self._story_depth = 0
         self._capture_headline = False
+        self._headline_tag: str | None = None
+        self._headline_depth = 0
         self._legacy: dict | None = None
         self._legacy_depth = 0
         self._capture_legacy_h3 = False
@@ -104,9 +106,12 @@ class _StoryAwareParser(HTMLParser):
         if self._story is not None:
             self._story_depth += 1
             if self._capture_headline:
+                self._headline_depth += 1
                 return
             if tag == "h3" or "data-story-headline" in ad:
                 self._capture_headline = True
+                self._headline_tag = tag
+                self._headline_depth = 1
                 self._story["_hchunks"] = []
             return
 
@@ -148,16 +153,22 @@ class _StoryAwareParser(HTMLParser):
 
     def handle_endtag(self, tag: str) -> None:
         if self._story is not None:
-            if self._capture_headline and tag in ("h3", "span", "a", "strong", "em"):
-                if tag == "h3":
-                    self._story["headline"] = _norm_space("".join(self._story.get("_hchunks", [])))
+            if self._capture_headline:
+                self._headline_depth -= 1
+                if self._headline_depth <= 0 and tag == self._headline_tag:
+                    self._story["headline"] = _norm_space(
+                        "".join(self._story.get("_hchunks", []))
+                    )
                     self._capture_headline = False
+                    self._headline_tag = None
             self._story_depth -= 1
             if self._story_depth <= 0:
                 self._story["body_text"] = _norm_space("".join(self._story.get("_tchunks", [])))
                 self.raw_stories.append(self._story)
                 self._story = None
                 self._capture_headline = False
+                self._headline_tag = None
+                self._headline_depth = 0
             return
 
         if self._legacy is not None:
@@ -188,6 +199,15 @@ class _StoryAwareParser(HTMLParser):
                 self._legacy.setdefault("_hchunks", []).append(data)
             else:
                 self._legacy.setdefault("_tchunks", []).append(data)
+
+
+def estimate_reading_minutes(html: str) -> int:
+    """Best-effort reading time from word count (~200 wpm), minimum 1."""
+    text = re.sub(r"<script\b[^>]*>.*?</script>", " ", html or "", flags=re.I | re.S)
+    text = re.sub(r"<style\b[^>]*>.*?</style>", " ", text, flags=re.I | re.S)
+    text = re.sub(r"<[^>]+>", " ", text)
+    words = re.findall(r"[A-Za-z0-9']+", text)
+    return max(1, round(len(words) / 200))
 
 
 def _dek_from_body(body: str, explicit: str) -> str:
