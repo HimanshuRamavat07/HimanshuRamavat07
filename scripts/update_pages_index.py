@@ -24,6 +24,20 @@ SITEMAP_PATH = DOCS_DIR / "sitemap.xml"
 SEARCH_INDEX_PATH = DOCS_DIR / "assets" / "search-index.json"
 SEARCH_DATA_JS_PATH = DOCS_DIR / "assets" / "search-data.js"
 
+
+def _paths_for(docs_dir: Path) -> dict[str, Path]:
+    return {
+        "docs": docs_dir,
+        "reports": docs_dir / "reports",
+        "archive": docs_dir / "archive",
+        "index": docs_dir / "index.html",
+        "archive_index": docs_dir / "archive" / "index.html",
+        "feed": docs_dir / "feed.xml",
+        "sitemap": docs_dir / "sitemap.xml",
+        "search_index": docs_dir / "assets" / "search-index.json",
+        "search_data": docs_dir / "assets" / "search-data.js",
+    }
+
 PAGES_BASE = "https://aidaily.is-a.bot"
 SITE_TITLE = "AI Daily Intelligence"
 HOME_RECENT_LIMIT = 5
@@ -50,11 +64,12 @@ def format_iso_date(date: datetime) -> str:
     return date.strftime("%Y-%m-%d")
 
 
-def list_reports() -> list[tuple[datetime, str, Path]]:
+def list_reports(reports_dir: Path | None = None) -> list[tuple[datetime, str, Path]]:
+    root = reports_dir or REPORTS_DIR
     reports: list[tuple[datetime, str, Path]] = []
-    if not REPORTS_DIR.exists():
+    if not root.exists():
         return reports
-    for path in REPORTS_DIR.glob("*.html"):
+    for path in root.glob("*.html"):
         parsed = parse_report_date(path.name)
         if parsed:
             reports.append((parsed, path.name, path))
@@ -350,22 +365,28 @@ def build_search_data_js(reports: list[tuple[datetime, str, Path]]) -> str:
     return f"window.__SEARCH_INDEX__={index_json};\n"
 
 
-def main() -> int:
-    reports = list_reports()
-    DOCS_DIR.mkdir(parents=True, exist_ok=True)
-    ARCHIVE_DIR.mkdir(parents=True, exist_ok=True)
+def rebuild_site_artifacts(*, docs_dir: Path | None = None) -> int:
+    paths = _paths_for(docs_dir or DOCS_DIR)
+    reports = list_reports(paths["reports"])
+    paths["docs"].mkdir(parents=True, exist_ok=True)
+    paths["archive"].mkdir(parents=True, exist_ok=True)
+    (paths["docs"] / "assets").mkdir(parents=True, exist_ok=True)
 
-    INDEX_PATH.write_text(build_index_html(reports), encoding="utf-8")
-    ARCHIVE_INDEX_PATH.write_text(build_archive_html(reports), encoding="utf-8")
-    FEED_PATH.write_text(build_feed_xml(reports), encoding="utf-8")
-    SITEMAP_PATH.write_text(build_sitemap_xml(reports), encoding="utf-8")
-    SEARCH_INDEX_PATH.write_text(build_search_index(reports), encoding="utf-8")
-    SEARCH_DATA_JS_PATH.write_text(build_search_data_js(reports), encoding="utf-8")
+    paths["index"].write_text(build_index_html(reports), encoding="utf-8")
+    paths["archive_index"].write_text(build_archive_html(reports), encoding="utf-8")
+    paths["feed"].write_text(build_feed_xml(reports), encoding="utf-8")
+    paths["sitemap"].write_text(build_sitemap_xml(reports), encoding="utf-8")
+    paths["search_index"].write_text(build_search_index(reports), encoding="utf-8")
+    paths["search_data"].write_text(build_search_data_js(reports), encoding="utf-8")
 
-    print(f"Updated {INDEX_PATH} ({len(reports)} report(s))")
-    print(f"Updated {ARCHIVE_INDEX_PATH}, {FEED_PATH}, {SITEMAP_PATH}")
-    print(f"Updated {SEARCH_INDEX_PATH}, {SEARCH_DATA_JS_PATH}")
+    print(f"Updated {paths['index']} ({len(reports)} report(s))")
+    print(f"Updated {paths['archive_index']}, {paths['feed']}, {paths['sitemap']}")
+    print(f"Updated {paths['search_index']}, {paths['search_data']}")
     return 0
+
+
+def main() -> int:
+    return rebuild_site_artifacts()
 
 
 if __name__ == "__main__":
