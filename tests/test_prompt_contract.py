@@ -90,6 +90,33 @@ def test_no_hardcoded_emails_in_scripts_and_workflows():
     assert not violations, f"Found unauthorized email addresses: {violations}"
 
 
+def test_report_skeleton_includes_data_story_contract():
+    """Skeleton must document homepage extraction hooks for new reports."""
+    skeleton_path = REPO_ROOT / "prompts" / "report-skeleton.html"
+    raw = skeleton_path.read_text(encoding="utf-8")
+    assert 'data-report-date="' in raw
+    assert 'data-reading-minutes="' in raw
+    assert "data-story" in raw
+    assert 'data-story-role="lead"' in raw
+    assert 'data-story-role="pick"' in raw
+    assert "data-story-topics=" in raw
+    for slug in ("ai", "software-development", "startups", "technology"):
+        assert slug in raw
+    assert raw.count('data-story-role="lead"') == 1
+    assert raw.count('data-story-role="pick"') <= 3
+
+
+def test_prompt_requires_data_story_hooks():
+    """Prompt must require data-story / report meta attributes for new briefings."""
+    prompt = get_prompt_text()
+    assert "data-story" in prompt
+    assert 'data-story-role="lead"' in prompt or "data-story-role" in prompt
+    assert "data-report-date" in prompt
+    assert "data-reading-minutes" in prompt
+    assert "software-development" in prompt
+    assert "Never invent picks" in prompt or "manufacture picks" in prompt.lower() or "invent picks" in prompt.lower()
+
+
 def test_report_skeleton_contract():
     """Report skeleton must process cleanly through wrapper and satisfy contract."""
     from datetime import datetime
@@ -124,9 +151,11 @@ def test_report_skeleton_contract():
     for href in toc_hrefs:
         assert f'id="{href}"' in full_page, f"TOC target id '{href}' does not exist in the page"
 
-    # Assert stars become accessible "out of 5" markup
+    # Assert stars become neutral plain-text Impact labels
     assert '<span class="visually-hidden">Impact: 5 out of 5</span>' in full_page
-    assert '<span aria-hidden="true">⭐⭐⭐⭐⭐</span>' in full_page
+    assert "Impact: 5/5" in full_page
+    assert "⭐" not in full_page
+    assert "🤖" not in full_page
 
     # Assert takeaway and dev-card classes survive
     assert 'class="takeaway"' in full_page

@@ -16,16 +16,16 @@
   <link rel="alternate" type="application/rss+xml" title="AI Daily Intelligence RSS" href="feed.xml">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=JetBrains+Mono:wght@500;700&family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,400,0,0&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;700&family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,400,0,0&family=Source+Sans+3:wght@400;600;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="assets/style.css">
 </head>
 <body class="page-home">
   <header class="site-nav">
     <div class="site-nav-inner">
-      <a class="site-logo" href="index.html">Daily Intelligence</a>
+      <a class="site-logo" href="index.html">AI Daily Intelligence</a>
       <div class="site-nav-right">
         <nav class="site-nav-links" aria-label="Site">
-          <a class="is-active" href="index.html">Latest</a>
+          <a class="is-active" href="index.html">Home</a>
           <a href="archive/index.html">Archive</a>
           <a href="feed.xml">RSS</a>
         </nav>
@@ -40,57 +40,77 @@
     </div>
   </header>
   <main class="site-main">
-    <section class="hero">
-      <h1>AI Daily Intelligence</h1>
-      <p class="subtitle">Daily AI-generated briefings on models, agents, coding tools, infrastructure, research papers, and security disclosures.</p>
+    <section class="hero hero-compact">
+      <div class="hero-line">
+        <h1>AI Daily Intelligence</h1>
+        <time class="hero-date" datetime="2026-11-20">November 20, 2026</time>
+      </div>
+      <p class="prev-day-link"><a href="reports/2026-11-19.html">← Previous day · November 19, 2026</a></p>
     </section>
 
-    <section class="latest group" aria-labelledby="latest-heading">
-      <div class="latest-inner">
-        <div class="latest-content">
-          <div class="latest-heading-row">
-            <p class="label">Latest Briefing</p>
-            <div class="signal-bars" aria-hidden="true">
-              <span></span><span></span><span></span>
-            </div>
-          </div>
-          <h2 id="latest-heading"><a href="reports/2026-11-19.html">AI Daily Intelligence — November 19, 2026</a></h2>
-          <p class="meta"><span class="material-symbols-outlined" aria-hidden="true" style="font-size:16px">schedule</span> Drafted by AI from linked sources · Verify before acting</p>
-        </div>
-        <a class="button" href="reports/2026-11-19.html">Read latest report <span class="material-symbols-outlined" aria-hidden="true" style="font-size:18px">arrow_forward</span></a>
+    <section class="spectrum-split" aria-label="Today's briefing highlights">
+      <div class="spectrum-split-grid">
+
+    <div class="spectrum-lead">
+      <p class="label">Lead</p>
+      <h2 class="lead-headline">Tencent releases open weights for multimodal flagship Hy4</h2>
+      <p class="lead-dek">770B MoE Hy4 ships instruct, FP8, and base checkpoints with vision and 1M-token context.</p>
+      <p class="full-briefing-cta"><a class="button" href="reports/2026-11-20.html">Read the full briefing <span class="material-symbols-outlined" aria-hidden="true" style="font-size:18px">arrow_forward</span></a></p>
+    </div>
+
+    <aside class="spectrum-picks" aria-label="Editor's picks">
+      <p class="label">Editor's picks</p>
+      <div class="picks-list">
+      <article class="story-card story-card--pick" data-story-id="google-genie-4-gemini-api">
+        <h3 class="story-headline">Google ships Genie 4 on the Gemini API for developers</h3>
+        <p class="story-dek">Genie 4 builds 720p interactive worlds at 24fps with live prompts and keyboard control.</p>
+      </article>
+      <article class="story-card story-card--pick" data-story-id="gemini-mac-computer-use">
+        <h3 class="story-headline">Gemini for Mac gains background computer use for repetitive workflows</h3>
+        <p class="story-dek">Gemini for Mac runs multi-step chores in an isolated window with per-app permission gates.</p>
+      </article>
+      <article class="story-card story-card--pick" data-story-id="openai-performance-factory-codex">
+        <h3 class="story-headline">OpenAI documents Codex-driven Performance Factory for ChatGPT regressions</h3>
+        <p class="story-dek">Codex agents now investigate ChatGPT perf alerts, propose fixes, and verify recovery after deploy.</p>
+      </article>
+      </div>
+    </aside>
+      </div>
+
+    <nav class="topic-rail" aria-label="Topics today">
+        <a href="#topic-software-development">Software &amp; Development</a>
+        <a href="#topic-startups">Startups</a>
+    </nav>
+
+    <section class="topic-section" data-topic="software-development" aria-labelledby="topic-software-development">
+      <h2 id="topic-software-development">Software &amp; Development</h2>
+      <div class="topic-stories">
+      <article class="story-card story-card--topic" data-story-id="vercel-board-agent-primitive">
+        <h3 class="story-headline">Vercel launches Board for human and agent coordination</h3>
+        <p class="story-dek">Board gives agents channels, task claims, Slack sync, and sandbox-scoped credentials.</p>
+      </article>
+      <article class="story-card story-card--topic" data-story-id="google-antigravity-ssh-v233">
+        <h3 class="story-headline">Google Antigravity 2.33 connects coding agents to remote Linux servers over SSH</h3>
+        <p class="story-dek">Antigravity 2.33 runs agents and terminals on remote 64-bit Linux hosts over OpenSSH.</p>
+      </article>
+      </div>
+    </section>
+    <section class="topic-section" data-topic="startups" aria-labelledby="topic-startups">
+      <h2 id="topic-startups">Startups</h2>
+      <div class="topic-stories">
+      <article class="story-card story-card--topic" data-story-id="anthropic-ant-post-debut-slide">
+        <h3 class="story-headline">ANT shares slide on second day after record Nasdaq debut</h3>
+        <p class="story-dek">After a record debut, ANT fell about 9% on Friday as broader AI indexes stayed weak.</p>
+      </article>
       </div>
     </section>
 
-    <section class="archive-section" aria-labelledby="archive-heading">
-      <h2 id="archive-heading">Recent reports</h2>
-      <div class="report-list">
-      <a class="report-row" href="reports/2026-11-19.html">
-        <span class="report-row-title">November 19, 2026</span>
-        <span class="material-symbols-outlined report-row-icon" aria-hidden="true">arrow_forward</span>
-      </a>
-      <a class="report-row" href="reports/2026-11-18.html">
-        <span class="report-row-title">November 18, 2026</span>
-        <span class="material-symbols-outlined report-row-icon" aria-hidden="true">arrow_forward</span>
-      </a>
-      <a class="report-row" href="reports/2026-11-17.html">
-        <span class="report-row-title">November 17, 2026</span>
-        <span class="material-symbols-outlined report-row-icon" aria-hidden="true">arrow_forward</span>
-      </a>
-      <a class="report-row" href="reports/2026-11-16.html">
-        <span class="report-row-title">November 16, 2026</span>
-        <span class="material-symbols-outlined report-row-icon" aria-hidden="true">arrow_forward</span>
-      </a>
-      <a class="report-row" href="reports/2026-11-15.html">
-        <span class="report-row-title">November 15, 2026</span>
-        <span class="material-symbols-outlined report-row-icon" aria-hidden="true">arrow_forward</span>
-      </a>
-      </div>
-      <p class="archive-more"><a href="archive/index.html">View all 82 reports <span class="material-symbols-outlined" aria-hidden="true" style="font-size:16px">arrow_right_alt</span></a></p>
     </section>
+    <p class="archive-more home-archive-link"><a href="archive/index.html">Browse the archive <span class="material-symbols-outlined" aria-hidden="true" style="font-size:16px">arrow_right_alt</span></a></p>
   </main>
   <footer class="site-footer">
     <div class="site-footer-inner">
-      <div class="site-footer-brand">Daily Intelligence</div>
+      <div class="site-footer-brand">AI Daily Intelligence</div>
       <div class="site-footer-links">
         <a href="feed.xml">RSS Feed</a>
         <a href="https://github.com/HimanshuRamavat07/HimanshuRamavat07" target="_blank" rel="noopener noreferrer">GitHub</a>

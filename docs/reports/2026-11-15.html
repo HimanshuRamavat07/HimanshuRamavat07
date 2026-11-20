@@ -15,7 +15,7 @@
   <meta name="twitter:description" content="Cursor traced a Fireworks key leak to trojanized Claude Code extensions, Claude Code 2.1.325 tightened sandbox security, Google packaged agentic HPC skills for SC26, and GitHub scheduled six Copilot model sunsets for December 14.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=JetBrains+Mono:wght@500;700&family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,400,0,0&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;700&family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,400,0,0&family=Source+Sans+3:wght@400;600;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../assets/style.css">
   <script type="application/ld+json">
 {
@@ -40,10 +40,10 @@
 <div class="read-progress" aria-hidden="true"><div class="read-progress-bar" id="read-progress"></div></div>
   <header class="site-nav">
     <div class="site-nav-inner">
-      <a class="site-logo" href="../index.html">Daily Intelligence</a>
+      <a class="site-logo" href="../index.html">AI Daily Intelligence</a>
       <div class="site-nav-right">
         <nav class="site-nav-links" aria-label="Site">
-          <a href="../index.html">Latest</a>
+          <a href="../index.html">Home</a>
           <a class="is-active" href="../archive/index.html">Archive</a>
           <a href="../feed.xml">RSS</a>
         </nav>
@@ -60,37 +60,78 @@
 <p class="report-back"><a href="../archive/index.html">← Back to archive</a></p>
 <div class="container">
   <header class="report-article-header">
-    <h1>🤖 AI Daily Intelligence — November 15, 2026</h1>
+    <h1>AI Daily Intelligence — November 15, 2026</h1>
     <div class="report-meta-row">
       <span class="report-meta-item">Nov 15, 2026</span>
       <span class="report-meta-sep" aria-hidden="true">|</span>
-      <span class="report-meta-chip">Daily brief</span>
+      <span class="report-meta-chip">10 min read</span>
     </div>
     <p class="intro">Daily briefing drafted by AI across models, agents, developer tools, research papers, and security.</p>
   </header>
   <div class="report-layout">
     <aside class="report-sidebar" aria-label="Section navigation">
+      <details class="toc-mobile">
+        <summary>On this page</summary>
 
     <nav class="toc" aria-label="Table of contents">
       <h2>On this page</h2>
       <ul>
         <li><a href="#top-developments">Top Developments</a></li>
+        <li><a href="#cursor-traces-fireworks-key-leak-to-trojanized-claude-code-marketplace-cache">Cursor traces Fireworks key leak to trojanized Claude Code marketplace cache</a></li>
+        <li><a href="#claude-code-2-1-325-patches-zstd-decoding-and-changes-sandbox-permission-defaults">Claude Code 2.1.325 patches zstd decoding and changes sandbox permission defaults</a></li>
+        <li><a href="#google-cloud-packages-agentic-hpc-skills-and-alphaevolve-on-batch-for-sc26">Google Cloud packages agentic HPC skills and AlphaEvolve on Batch for SC26</a></li>
+        <li><a href="#github-sets-december-14-sunset-for-six-copilot-chat-and-agent-models">GitHub sets December 14 sunset for six Copilot chat and agent models</a></li>
         <li><a href="#emerging-trends">Emerging AI Trends</a></li>
-        <li><a href="#developer-coding">Developer & Coding AI</a></li>
+        <li><a href="#ide-marketplaces-become-supply-chain-choke-points">IDE marketplaces become supply-chain choke points</a></li>
+        <li><a href="#explicit-trust-gates-replace-implicit-workspace-write-consent">Explicit trust gates replace implicit workspace-write consent</a></li>
+        <li><a href="#agent-memory-shifts-from-summaries-to-verifiable-anchors">Agent memory shifts from summaries to verifiable anchors</a></li>
+        <li><a href="#developer-coding">Developer &amp; Coding AI</a></li>
         <li><a href="#agentic-watch">Agentic AI Watch</a></li>
         <li><a href="#security-watch">AI Security Watch</a></li>
         <li><a href="#research">Research Worth Reading</a></li>
+        <li><a href="#coremem-cost-internalizing-memory-for-successive-coding-tasks-with-prospective-valuation">CoReMem: Cost-Internalizing Memory for Successive Coding Tasks with Prospective Valuation</a></li>
+        <li><a href="#don-t-just-trust-your-memory-evidence-linked-memory-reduces-memory-induced-degradation-in-llm-agents">Don’t Just Trust Your Memory: Evidence-Linked Memory Reduces Memory-Induced Degradation in LLM Agents</a></li>
+        <li><a href="#termination-lag-coding-agents-solve-early-but-stop-late">Termination Lag: Coding Agents Solve Early but Stop Late</a></li>
         <li><a href="#watch-next">What to Watch Next</a></li>
         <li><a href="#bottom-line">Bottom Line</a></li>
       </ul>
     </nav>
+      </details>
+      <div class="toc-desktop">
+
+    <nav class="toc" aria-label="Table of contents">
+      <h2>On this page</h2>
+      <ul>
+        <li><a href="#top-developments">Top Developments</a></li>
+        <li><a href="#cursor-traces-fireworks-key-leak-to-trojanized-claude-code-marketplace-cache">Cursor traces Fireworks key leak to trojanized Claude Code marketplace cache</a></li>
+        <li><a href="#claude-code-2-1-325-patches-zstd-decoding-and-changes-sandbox-permission-defaults">Claude Code 2.1.325 patches zstd decoding and changes sandbox permission defaults</a></li>
+        <li><a href="#google-cloud-packages-agentic-hpc-skills-and-alphaevolve-on-batch-for-sc26">Google Cloud packages agentic HPC skills and AlphaEvolve on Batch for SC26</a></li>
+        <li><a href="#github-sets-december-14-sunset-for-six-copilot-chat-and-agent-models">GitHub sets December 14 sunset for six Copilot chat and agent models</a></li>
+        <li><a href="#emerging-trends">Emerging AI Trends</a></li>
+        <li><a href="#ide-marketplaces-become-supply-chain-choke-points">IDE marketplaces become supply-chain choke points</a></li>
+        <li><a href="#explicit-trust-gates-replace-implicit-workspace-write-consent">Explicit trust gates replace implicit workspace-write consent</a></li>
+        <li><a href="#agent-memory-shifts-from-summaries-to-verifiable-anchors">Agent memory shifts from summaries to verifiable anchors</a></li>
+        <li><a href="#developer-coding">Developer &amp; Coding AI</a></li>
+        <li><a href="#agentic-watch">Agentic AI Watch</a></li>
+        <li><a href="#security-watch">AI Security Watch</a></li>
+        <li><a href="#research">Research Worth Reading</a></li>
+        <li><a href="#coremem-cost-internalizing-memory-for-successive-coding-tasks-with-prospective-valuation">CoReMem: Cost-Internalizing Memory for Successive Coding Tasks with Prospective Valuation</a></li>
+        <li><a href="#don-t-just-trust-your-memory-evidence-linked-memory-reduces-memory-induced-degradation-in-llm-agents">Don’t Just Trust Your Memory: Evidence-Linked Memory Reduces Memory-Induced Degradation in LLM Agents</a></li>
+        <li><a href="#termination-lag-coding-agents-solve-early-but-stop-late">Termination Lag: Coding Agents Solve Early but Stop Late</a></li>
+        <li><a href="#watch-next">What to Watch Next</a></li>
+        <li><a href="#bottom-line">Bottom Line</a></li>
+      </ul>
+    </nav>
+      </div>
     </aside>
     <main class="report-content">
-<h2 id="top-developments">🔥 Top Developments</h2>
+<article class="report" data-report-date="2026-11-15" data-report-title="AI Daily Intelligence — November 15, 2026" data-reading-minutes="10">
+<div class="report-body" data-report-body>
+<h2 id="top-developments">Top Developments</h2>
 
 <div class="dev-card">
-  <h3>Cursor traces Fireworks key leak to trojanized Claude Code marketplace cache</h3>
-  <p class="meta"><span class="stars">Impact: <span aria-hidden="true">⭐⭐⭐⭐⭐</span><span class="visually-hidden">Impact: 5 out of 5</span></span> &nbsp;|&nbsp; <strong>Category:</strong> Security / Developer Tools</p>
+  <h3 id="cursor-traces-fireworks-key-leak-to-trojanized-claude-code-marketplace-cache">Cursor traces Fireworks key leak to trojanized Claude Code marketplace cache</h3>
+  <p class="meta"><span class="stars">Impact: 5/5</span><span class="visually-hidden">Impact: 5 out of 5</span> &nbsp;|&nbsp; <strong>Category:</strong> Security / Developer Tools</p>
   <p><strong>What happened:</strong> On November 13, 2026, Cursor published a full incident report on its blog. A stolen Fireworks training-bucket key exposed historical agent traces and internal credentials. Attackers then served fake Anthropic.claude-code builds 2.1.312 and 2.1.313 for about eleven hours on October 29.</p>
   <p><strong>Why it matters:</strong> Up to 5,000 users may have installed an extension that attempted SSH backdoor persistence. Fewer than 0.05% of non-Privacy Mode users had trace data in the leaked bucket, and under 0.01% had API credentials in those traces.</p>
   <p><span class="takeaway">Adopt it</span> — Run Cursor's remediation scripts and rotate keys reachable from affected machines before reinstalling any marketplace extension.</p>
@@ -98,8 +139,8 @@
 </div>
 
 <div class="dev-card">
-  <h3>Claude Code 2.1.325 patches zstd decoding and changes sandbox permission defaults</h3>
-  <p class="meta"><span class="stars">Impact: <span aria-hidden="true">⭐⭐⭐⭐</span><span class="visually-hidden">Impact: 4 out of 5</span></span> &nbsp;|&nbsp; <strong>Category:</strong> Security / Developer Tools</p>
+  <h3 id="claude-code-2-1-325-patches-zstd-decoding-and-changes-sandbox-permission-defaults">Claude Code 2.1.325 patches zstd decoding and changes sandbox permission defaults</h3>
+  <p class="meta"><span class="stars">Impact: 4/5</span><span class="visually-hidden">Impact: 4 out of 5</span> &nbsp;|&nbsp; <strong>Category:</strong> Security / Developer Tools</p>
   <p><strong>What happened:</strong> Anthropic shipped Claude Code version 2.1.325 on November 13, 2026. The release fixes a security flaw in zstd-compressed response decoding and makes sandboxed Bash follow normal permission prompts unless `sandbox.autoAllowBashIfSandboxed` is set.</p>
   <p><strong>Why it matters:</strong> Version 2.1.321 already closed silent permission gaps on read-only Bash, wrong-folder writes, and `cp`/`mv` into directories. Teams on auto-sandbox may see new approval prompts after upgrading.</p>
   <p><span class="takeaway">Try it</span> — Upgrade to 2.1.325, then audit deny rules after one sandboxed workflow run.</p>
@@ -107,8 +148,8 @@
 </div>
 
 <div class="dev-card">
-  <h3>Google Cloud packages agentic HPC skills and AlphaEvolve on Batch for SC26</h3>
-  <p class="meta"><span class="stars">Impact: <span aria-hidden="true">⭐⭐⭐⭐</span><span class="visually-hidden">Impact: 4 out of 5</span></span> &nbsp;|&nbsp; <strong>Category:</strong> Agents / Infrastructure</p>
+  <h3 id="google-cloud-packages-agentic-hpc-skills-and-alphaevolve-on-batch-for-sc26">Google Cloud packages agentic HPC skills and AlphaEvolve on Batch for SC26</h3>
+  <p class="meta"><span class="stars">Impact: 4/5</span><span class="visually-hidden">Impact: 4 out of 5</span> &nbsp;|&nbsp; <strong>Category:</strong> Agents / Infrastructure</p>
   <p><strong>What happened:</strong> On November 13, 2026, Google Cloud described an agentic HPC stack ahead of SC26. It pairs Cluster Toolkit blueprints with Google Skills and DeepMind Science Skills repositories. AlphaEvolve candidate evaluation runs on Cloud Batch across MPI groups or single-VM sandboxes.</p>
   <p><strong>Why it matters:</strong> Infrastructure skills audit quotas and require human approval before `gcluster deploy`. Workload skills cover OpenFOAM, GROMACS, AlphaFold 3, Devito, and OPM with IAM, Kueue, and budget guardrails in Cloud Logging.</p>
   <p><span class="takeaway">Monitor it</span> — Pilot one validated skill blueprint on a non-production project before pointing research agents at production clusters.</p>
@@ -116,32 +157,32 @@
 </div>
 
 <div class="dev-card">
-  <h3>GitHub sets December 14 sunset for six Copilot chat and agent models</h3>
-  <p class="meta"><span class="stars">Impact: <span aria-hidden="true">⭐⭐⭐⭐</span><span class="visually-hidden">Impact: 4 out of 5</span></span> &nbsp;|&nbsp; <strong>Category:</strong> Developer Tools / Models</p>
+  <h3 id="github-sets-december-14-sunset-for-six-copilot-chat-and-agent-models">GitHub sets December 14 sunset for six Copilot chat and agent models</h3>
+  <p class="meta"><span class="stars">Impact: 4/5</span><span class="visually-hidden">Impact: 4 out of 5</span> &nbsp;|&nbsp; <strong>Category:</strong> Developer Tools / Models</p>
   <p><strong>What happened:</strong> On November 13, 2026, GitHub scheduled six model sunsets across every Copilot surface on December 14, 2026. Retiring models include Claude Fable 5, Claude Haiku 4.5, Gemini 3.8 Flash, Gemini 4 Argon, Grok 4.6, and Kimi K3. Suggested replacements include Fable 5.2, Haiku 5.5, Hydrogen, Carbon, and Grok 4.7.</p>
   <p><strong>Why it matters:</strong> The deprecation covers Copilot Chat, inline edits, ask and agent modes, and completions. Annual individual subscribers keep Haiku 4.5 per GitHub's notice.</p>
   <p><span class="takeaway">Adopt it</span> — Pin replacement models in CI and custom instructions before December 14.</p>
   <p><strong>Source:</strong> <a href="https://github.blog/changelog/2026-11-13-upcoming-deprecation-of-selected-github-copilot-models-in-december/" target="_blank" rel="noopener noreferrer">GitHub Changelog</a></p>
 </div>
 
-<h2 id="emerging-trends">🧠 Emerging AI Trends</h2>
+<h2 id="emerging-trends">Emerging AI Trends</h2>
 
-<h3>IDE marketplaces become supply-chain choke points</h3>
+<h3 id="ide-marketplaces-become-supply-chain-choke-points">IDE marketplaces become supply-chain choke points</h3>
 <p><strong>What's changing:</strong> Cursor's attacker poisoned a marketplace CDN cache, not Open VSX upstream, using credentials taken from a vendor data share.</p>
 <p><strong>Why it matters:</strong> Teams that trust publisher names without hash or signature checks on cached builds inherit full local shell access for coding agents.</p>
 <p><strong>Watch next:</strong> Vendors shipping signed extension manifests tied to Open VSX revisions will signal real marketplace hardening.</p>
 
-<h3>Explicit trust gates replace implicit workspace-write consent</h3>
+<h3 id="explicit-trust-gates-replace-implicit-workspace-write-consent">Explicit trust gates replace implicit workspace-write consent</h3>
 <p><strong>What's changing:</strong> OpenAI Codex 0.169.0 disables project `.codex` config and MCP servers in untrusted directories unless `codex exec --trust` saves consent.</p>
 <p><strong>Why it matters:</strong> Writable sandboxes alone no longer start repo-local MCP commands, which blocks fork PR pipelines that accidentally inherited trust on older builds.</p>
 <p><strong>Watch next:</strong> CI templates that document `--trust` scope per repository will become standard in headless agent runbooks.</p>
 
-<h3>Agent memory shifts from summaries to verifiable anchors</h3>
+<h3 id="agent-memory-shifts-from-summaries-to-verifiable-anchors">Agent memory shifts from summaries to verifiable anchors</h3>
 <p><strong>What's changing:</strong> New papers score memory segments by next-task savings and link distilled insights back to raw trajectories agents can re-read.</p>
 <p><strong>Why it matters:</strong> Long-running coding agents on one repository need memory that reduces rework without importing bad lessons from failed runs.</p>
 <p><strong>Watch next:</strong> Production agent hosts exposing memory provenance APIs will separate marketing memory features from measurable resolve-rate gains.</p>
 
-<h2 id="developer-coding">💻 Developer & Coding AI</h2>
+<h2 id="developer-coding">Developer & Coding AI</h2>
 <ul>
   <li><strong>Codex 0.169.0 trust model:</strong> Non-interactive `codex exec` keeps project MCP disabled until `--trust` is passed; explicit untrusted projects reject the flag. <a href="https://github.com/openai/codex/releases/tag/rust-v0.169.0" target="_blank" rel="noopener noreferrer">Release notes</a></li>
   <li><strong>Claude Code Code Mode:</strong> Version 2.1.323 adds experimental Code Mode where Claude runs JavaScript to call tools, with organization opt-out in Claude Code docs. <a href="https://code.claude.com/docs/en/code-mode" target="_blank" rel="noopener noreferrer">Code Mode docs</a></li>
@@ -150,7 +191,7 @@
   <li><strong>MCP OAuth redirect fix:</strong> Claude Code 2.1.321 stops sending refresh tokens to redirected OAuth hosts during MCP sign-in. <a href="https://code.claude.com/docs/en/changelog" target="_blank" rel="noopener noreferrer">Changelog</a></li>
 </ul>
 
-<h2 id="agentic-watch">🧩 Agentic AI Watch</h2>
+<h2 id="agentic-watch">Agentic AI Watch</h2>
 <ul>
   <li><strong>FastMCP 4.2 skills catalog:</strong> Servers can host one skill copy as MCP resources with digest checks, so clients install consistent instructions without per-machine folders. <a href="https://github.com/jlowin/fastmcp/releases/tag/v4.2.0" target="_blank" rel="noopener noreferrer">FastMCP release</a></li>
   <li><strong>AlphaEvolve on Batch:</strong> Gemini proposes code candidates; Batch runs isolated evaluation jobs and feeds metrics back through Pub/Sub into the evolutionary loop. <a href="https://docs.cloud.google.com/gemini/enterprise/docs/alphaevolve/developer-guide/use-alphaevolve-hpc" target="_blank" rel="noopener noreferrer">Google docs</a></li>
@@ -158,7 +199,7 @@
   <li><strong>SC26 live demos:</strong> Google plans Antigravity for HPC, an HPC Prompt Playground, and AlphaEvolve demos at Booth 3418 from November 15 through November 20. <a href="https://cloud.google.com/blog/topics/hpc/whats-new-in-hpc-and-ai-at-sc26/" target="_blank" rel="noopener noreferrer">Google Cloud</a></li>
 </ul>
 
-<h2 id="security-watch">🔐 AI Security Watch</h2>
+<h2 id="security-watch">AI Security Watch</h2>
 
 <div class="security-item">
   <p><strong>Issue:</strong> <em>Cursor confirmed trojanized Anthropic.claude-code 2.1.312 and 2.1.313 served from its VS Code extension marketplace cache on October 29, 2026.</em></p>
@@ -181,27 +222,27 @@
   <p><strong>Recommended action:</strong> Upgrade to 2.1.325 on every developer machine and CI runner using Claude Code.</p>
 </div>
 
-<h2 id="research">📚 Research Worth Reading</h2>
+<h2 id="research">Research Worth Reading</h2>
 
-<h3>CoReMem: Cost-Internalizing Memory for Successive Coding Tasks with Prospective Valuation</h3>
+<h3 id="coremem-cost-internalizing-memory-for-successive-coding-tasks-with-prospective-valuation">CoReMem: Cost-Internalizing Memory for Successive Coding Tasks with Prospective Valuation</h3>
 <p><strong>Problem:</strong> Coding agents on one evolving repository must write memory before the next task is known.</p>
 <p><strong>Key idea:</strong> CoReMem values trajectory segments by running the next task with and without each segment, then stores compact anchors tied to file locations and checks.</p>
 <p><strong>Why developers should care:</strong> On ChainSWE, a 27B actor raised resolve rate from 21.0% to 25.7% while cutting steps and cache-aware tokens.</p>
 <p><strong>Paper:</strong> <a href="https://arxiv.org/abs/2611.17316" target="_blank" rel="noopener noreferrer">arXiv:2611.17316</a></p>
 
-<h3>Don’t Just Trust Your Memory: Evidence-Linked Memory Reduces Memory-Induced Degradation in LLM Agents</h3>
+<h3 id="don-t-just-trust-your-memory-evidence-linked-memory-reduces-memory-induced-degradation-in-llm-agents">Don’t Just Trust Your Memory: Evidence-Linked Memory Reduces Memory-Induced Degradation in LLM Agents</h3>
 <p><strong>Problem:</strong> Distilled agent memory can make models fail tasks they would solve with zero memory.</p>
 <p><strong>Key idea:</strong> WikiTrace stores each insight with links down to raw trajectories so agents can descend and verify or correct lessons before acting.</p>
 <p><strong>Why developers should care:</strong> Across eight suites, WikiTrace averaged 90.2% task success versus 79.5% without memory on a DeepSeek-V4-Flash terminal agent.</p>
 <p><strong>Paper:</strong> <a href="https://arxiv.org/abs/2611.14320" target="_blank" rel="noopener noreferrer">arXiv:2611.14320</a></p>
 
-<h3>Termination Lag: Coding Agents Solve Early but Stop Late</h3>
+<h3 id="termination-lag-coding-agents-solve-early-but-stop-late">Termination Lag: Coding Agents Solve Early but Stop Late</h3>
 <p><strong>Problem:</strong> Agent benchmarks score final patches but ignore wasted steps after the first correct fix.</p>
 <p><strong>Key idea:</strong> Authors log every intermediate patch and measure steps between first benchmark pass and session end across SWE-bench suites.</p>
 <p><strong>Why developers should care:</strong> A median 35–60% of successful run steps occur after the first correct patch, and 1–8% of runs later break the fix.</p>
 <p><strong>Paper:</strong> <a href="https://arxiv.org/abs/2611.14960" target="_blank" rel="noopener noreferrer">arXiv:2611.14960</a></p>
 
-<h2 id="watch-next">🚀 What to Watch Next</h2>
+<h2 id="watch-next">What to Watch Next</h2>
 <ul>
   <li><strong>Cursor containment status:</strong> Cursor reports last attacker activity on November 1, 2026 was blocked and traces are off Fireworks infrastructure. <em>Our read:</em> Secondary credential use from leaked traces may still surface as unrelated SaaS alerts.</li>
   <li><strong>SC26 agentic HPC demos:</strong> Google opens Booth 3418 on November 15 for Antigravity for HPC and AlphaEvolve walkthroughs. <em>Our read:</em> Independent skill-repo runs will show whether quota gates hold under messy real accounts.</li>
@@ -210,18 +251,27 @@
 </ul>
 
 <div class="bottom-line" id="bottom-line">
-  <h3>🎯 Bottom Line</h3>
+  <h3>Bottom Line</h3>
   <p>Cursor's post-mortem shows training data shares and marketplace caches can chain into workstation backdoors. IDE extension provenance now deserves the same scrutiny as package registries.</p>
   <p>Claude Code and Codex tightened trust boundaries around sandboxes, MCP OAuth, and headless project config. Google packaged HPC agents with quota-aware skills and evolutionary Batch jobs.</p>
   <p>Developers should remediate any Cursor exposure and upgrade Claude Code to 2.1.325. Add `--trust` only where CI needs repo MCP, and remap Copilot models before the December 14 cutoff.</p>
 </div>
+</div>
+</article>
+
+    <section class="related-reports" data-related-reports>
+      <h2>Related reports</h2>
+      <p class="related-reports-note">Browse the <a href="../archive/index.html">archive</a> for earlier briefings.</p>
+
+    <nav class="report-pager" aria-label="Adjacent briefings"><a class="report-prev" href="2026-11-14.html">← Previous day · November 14, 2026</a></nav>
+    </section>
       <p class="signature">Drafted by AI from the sources linked above. Verify details before acting on them. · <a href="https://github.com/HimanshuRamavat07/HimanshuRamavat07" target="_blank" rel="noopener noreferrer">Source repository</a></p>
     </main>
   </div>
 </div>
   <footer class="site-footer">
     <div class="site-footer-inner">
-      <div class="site-footer-brand">Daily Intelligence</div>
+      <div class="site-footer-brand">AI Daily Intelligence</div>
       <div class="site-footer-links">
         <a href="https://github.com/HimanshuRamavat07/HimanshuRamavat07" target="_blank" rel="noopener noreferrer">GitHub</a>
         <button type="button" class="automation-info-trigger" data-open-automation-modal>Automation Info</button>

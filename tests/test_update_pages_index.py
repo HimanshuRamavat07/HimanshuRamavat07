@@ -16,6 +16,7 @@ from update_pages_index import (
     build_archive_html,
     build_search_index,
     build_sitemap_xml,
+    build_spectrum_split,
     extract_section_headings,
     format_display_date,
     list_reports,
@@ -98,12 +99,86 @@ class TestBuildIndexHtml:
         assert "search-overlay" in html
         assert "modal.js" in html
         assert "search.js" in html
+        assert ">Home<" in html
 
-    def test_recent_limit(self):
+    def test_spectrum_or_fallback_present(self):
         reports = list_reports()
         html = build_index_html(reports)
-        assert "report-row" in html
-        assert f"View all {len(reports)} reports" in html
+        assert "spectrum-split" in html or "home-fallback" in html or "home-empty" in html
+        assert "Browse the archive" in html
+
+    def test_lead_and_picks_render_once(self, tmp_path: Path):
+        report = tmp_path / "2026-11-16.html"
+        report.write_text(
+            """
+            <article class="report" data-report-date="2026-11-16"
+              data-report-title="T" data-reading-minutes="8">
+              <div data-report-body>
+                <div data-story data-story-id="lead-a" data-story-role="lead"
+                     data-story-topics="ai" data-story-dek="Lead dek">
+                  <h3 data-story-headline>Unique Lead Headline</h3>
+                </div>
+                <div data-story data-story-id="pick-a" data-story-role="pick"
+                     data-story-topics="startups" data-story-dek="Pick dek">
+                  <h3 data-story-headline>Unique Pick Headline</h3>
+                </div>
+                <div data-story data-story-id="pick-b" data-story-role="pick"
+                     data-story-topics="technology">
+                  <h3 data-story-headline>Second Pick Headline</h3>
+                </div>
+                <div data-story data-story-id="topic-a" data-story-topics="ai">
+                  <h3 data-story-headline>Topic Story</h3>
+                </div>
+              </div>
+            </article>
+            """,
+            encoding="utf-8",
+        )
+        reports = [(datetime(2026, 11, 16), "2026-11-16.html", report)]
+        html = build_spectrum_split(reports)
+        assert html.count("Unique Lead Headline") == 1
+        assert html.count("Unique Pick Headline") == 1
+        assert html.count("Second Pick Headline") == 1
+        assert html.count("Topic Story") == 1
+        assert "spectrum-lead" in html
+        assert "spectrum-picks" in html
+        assert 'data-topic="ai"' in html
+        # CTA sits under the lead, not a distant footer-only block
+        lead_idx = html.index("spectrum-lead")
+        cta_idx = html.index("full-briefing-cta")
+        picks_idx = html.index("spectrum-picks")
+        assert lead_idx < cta_idx < picks_idx
+
+    def test_no_lead_falls_back_to_cta_only(self, tmp_path: Path):
+        report = tmp_path / "2026-11-16.html"
+        report.write_text("<html><body><p>No stories</p></body></html>", encoding="utf-8")
+        reports = [(datetime(2026, 11, 16), "2026-11-16.html", report)]
+        html = build_spectrum_split(reports)
+        assert "home-fallback" in html
+        assert "full-briefing-cta" in html
+        assert "story-card" not in html
+        assert "Unique Lead" not in html
+
+    def test_empty_topics_omitted(self, tmp_path: Path):
+        report = tmp_path / "2026-11-16.html"
+        report.write_text(
+            """
+            <article class="report" data-report-date="2026-11-16"
+              data-report-title="T" data-reading-minutes="5">
+              <div data-report-body>
+                <div data-story data-story-id="lead-a" data-story-role="lead"
+                     data-story-topics="ai" data-story-dek="d">
+                  <h3 data-story-headline>Only Lead</h3>
+                </div>
+              </div>
+            </article>
+            """,
+            encoding="utf-8",
+        )
+        html = build_spectrum_split([(datetime(2026, 11, 16), "2026-11-16.html", report)])
+        assert 'data-topic="startups"' not in html
+        assert 'data-topic="technology"' not in html
+        assert "topic-rail" not in html
 
 
 # ---------- build_archive_html ----------
@@ -114,6 +189,9 @@ class TestBuildArchiveHtml:
         html = build_archive_html(reports)
         assert f"All reports ({len(reports)})" in html
         assert "Himanshu Ramavat" in html
+        assert "archive-search" in html
+        assert "archive.js" in html
+        assert "archive-row" in html
 
 
 # ---------- build_feed_xml ----------
@@ -183,6 +261,13 @@ class TestBuildSearchIndex:
         assert "date" in entry
         assert "title" in entry
         assert "description" in entry
+        assert "dek" in entry
+        assert "topics" in entry
+        assert "reading_minutes" in entry
+        assert "year" in entry
+        assert "month" in entry
+        assert "href" in entry
         assert "sections" in entry
         assert "url" in entry
         assert entry["url"].startswith("reports/")
+        assert entry["href"].startswith("reports/")
