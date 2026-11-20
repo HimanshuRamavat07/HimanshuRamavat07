@@ -16,16 +16,16 @@
   <link rel="alternate" type="application/rss+xml" title="AI Daily Intelligence RSS" href="feed.xml">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;700&family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,400,0,0&family=Source+Sans+3:wght@400;600;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=JetBrains+Mono:wght@500;700&family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,400,0,0&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="assets/style.css">
 </head>
 <body class="page-home">
   <header class="site-nav">
     <div class="site-nav-inner">
-      <a class="site-logo" href="index.html">AI Daily Intelligence</a>
+      <a class="site-logo" href="index.html">Daily Intelligence</a>
       <div class="site-nav-right">
         <nav class="site-nav-links" aria-label="Site">
-          <a class="is-active" href="index.html">Home</a>
+          <a class="is-active" href="index.html">Latest</a>
           <a href="archive/index.html">Archive</a>
           <a href="feed.xml">RSS</a>
         </nav>
@@ -40,51 +40,57 @@
     </div>
   </header>
   <main class="site-main">
-    <section class="hero hero-compact">
-      <div class="hero-line">
-        <h1>AI Daily Intelligence</h1>
-        <time class="hero-date" datetime="2026-11-15">November 15, 2026</time>
-      </div>
-      <p class="prev-day-link"><a href="reports/2026-11-14.html">← Previous day · November 14, 2026</a></p>
+    <section class="hero">
+      <h1>AI Daily Intelligence</h1>
+      <p class="subtitle">Daily AI-generated briefings on models, agents, coding tools, infrastructure, research papers, and security disclosures.</p>
     </section>
 
-    <section class="spectrum-split" aria-label="Today's briefing highlights">
-      <div class="spectrum-split-grid">
-
-    <div class="spectrum-lead">
-      <p class="label">Lead</p>
-      <h2 class="lead-headline">Cursor traces Fireworks key leak to trojanized Claude Code marketplace cache</h2>
-      <p class="lead-dek">On November 13, 2026, Cursor published a full incident report on its blog. A stolen Fireworks training-bucket key exposed historical agent traces and internal credentials. Attackers then served fake Anthropic.claude-code builds 2.1.312 and 2.1.313 for about eleven hours on October 29.</p>
-      <p class="full-briefing-cta"><a class="button" href="reports/2026-11-15.html">Read the full briefing <span class="material-symbols-outlined" aria-hidden="true" style="font-size:18px">arrow_forward</span></a></p>
-    </div>
-
-      </div>
-
-
-
-    <section class="more-today" aria-labelledby="more-today-heading">
-      <h2 id="more-today-heading">More from today</h2>
-      <div class="more-stories">
-      <article class="story-card story-card--more" data-story-id="claude-code-2-1-325-patches-zstd-decoding-and-changes-sandbox-permission-defaults">
-        <h3 class="story-headline">Claude Code 2.1.325 patches zstd decoding and changes sandbox permission defaults</h3>
-        <p class="story-dek">Anthropic shipped Claude Code version 2.1.325 on November 13, 2026. The release fixes a security flaw in zstd-compressed response decoding and makes sandboxed Bash follow normal permission prompts unless `sandbox.autoAllowBashIfSandboxed` is set.</p>
-      </article>
-      <article class="story-card story-card--more" data-story-id="google-cloud-packages-agentic-hpc-skills-and-alphaevolve-on-batch-for-sc26">
-        <h3 class="story-headline">Google Cloud packages agentic HPC skills and AlphaEvolve on Batch for SC26</h3>
-        <p class="story-dek">On November 13, 2026, Google Cloud described an agentic HPC stack ahead of SC26. It pairs Cluster Toolkit blueprints with Google Skills and DeepMind Science Skills repositories. AlphaEvolve candidate evaluation runs on Cloud Batch across MPI groups or single-VM sandboxes.</p>
-      </article>
-      <article class="story-card story-card--more" data-story-id="github-sets-december-14-sunset-for-six-copilot-chat-and-agent-models">
-        <h3 class="story-headline">GitHub sets December 14 sunset for six Copilot chat and agent models</h3>
-        <p class="story-dek">On November 13, 2026, GitHub scheduled six model sunsets across every Copilot surface on December 14, 2026. Retiring models include Claude Fable 5, Claude Haiku 4.5, Gemini 3.8 Flash, Gemini 4 Argon, Grok 4.6, and Kimi K3. Suggested replacements include Fable 5.2, Haiku 5.5, Hydrogen, Carbon, and Grok 4.7.</p>
-      </article>
+    <section class="latest group" aria-labelledby="latest-heading">
+      <div class="latest-inner">
+        <div class="latest-content">
+          <div class="latest-heading-row">
+            <p class="label">Latest Briefing</p>
+            <div class="signal-bars" aria-hidden="true">
+              <span></span><span></span><span></span>
+            </div>
+          </div>
+          <h2 id="latest-heading"><a href="reports/2026-11-19.html">AI Daily Intelligence — November 19, 2026</a></h2>
+          <p class="meta"><span class="material-symbols-outlined" aria-hidden="true" style="font-size:16px">schedule</span> Drafted by AI from linked sources · Verify before acting</p>
+        </div>
+        <a class="button" href="reports/2026-11-19.html">Read latest report <span class="material-symbols-outlined" aria-hidden="true" style="font-size:18px">arrow_forward</span></a>
       </div>
     </section>
+
+    <section class="archive-section" aria-labelledby="archive-heading">
+      <h2 id="archive-heading">Recent reports</h2>
+      <div class="report-list">
+      <a class="report-row" href="reports/2026-11-19.html">
+        <span class="report-row-title">November 19, 2026</span>
+        <span class="material-symbols-outlined report-row-icon" aria-hidden="true">arrow_forward</span>
+      </a>
+      <a class="report-row" href="reports/2026-11-18.html">
+        <span class="report-row-title">November 18, 2026</span>
+        <span class="material-symbols-outlined report-row-icon" aria-hidden="true">arrow_forward</span>
+      </a>
+      <a class="report-row" href="reports/2026-11-17.html">
+        <span class="report-row-title">November 17, 2026</span>
+        <span class="material-symbols-outlined report-row-icon" aria-hidden="true">arrow_forward</span>
+      </a>
+      <a class="report-row" href="reports/2026-11-16.html">
+        <span class="report-row-title">November 16, 2026</span>
+        <span class="material-symbols-outlined report-row-icon" aria-hidden="true">arrow_forward</span>
+      </a>
+      <a class="report-row" href="reports/2026-11-15.html">
+        <span class="report-row-title">November 15, 2026</span>
+        <span class="material-symbols-outlined report-row-icon" aria-hidden="true">arrow_forward</span>
+      </a>
+      </div>
+      <p class="archive-more"><a href="archive/index.html">View all 82 reports <span class="material-symbols-outlined" aria-hidden="true" style="font-size:16px">arrow_right_alt</span></a></p>
     </section>
-    <p class="archive-more home-archive-link"><a href="archive/index.html">Browse the archive <span class="material-symbols-outlined" aria-hidden="true" style="font-size:16px">arrow_right_alt</span></a></p>
   </main>
   <footer class="site-footer">
     <div class="site-footer-inner">
-      <div class="site-footer-brand">AI Daily Intelligence</div>
+      <div class="site-footer-brand">Daily Intelligence</div>
       <div class="site-footer-links">
         <a href="feed.xml">RSS Feed</a>
         <a href="https://github.com/HimanshuRamavat07/HimanshuRamavat07" target="_blank" rel="noopener noreferrer">GitHub</a>
