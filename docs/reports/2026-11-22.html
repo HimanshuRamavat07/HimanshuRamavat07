@@ -294,7 +294,7 @@
   <p><strong>Issue:</strong> <em>Obot releases 0.21.1 through 0.28.1 let authenticated users rename to <code>anonymous</code> and invoke unauthorized MCP tools; GHSA-cp2w-pc8v-r54p rates the flaw critical.</em></p>
   <p><strong>Impact:</strong> Attackers with any normal account could reach MCP servers outside their grants, including admin-configured headers on those servers.</p>
   <p><strong>Who should care:</strong> Platform engineers running Obot gateways, MCP registries, or virtual MCP profiles for agent fleets.</p>
-  <p><strong>Recommended action:</strong> Upgrade to Obot 0.28.2+, verify usernames come only from SCIM or the identity provider, and patch linked OAuth capture issues in the same release.</p>
+  <p><strong>Recommended action:</strong> Upgrade to Obot 0.28.2 or later. Verify usernames come only from SCIM or the identity provider.</p>
 </div>
 
 <div class="security-item">
